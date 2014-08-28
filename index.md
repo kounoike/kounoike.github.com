@@ -1,4 +1,4 @@
-﻿---
+---
 layout: page
 title: Kounoike's GitHub Pages
 tagline: GitHub Pages
