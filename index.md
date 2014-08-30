@@ -7,6 +7,19 @@ tagline: GitHub Pages
 
 ## 作ったもの
 
+### Chef
+
+#### chef-apt-select
+[chef-apt-select](https://github.com/kounoike/chef-apt-select)は[apt-select](https://github.com/jblakeman/apt-select)を呼ぶ
+cookbookです。ubuntuのミラーのうち近いものを選んでsources.listを更新します。その性質上、冪等性が無いですが、まあ仕方ないということで。
+
+#### chef-python-bs4
+chef-apt-selectの中に入れても良かったんですが、まあ練習ということで、pythonのbeautifulsoup4をインストールします。
+apt-selectがbs4に依存しているので必要です。
+python3にも対応しているんだけど、python3しか入っていないOSイメージって、今作れるんだっけ・・・？
+
+
+
 ### TAS
 
 <table>
