@@ -14,7 +14,7 @@ next49さんが[WAQWAQプロジェクト2014](http://d.hatena.ne.jp/next49/20140
 
 {% gist 4ee86c32058235ed2e68 %}
 
-[waqwaq.xlsx](waqwaq.xlsx) こんなファイルが出来上がる。
+[waqwaq.xlsx](/waqwaq.xlsx) こんなファイルが出来上がる。
 
 TODO:
 * コメント書く
