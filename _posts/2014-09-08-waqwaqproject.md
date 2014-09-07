@@ -7,14 +7,14 @@ tags: [WAQWAQ]
 ---
 {% include JB/setup %}
 
-next49さんが(WAQWAQプロジェクト2014)[http://d.hatena.ne.jp/next49/20140831/p1]で進行状況チェックに
+next49さんが[WAQWAQプロジェクト2014](http://d.hatena.ne.jp/next49/20140831/p1)で進行状況チェックに
 困ってるらしいことを見つけた。
 
 ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。
 
 {% gist 4ee86c32058235ed2e68 %}
 
-(waqwaq.xlsx)[waqwaq.xlsx] こんなファイルが出来上がる。
+[waqwaq.xlsx](waqwaq.xlsx) こんなファイルが出来上がる。
 
 TODO:
 * コメント書く
