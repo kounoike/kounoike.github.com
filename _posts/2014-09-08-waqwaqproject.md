@@ -17,6 +17,7 @@ next49さんが[WAQWAQプロジェクト2014](http://d.hatena.ne.jp/next49/20140
 [waqwaq.xlsx](/waqwaq.xlsx) こんなファイルが出来上がる。
 
 TODO:
+
 * コメント書く
 * MS-Excelで表示内容を確認する（Libre Officeでしか見てない）
 * matplotlibを使ったpng/svgの出力を試してみる
