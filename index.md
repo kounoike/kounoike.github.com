@@ -5,6 +5,14 @@ tagline: GitHub Pages
 ---
 {% include JB/setup %}
 
+## 投稿
+
+<ul class="posts">
+  {% for post in site.posts %}
+    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
+
 ## 作ったもの
 
 ### Chef
@@ -46,10 +54,3 @@ python3にも対応しているんだけど、python3しか入っていないOS�
 [GLPK 魔方陣ソルバー](https://github.com/kounoike/glpk-mahoujin)
 
 
-## 投稿
-
-<ul class="posts">
-  {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
