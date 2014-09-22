@@ -3,7 +3,7 @@ layout: post
 title: "WAQWAQProject"
 description: "WAQWAQプロジェクト"
 category: WAQWAQ
-tags: [WAQWAQ]
+tags: ["WAQWAQ", "Python"]
 ---
 {% include JB/setup %}
 
