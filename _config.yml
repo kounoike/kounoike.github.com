@@ -2,7 +2,7 @@
 # For more see: http://jekyllrb.com/docs/permalinks/
 permalink: /:categories/:year/:month/:day/:title 
 
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "vendor"]
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "vendor", "Gemfile", "Gemfile.lock"]
 highlighter: redcarpet
 
 # Themes are encouraged to use these universal variables 
@@ -17,7 +17,7 @@ author :
   twitter : false
   feedburner : false
 
-copyright : 2014
+copyright : 2015
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
