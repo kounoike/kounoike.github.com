@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    半自動CMカットスクリプトの作成 // Kounoike&#39;s GitHub Pages
+  </title>
+
+  <script type="text/javascript">
+    if(location.protocol == 'http:') {
+      location.replace(location.href.replace(/http:/, 'https:/'))
+    }
+  </script>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.14" />
+
+  <meta property="og:title" content="半自動CMカットスクリプトの作成" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/" />
+
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="https://kounoike.github.io//css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://kounoike.github.io//css/custom.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Kounoike&#39;s GitHub Pages" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/rainbow.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', "UA-54218698-1", 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">こーのいけのGitHub Page</h1>
+    
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://kounoike.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts/">Blog</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/links/">Pages</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/kounoike" target="_blank"><i class='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.twitter.com/ko_noike" target="_blank"><i class='fa fa-twitter'></i></a>
+        
+      
+      
+    </div>
+    
+
+  <div class="tags">
+    <p>tags</p>
+    <ul class="tag-list">
+      
+      
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/airflow">airflow</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/azkaban">azkaban</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/chinachu">chinachu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/comskip">comskip</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ffmpeg">ffmpeg</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/github">github</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/hugo">hugo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/luigi">luigi</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/nicovideo">nicovideo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/pycon">pycon</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/python">python</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/rundeck">rundeck</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/tas">tas</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ttytter">ttytter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/twitter">twitter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ubuntu">ubuntu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/waqwaq">waqwaq</a></li>
+        
+      
+    </ul>
+  </div>
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    <div id="toc" class="pure-u-1 pure-u-md-1-4">
+				<small class="toc-label">Contents</small>
+		   	 	<nav id="TableOfContents">
+<ul>
+<li><a href="#概要">概要</a></li>
+<li><a href="#事前検討">事前検討</a>
+<ul>
+<li><a href="#基本アイデア">基本アイデア</a></li>
+<li><a href="#技術検討-サムネイル切り出し">技術検討(サムネイル切り出し)</a></li>
+<li><a href="#技術検討-tsカット-結合">技術検討（TSカット＆結合）</a></li>
+<li><a href="#技術検討-その他">技術検討（その他）</a></li>
+</ul></li>
+<li><a href="#準備">準備</a></li>
+<li><a href="#コード-ffmpegでエンコード編">コード（ffmpegでエンコード編）</a></li>
+<li><a href="#コード-html編">コード（HTML編）</a></li>
+</ul>
+</nav>
+		    </div>
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="/posts/2015-10-19-semiauto-cm-cut/">半自動CMカットスクリプトの作成</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	<span class="post-date">
+                	<span class="post-date-day"><sup>19</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Oct</span> <span class="post-date-year">2015</span>
+            	</span>
+            	
+            
+            	
+            
+
+			
+			
+
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f&title=%e5%8d%8a%e8%87%aa%e5%8b%95CM%e3%82%ab%e3%83%83%e3%83%88%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%83%88%e3%81%ae%e4%bd%9c%e6%88%90&summary=%3cp%3ecomskip%e3%80%81%e8%89%b2%e3%80%85%e8%a8%ad%e5%ae%9a%e3%82%92%e5%a4%89%e3%81%88%e3%81%aa%e3%81%8c%e3%82%89%e8%a9%a6%e3%81%97%e3%81%9f%e3%81%ae%e3%81%a7%e3%81%99%e3%81%8c%e3%81%a9%e3%81%86%e3%82%84%e3%81%a3%e3%81%a6%e3%82%82%e5%ae%89%e5%bf%83%e3%81%97%e3%81%a6%e4%bb%bb%e3%81%9b%e3%82%89%e3%82%8c%e3%82%8b%e8%a8%ad%e5%ae%9a%e3%81%ab%e3%81%99%e3%82%8b%e3%81%93%e3%81%a8%e3%81%af%e7%84%a1%e7%90%86%e3%81%a0%e3%81%a8%e3%81%84%e3%81%86%e7%b5%90%e8%ab%96%e3%81%ab%e3%81%aa%e3%82%8a%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%0a%e3%81%8b%e3%81%a8%e3%81%84%e3%81%a3%e3%81%a6%e3%81%84%e3%81%a1%e3%81%84%e3%81%a11%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%9a%e3%81%a4%e3%81%a1%e3%81%be%e3%81%a1%e3%81%be%e3%81%a8CM%e3%82%ab%e3%83%83%e3%83%88%e4%bd%9c%e6%a5%ad%e3%82%92%e3%81%97%e3%81%9f%e3%81%8f%e3%81%af%e3%81%82%e3%82%8a%e3%81%be%e3%81%9b%e3%82%93%e3%80%82comskip%e3%81%a7%e3%81%82%e3%82%8b%e7%a8%8b%e5%ba%a6%e3%81%af%e6%a4%9c%e5%87%ba%e3%81%a7%e3%81%8d%e3%81%a6%e3%81%84%e3%82%8b%e3%81%ae%e3%81%a7%e3%81%99%e3%81%8b%e3%82%89%e3%80%82%0a%e3%81%9d%e3%81%86%e3%81%aa%e3%82%8b%e3%81%a8%e6%ac%a1%e3%81%af%e3%80%8c%e4%ba%ba%e9%96%93%e3%81%8c%e7%a2%ba%e8%aa%8d%e3%81%97%e3%81%a4%e3%81%a4%e3%80%81%e6%a5%bd%e3%82%92%e3%81%99%e3%82%8b%e3%80%8d%e3%82%88%e3%81%86%e3%81%ab%e3%81%97%e3%81%9f%e3%81%8f%e3%81%aa%e3%82%8a%e3%81%be%e3%81%99%e3%80%82%e3%81%9d%e3%81%93%e3%81%a7comskip%e3%81%ae%e4%bb%95%e7%b5%84%e3%81%bf%e3%82%92%e8%80%83%e6%85%ae%e3%81%97%e3%81%aa%e3%81%8c%e3%82%89%e3%80%81%0apython%e3%82%84%e3%82%89Javascript%e3%82%84%e3%82%89%e4%bd%bf%e3%81%a3%e3%81%a6CM%e3%82%ab%e3%83%83%e3%83%88%e7%92%b0%e5%a2%83%e3%82%92%e6%a7%8b%e7%af%89%e3%81%97%e3%81%a6%e3%81%bf%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=%e5%8d%8a%e8%87%aa%e5%8b%95CM%e3%82%ab%e3%83%83%e3%83%88%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%83%88%e3%81%ae%e4%bd%9c%e6%88%90&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+
+            
+
+<p>comskip、色々設定を変えながら試したのですがどうやっても安心して任せられる設定にすることは無理だという結論になりました。
+かといっていちいち1ファイルずつちまちまとCMカット作業をしたくはありません。comskipである程度は検出できているのですから。
+そうなると次は「人間が確認しつつ、楽をする」ようにしたくなります。そこでcomskipの仕組みを考慮しながら、
+pythonやらJavascriptやら使ってCMカット環境を構築してみました。</p>
+
+<h1 id="概要">概要</h1>
+
+<p>TS録画する→comskipで処理する→comskipの<strong>ログ</strong>からブロックを抽出→可視化→目視で確認・修正してカットスクリプトを生成→ffmpegでカット</p>
+
+<p>ポイントはcomskipの最終結果であるCM判定を当てにしないで、ブロック単位で可視化して誤判定の修正をするところでしょうか。
+可視化の方法として、エンコードしたMP4に判定結果を埋め込んで閲覧しながら確認できるバージョンと、HTMLでサムネイルを見ながら確認する
+バージョンの2通りを作成しました。
+ただし、カットスクリプトの生成ができるのはHTMLバージョンだけです。</p>
+
+<h1 id="事前検討">事前検討</h1>
+
+<h2 id="基本アイデア">基本アイデア</h2>
+
+<p>まず、comskipをある程度設定してあれば、「ブロックへの分割」まではそこそこ上手くいくことを期待しておきます。
+問題なのは、それぞれのブロックをCMか本編かに分類するときに誤判定があって、時に致命的な間違いを犯すことです。</p>
+
+<p>comskipのフレーム→ブロック→CM検出の仕組みを大雑把に図にするとこんな感じです。</p>
+
+<p><img src="/img/2015-10-19-comskip-block.png" alt="2015-10-19-comskip-block.png" />
+</p>
+
+<p>前半のブロックへの分割が大体detect_methodで指定しているものだと思います。ちなみに、コードを少し追いかけていて
+びっくりしたのは、comskipはブロック分割にはロゴの有無を使っていないんですね。ロゴ情報を使うのは後半の、
+ブロックを結合したりCM判定したりするところのようです。</p>
+
+<p>繰り返しますが、前半の「ブロックへの分割」までは上手くいっていることを仮定します。ブロック分割に失敗しているような場合は手作業で
+どうにかすることにします。</p>
+
+<p>UIとしてはHTMLを適当に使うことにします。
+Javascriptも使うことでクライアント側に特別なソフトを用意しなくても良いです。
+かつ、HTMLにdata urlでサムネイル画像を埋め込んで1ファイルで完結するようにもできます。
+comskipのログは.logを適当に文字列処理で解析すれば良いので、手馴れた言語であるPythonを使うことにします。
+TSからのサムネイル抜き出し方法と、判定結果を目視から修正した結果を使ったカット＆結合の方法が課題です。</p>
+
+<h2 id="技術検討-サムネイル切り出し">技術検討(サムネイル切り出し)</h2>
+
+<p>まず、TSからサムネイルを切り出す方法として考えたのが以下の2通りです。</p>
+
+<ol>
+<li>ffmpegのコマンドをたたく</li>
+<li>ffmpegのライブラリをラップしたpythonパッケージを使う</li>
+</ol>
+
+<p>1.のコマンドをたたくのは何度も何度も呼び出すオーバーヘッドや、一定区間の画像を切り出すときに色々オプション指定が面倒だったりしたので
+やめておいて、2.のライブラリを使う方法を考えます。ちなみに、ffmpegコマンドを呼び出すpythonラッパーライブラリもあるようですが、今回は
+検討していません。</p>
+
+<ul>
+<li><a href="https://code.google.com/p/pyffmpeg/">pyffmpeg@google code</a></li>
+<li><a href="https://github.com/mhaller/pyffmpeg">mhaller/pyffmpeg</a></li>
+<li><a href="https://github.com/tranx/pyffmpeg">tranx/pyffmpeg</a></li>
+<li><a href="https://pypi.python.org/pypi/Avpy/0.1.0">Avpy</a></li>
+<li><a href="https://pypi.python.org/pypi/ffms">ffms</a></li>
+</ul>
+
+<p>このうち、githubにあるpyffmpegはどちらもgoogle codeのプロジェクトからの移植です。で、どちらも使っているffmpegのAPIが古くて、
+ビルドすらできない状態です。がんばってビルドくらいは通るようにしてみたのですが、core dumpするので使い物になりませんでした。
+AvpyはAPI不足だったので使えませんでした。最終的にはffmsになりましたが、最初python2で動かそうとしたら色々ハマったので、python3+ffmsが
+最終形となりました。</p>
+
+<h2 id="技術検討-tsカット-結合">技術検討（TSカット＆結合）</h2>
+
+<p>最初はWindowsでもLinuxでも動く<a href="http://fixounet.free.fr/avidemux/">Avidemux</a>のtinypyスクリプトを使って処理しようかと考えていました。
+しかし、カット＆結合は動くことには動くのですが、音声ストリームを認識しない動画があったりして微妙に苦労するのでやめました。
+最終的にはやっぱりffmpegに頼ることにしました。</p>
+
+<p>ちなみに、（最近の？）ffmpegは<a href="https://trac.ffmpeg.org/wiki/Seeking">ドキュメント</a>によると、</p>
+
+<blockquote>
+<p>Using -ss as input option together with -c:v copy might not be accurate since ffmpeg is forced to only use/split on i-frames.</p>
+</blockquote>
+
+<p>だそうで、適当に指定した時間からでもIフレームで切ってくれるみたいですね。（逆に、正確に指定した時間で切ってくれないとも言う）</p>
+
+<h2 id="技術検討-その他">技術検討（その他）</h2>
+
+<p>ffmsのpythonパッケージではnumpy配列でフレームのデータが得られるようなので、画像のPNG/JPEG変換としてPillowを使うことにします。
+さらに、HTML出力を見通し良く記述するために、テンプレート処理系として定番のJinja2を使うことにします。
+そして、コマンドライン処理を手抜きする個人的イチ推しライブラリの<a href="http://click.pocoo.org/">click</a>も使うことにします。</p>
+
+<h1 id="準備">準備</h1>
+
+<ul>
+<li>録画環境</li>
+<li>comskip</li>
+<li>ffmpeg（&ndash;enable-libfreetypeしてあるもの）</li>
+<li>libffms2（Ubuntu14.04だとlibffms2-3、たぶんlibffms2-devも必要）</li>
+<li>python3
+** numpy
+** Pillow
+** Jinja2
+** click
+** ffms(python binding)</li>
+</ul>
+
+<p>comskipは<a href="https://github.com/erikkaashoek/Comskip">erikkaashoek/Comskip</a>を使っていますが、別実装でもWine版でもお好きなように。
+ffmpegは<a href="https://github.com/erikkaashoek/Comskip">erikkaashoek/Comskip</a>のubuntu trustyのインストール方法にあるppaを使うのが楽です。
+python3のパッケージはシステム全体に入れても良いし、virtualenvとかで独立させても良いです。
+ffmsのpython bindingは<a href="https://bitbucket.org/spirit/ffms">spirit/ffms</a>から落としてきてpython3 setup.py installします。</p>
+
+<p>ffmsのpython bindingはドキュメントが無くて苦労しましたが、ipython notebookの補完に頼って色々やってるうちになんとか必要な機能は
+たたけるようになりました。</p>
+
+<h1 id="コード-ffmpegでエンコード編">コード（ffmpegでエンコード編）</h1>
+
+<p>まずはTSをMP4にエンコードしつつ、vfオプションで文字を重ねることで「今見てるシーンはCM(or 本編)と検出されている」ことが
+分かるようにしましょう。同時にブロック番号・開始・終了時刻も分かるようにして、こんな感じにします。</p>
+
+<p><img src="/img/2015-10-19-cm.jpg" alt="2015-10-19-cm" />
+</p>
+
+<p>エンコード自体はシェルスクリプトなどでやることにして、pythonでは長い長いフィルタコマンドを生成させます。</p>
+
+<pre><code class="language-python">#!/path/to/python3
+# coding: utf-8
+
+import click
+import datetime
+
+def to_timestamp(s):
+    return str(datetime.timedelta(seconds=s))[:-3].replace(':', r'\:')
+
+
+@click.command()
+@click.argument('logfile', type=click.File(&quot;r&quot;, encoding=&quot;utf-8&quot;))
+def to_ffvf(logfile):
+    for line in logfile:
+        if line.startswith(&quot;Block list after weighing&quot;):
+            break
+    logfile.readline()
+    logfile.readline()
+
+    blocks = []
+    for line in logfile:
+        if line == '\n':
+            break
+        block = {}
+        block[&quot;no&quot;] = int(line[0:3])
+        block[&quot;isCM&quot;] = (line[4:6] == &quot;--&quot;)
+        block[&quot;fs&quot;] = int(line[19:26])
+        block[&quot;fe&quot;] = int(line[26:33])
+        block[&quot;ts&quot;] = float(line[33:42])
+        block[&quot;te&quot;] = float(line[43:52])
+        block[&quot;len&quot;] = float(line[53:62])
+        blocks.append(block)
+
+    vfs = []
+    for b in blocks:
+        start = to_timestamp(b[&quot;ts&quot;])
+        end = to_timestamp(b[&quot;te&quot;])
+        if b[&quot;isCM&quot;]:
+            vf = &quot;drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#%02d[CM]START\:%s END\:%s':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,%f)*lte(n,%f)'&quot; % (b[&quot;no&quot;], start, end, b['fs'], b['fe'])
+        else:
+            vf = &quot;drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#%02d[MV]START\:%s END\:%s':fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable='gte(n,%f)*lte(n,%f)'&quot; % (b[&quot;no&quot;], start, end, b[&quot;fs&quot;], b[&quot;fe&quot;])
+        vfs.append(vf)
+    click.echo(&quot;,&quot;.join(vfs))
+
+if __name__ == '__main__':
+    to_ffvf()
+</code></pre>
+
+<p>このコマンドをcomskipのログファイルを引数にして呼び出すと、こんな出力が得られます。
+<code>:</code>がffmpegのフィルタオプションの分割文字なので、エスケープしているところが注意点でしょうか。</p>
+
+<pre><code>drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#00[CM]START\:0\:00\:00.500 END\:0\:00\:05.340':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,1.000000)*lte(n,146.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#01[CM]START\:0\:00\:05.370 END\:0\:00\:35.440':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,147.000000)*lte(n,1048.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#02[CM]START\:0\:00\:35.470 END\:0\:00\:50.450':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,1049.000000)*lte(n,1498.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#03[CM]START\:0\:00\:50.480 END\:0\:01\:05.500':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,1499.000000)*lte(n,1949.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#04[CM]START\:0\:01\:05.530 END\:0\:01\:20.480':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,1950.000000)*lte(n,2398.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#05[CM]START\:0\:01\:20.510 END\:0\:01\:35.460':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,2399.000000)*lte(n,2847.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#06[CM]START\:0\:01\:35.500 END\:0\:03\:09.890':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,2848.000000)*lte(n,5677.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#07[CM]START\:0\:03\:09.920 END\:0\:03\:16.530':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,5678.000000)*lte(n,5876.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#08[CM]START\:0\:03\:16.560 END\:0\:03\:30.480':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,5877.000000)*lte(n,6294.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#09[CM]START\:0\:03\:30.510 END\:0\:03\:45.430':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,6295.000000)*lte(n,6742.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#10[CM]START\:0\:03\:45.460 END\:0\:04\:12.850':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,6743.000000)*lte(n,7564.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#11[CM]START\:0\:04\:12.890 END\:0\:04\:15.360':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,7565.000000)*lte(n,7639.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#12[CM]START\:0\:04\:15.390 END\:0\:04\:30.400':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,7640.000000)*lte(n,8090.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#13[CM]START\:0\:04\:30.440 END\:0\:04\:45.450':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,8091.000000)*lte(n,8541.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#14[CM]START\:0\:04\:45.490 END\:0\:05\:00.470':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,8542.000000)*lte(n,8991.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#15[CM]START\:0\:05\:00.500 END\:0\:05\:15.450':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,8992.000000)*lte(n,9440.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#16[CM]START\:0\:05\:15.480 END\:0\:05\:30.500':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,9441.000000)*lte(n,9891.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#17[CM]START\:0\:05\:30.530 END\:0\:05\:35.840':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,9892.000000)*lte(n,10051.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#18[MV]START\:0\:05\:35.870 END\:0\:08\:21.300':fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable='gte(n,10052.000000)*lte(n,15010.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#19[MV]START\:0\:08\:21.330 END\:0\:11\:32.460':fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable='gte(n,15011.000000)*lte(n,20739.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#20[MV]START\:0\:11\:32.490 END\:0\:16\:22.180':fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable='gte(n,20740.000000)*lte(n,29422.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#21[MV]START\:0\:16\:22.210 END\:0\:18\:17.260':fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable='gte(n,29423.000000)*lte(n,32871.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#22[CM]START\:0\:18\:17.300 END\:0\:18\:32.440':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,32872.000000)*lte(n,33326.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#23[CM]START\:0\:18\:32.480 END\:0\:18\:47.490':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,33327.000000)*lte(n,33777.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#24[CM]START\:0\:18\:47.530 END\:0\:19\:02.410':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,33778.000000)*lte(n,34224.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#25[CM]START\:0\:19\:02.440 END\:0\:19\:17.420':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,34225.000000)*lte(n,34674.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#26[CM]START\:0\:19\:17.460 END\:0\:19\:32.440':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,34675.000000)*lte(n,35124.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#27[CM]START\:0\:19\:32.470 END\:0\:19\:47.450':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,35125.000000)*lte(n,35574.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#28[CM]START\:0\:19\:47.490 END\:0\:20\:17.420':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,35575.000000)*lte(n,36472.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#29[CM]START\:0\:20\:17.450 END\:0\:20\:32.560':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,36473.000000)*lte(n,36926.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#30[MV]START\:0\:20\:32.600 END\:0\:27\:34.690':fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable='gte(n,36927.000000)*lte(n,49577.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#31[CM]START\:0\:27\:34.720 END\:0\:29\:04.940':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,49578.000000)*lte(n,52282.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#32[CM]START\:0\:29\:04.980 END\:0\:29\:20.460':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,52283.000000)*lte(n,52747.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#33[CM]START\:0\:29\:20.490 END\:0\:29\:35.470':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,52748.000000)*lte(n,53197.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#34[CM]START\:0\:29\:35.510 END\:0\:29\:50.460':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,53198.000000)*lte(n,53646.000000)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text='#35[CM]START\:0\:29\:50.490 END\:0\:29\:56.230':fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable='gte(n,53647.000000)*lte(n,53820.000000)'
+</code></pre>
+
+<p>この長い長い文字列をffmpegの-vfオプションと共に渡してやって、他の適当なエンコードオプションを指定してエンコードすることによって、動画上でブロック番号・開始・終了時刻・CM/本編(MV)が分かるようになります。</p>
+
+<h1 id="コード-html編">コード（HTML編）</h1>
+
+<p>上記で作成した動画を見て、「あー、今日は盛大に誤爆ってOPがCMにされてるなー」とか「ブロック分割は大体大丈夫かなー」とアタリを付けたら、次のスクリプトで
+生成するHTMLを使って、カット＆結合スクリプトを修正していきます。</p>
+
+<pre><code class="language-python">#!/home/chinachu/chinachu-scripts/utils/py3/env3/bin/python
+# coding: utf-8
+
+import base64
+import datetime
+from io import BytesIO
+import os.path
+import sys
+
+import click
+import ffms
+from PIL import Image
+import jinja2
+
+
+def to_timestamp(seconds):
+    td = datetime.timedelta(seconds=seconds)
+    return str(td)[:-3]
+
+
+class FFMSVideo:
+    def __init__(self, videofile):
+        self.vs = ffms.VideoSource(videofile, num_threads=1)
+        self.keyframes = self.vs.track.keyframes
+
+    def _get_img_by_frame(self, frame):
+        h = frame.EncodedHeight
+        w = int(frame.planes[0].shape[0] / h)
+        img = Image.fromarray(frame.planes[0].reshape(h, w))
+        return img.crop(box=(0, 0, frame.EncodedWidth, frame.EncodedHeight))
+
+    def get_frame_img(self, number, scale=None, dataurl=False):
+        if number &lt; 0:
+            number = 0
+        if number &gt;= self.vs.properties.NumFrames:
+            number = self.vs.properties.NumFrames - 1
+        try:
+            frame = self.vs.get_frame(number)
+        except ffms.Error as e:
+            click.echo(&quot;number: %d&quot; % number, err=True)
+            click.echo(str(e), err=True)
+            raise e
+        img = self._get_img_by_frame(frame)
+        if scale:
+            img = img.resize((int(img.width * scale), int(img.height * scale)))
+        if dataurl:
+            f = BytesIO()
+            img.save(f, &quot;PNG&quot;)
+            return 'data:img/png;base64,' + base64.b64encode(f.getvalue()).decode('utf-8').replace('\n', '')
+        return img
+
+    def get_near_keyframes(self, frame, delta=60):
+        return [x for x in self.keyframes if frame - delta &lt;= x &lt;= frame + delta]
+
+    def get_pts(self, frame):
+        info = self.vs.track.frame_info_list[frame]
+        return (info.PTS - self.vs.track.frame_info_list[0].PTS) * self.vs.track.time_base.Num / (self.vs.track.time_base.Den * 1000)
+
+
+class ComSkipResult:
+    def __init__(self, videofile):
+        if not os.path.exists(videofile):
+            raise &quot;videofile: %s not found&quot; % videofile
+        self.video = FFMSVideo(videofile)
+        self.videofile = videofile
+        (basename, ext) = os.path.splitext(videofile)
+        self.basename = basename
+        log = &quot;%s.log&quot; % basename
+        if os.path.exists(log):
+            with open(log) as f:
+                for line in f:
+                    if line.startswith(&quot;Block list after weighing&quot;):
+                        break
+                f.readline()
+                f.readline()
+                self.blocks = []
+                for line in f:
+                    if line == &quot;\n&quot;:
+                        break
+                    block = {}
+                    block[&quot;no&quot;] = int(line[0:3])
+                    block[&quot;isCM&quot;] = (line[4:6] == &quot;--&quot;)
+                    block[&quot;sbf&quot;] = int(line[6:11])
+                    block[&quot;bs&quot;] = int(line[11:15])
+                    block[&quot;be&quot;] = int(line[15:19])
+                    block[&quot;fs&quot;] = int(line[19:26])
+                    block[&quot;fe&quot;] = int(line[26:33])
+                    block[&quot;ts&quot;] = float(line[33:42])
+                    block[&quot;te&quot;] = float(line[43:52])
+                    block[&quot;len&quot;] = float(line[53:62])
+                    block[&quot;sc&quot;] = float(line[63:70])
+                    block[&quot;scr&quot;] = float(line[70:76])
+                    block[&quot;cmb&quot;] = int(line[76:80])
+                    block[&quot;ar&quot;] = float(line[80:85])
+                    cut = line[96:106]
+                    block[&quot;bri&quot;] = int(line[107:113])
+                    block[&quot;bricode&quot;] = line[113]
+                    block[&quot;logo&quot;] = float(line[115:119])
+                    block[&quot;vol&quot;] = int(line[120:124])
+                    block[&quot;volcode&quot;] = line[124]
+                    block[&quot;sil&quot;] = int(line[125:128])
+                    block[&quot;silcode&quot;] = line[128]
+                    block[&quot;corr&quot;] = float(line[130:136])
+                    block[&quot;stdev&quot;] = int(line[137:142])
+                    block[&quot;cc&quot;] = line[143:]
+                    block[&quot;line&quot;] = line
+
+                    cutreason = []
+                    r = {&quot;F&quot;: &quot;F:scene&quot;, &quot;A&quot;: &quot;A:aspect&quot;, &quot;E&quot;: &quot;E:exceeds&quot;, &quot;L&quot;: &quot;L:logo&quot;, &quot;B&quot;: &quot;B:bright&quot;,
+                         &quot;C&quot;: &quot;C:combined&quot;, &quot;N&quot;: &quot;N:nonstrict&quot;, &quot;S&quot;: &quot;S:strict&quot;, &quot;c&quot;: &quot;c:change&quot;, &quot;t&quot;: &quot;t:cutscene&quot;,
+                         &quot;l&quot;: &quot;l:logo&quot;, &quot;v&quot;: &quot;v:volume&quot;, &quot;s&quot;: &quot;s:scene_change&quot;, &quot;a&quot;: &quot;a:aspect_ratio&quot;,
+                         &quot;u&quot;: &quot;u:uniform_frame&quot;, &quot;b&quot;: &quot;b:black_frame&quot;, &quot;r&quot;: &quot;r:resolution&quot;}
+                    for c in cut:
+                        if c in r:
+                            cutreason.append(r[c])
+
+                    block[&quot;cut&quot;] = &quot;, &quot;.join(cutreason)
+
+                    self.blocks.append(block)
+
+    def to_html(self):
+        tmpl_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(sys.argv[0])), autoescape=False)
+        tmpl = tmpl_env.get_template(&quot;tmpl.j2&quot;)
+        tmpl_vars = {&quot;videofile&quot;: self.videofile, &quot;comskip&quot;: self, &quot;to_timestamp&quot;: to_timestamp}
+        with open(self.basename + &quot;.html&quot;, &quot;w&quot;) as f:
+            f.write(tmpl.render(tmpl_vars))
+
+
+@click.command()
+@click.argument('videofile', type=click.Path(exists=True))
+def to_html(videofile):
+    comskip = ComSkipResult(videofile)
+    comskip.to_html()
+
+
+if __name__ == '__main__':
+    to_html()
+</code></pre>
+
+<p>HTML生成のために読み込んでいるJinja2テンプレート（tmpl.j2）は以下の通り。</p>
+
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ja&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;{{ videofile }}&lt;/title&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+.blocks {
+  border-collapse: collapse;
+}
+.blocks th {
+  padding: 6px;
+  text-align: left;
+  color: #333;
+  background-color: #eee;
+  border: 1px solid #b9b9b9;
+}
+.blocks td {
+  padding: 6px;
+  text-align: right;
+  background-color: #fff;
+  border: 1px solid #b9b9b9;
+}
+.blocks td.CM {
+  background-color: #f0f;
+}
+.blocks td.MV {
+  background-color: #0f0;
+}
+.props {
+  border-collapse: collapse;
+}
+.props th {
+  background-color: #bbf;
+}
+span.changed {
+  text-decoration: line-through;
+}
+.thums {
+  border-collapse: collapse;
+}
+textarea {
+  width: 80%;
+  height: 10em;
+}
+&lt;/style&gt;
+&lt;script src=&quot;https://code.jquery.com/jquery-1.11.3.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var blocks = [];
+{% for b in comskip.blocks %}
+blocks.push({ no: {{ b.no }}, isCM: {{ &quot;true&quot; if b.isCM else &quot;false&quot; }}, fs: {{ b.fs }}, fe: {{ b.fe }}, ts: {{ b.ts }}, te: {{ b.te }} });
+{% endfor %}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table class=&quot;blocks&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;#&lt;/th&gt;
+            &lt;th&gt;CM&lt;/th&gt;
+            &lt;th&gt;time/frame&lt;/th&gt;
+            &lt;th&gt;scene&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        {% for b in comskip.blocks %}
+            &lt;tr&gt;
+                &lt;td&gt;{{ b.no }}&lt;/td&gt;
+                &lt;td class=&quot;{{ &quot;CM&quot; if b.isCM else &quot;MV&quot; }}&quot; id=&quot;{{ b.no }}&quot;&gt;&lt;span class=&quot;orig&quot;&gt;{{ &quot;CM&quot; if b.isCM else &quot;MV&quot; }}&lt;/span&gt;&lt;br /&gt;&lt;span class=&quot;mod&quot;&gt;&lt;/span&gt;&lt;br /&gt;&lt;button class=&quot;changeCM&quot;&gt;!!&lt;/button&gt;&lt;/td&gt;
+                &lt;td&gt;
+                    START&lt;br /&gt;{{ to_timestamp(b.ts) }}&lt;br /&gt;{{ b.fs }}f&lt;br /&gt;&lt;br /&gt;
+                    END&lt;br /&gt;{{ to_timestamp(b.te) }}&lt;br /&gt;{{ b.fe }}f&lt;br /&gt;&lt;br /&gt;
+                    LENGTH&lt;br /&gt;{{ to_timestamp(b.len) }}&lt;br /&gt;
+                &lt;/td&gt;
+                &lt;td style=&quot;text-align: left&quot;&gt;
+                    &lt;table class=&quot;thums&quot;&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;&lt;img src=&quot;{{ comskip.video.get_frame_img(b.fs, scale=1/8, dataurl=True) }}&quot; /&gt;&lt;/td&gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fs) %}
+                                &lt;td&gt;&lt;img src=&quot;{{ comskip.video.get_frame_img(k, scale=1/8, dataurl=True) }}&quot; /&gt;&lt;/td&gt;
+                            {% endfor %}
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;&lt;input type=&quot;RADIO&quot; class=&quot;fs&quot; name=&quot;fs{{b.no}}&quot; value=&quot;{{b.fs}}&quot; data-no=&quot;{{b.no}}&quot; data-f=&quot;{{b.fs}}&quot; data-t=&quot;{{b.ts}}&quot; checked=&quot;checked&quot;/&gt;
+                              {{b.fs}}f,{{ to_timestamp(b.ts) }}
+                            &lt;/td&gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fs) %}
+                            &lt;td&gt;&lt;input type=&quot;RADIO&quot; class=&quot;fs&quot; name=&quot;fs{{b.no}}&quot; value=&quot;{{k}}&quot; data-no=&quot;{{b.no}}&quot; data-f=&quot;{{k}}&quot; data-t=&quot;{{comskip.video.get_pts(k)}}&quot;/&gt;
+                              {{k}}f,{{ to_timestamp(comskip.video.get_pts(k)) }}
+                            &lt;/td&gt;
+                            {% endfor %}
+                        &lt;/tr&gt;
+                    &lt;/table&gt;
+                    &lt;hr /&gt;
+                    &lt;table class=&quot;thums&quot;&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;&lt;img src=&quot;{{ comskip.video.get_frame_img(b.fe, scale=1/8, dataurl=True) }}&quot; /&gt;&lt;/td&gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fe) %}
+                                &lt;td&gt;&lt;img src=&quot;{{ comskip.video.get_frame_img(k, scale=1/8, dataurl=True) }}&quot; /&gt;&lt;/td&gt;
+                            {% endfor %}
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;&lt;input type=&quot;RADIO&quot; class=&quot;fe&quot; name=&quot;fe{{b.no}}&quot; value=&quot;{{b.fe}}&quot; data-no=&quot;{{b.no}}&quot; data-f=&quot;{{b.fe}}&quot; data-t=&quot;{{b.te}}&quot; checked=&quot;checked&quot;/&gt;
+                              {{b.fe}}f,{{ to_timestamp(b.te) }}
+                            &lt;/td&gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fe) %}
+                            &lt;td&gt;&lt;input type=&quot;RADIO&quot; class=&quot;fe&quot; name=&quot;fe{{b.no}}&quot; value=&quot;{{k}}&quot; data-no=&quot;{{b.no}}&quot; data-f=&quot;{{k}}&quot; data-t=&quot;{{comskip.video.get_pts(k)}}&quot;/&gt;
+                              {{k}}f,{{ to_timestamp(comskip.video.get_pts(k)) }}
+                            &lt;/td&gt;
+                            {% endfor %}
+                        &lt;/tr&gt;
+                    &lt;/table&gt;
+                    &lt;table class=&quot;props&quot;&gt;
+                        &lt;thead&gt;
+                            &lt;th&gt;sbf&lt;/th&gt;
+                            &lt;th&gt;sc&lt;/th&gt;
+                            &lt;th&gt;scr&lt;/th&gt;
+                            &lt;th&gt;cmb&lt;/th&gt;
+                            &lt;th&gt;ar&lt;/th&gt;
+                            &lt;th&gt;bri&lt;/th&gt;
+                            &lt;th&gt;logo&lt;/th&gt;
+                            &lt;th&gt;stdev&lt;/th&gt;
+                            &lt;th&gt;cut reason&lt;/th&gt;
+                        &lt;/thead&gt;
+                        &lt;tbody&gt;
+                            &lt;td&gt;{{ b.sbf }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.sc }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.scr }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.cmb }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.ar }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.bri }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.logo }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.stdev }}&lt;/td&gt;
+                            &lt;td&gt;{{ b.cut }}&lt;/td&gt;
+                        &lt;/tbody&gt;
+                    &lt;/table&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        {% endfor %}
+    &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;button id=&quot;gen&quot;&gt;生成&lt;/button&gt;
+&lt;textarea id=&quot;py&quot;&gt;
+&lt;/textarea&gt;
+&lt;textarea id=&quot;ffmpeg&quot;&gt;
+&lt;/textarea&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function(){
+  $(&quot;button#gen&quot;).click(function(){
+    var py = &quot;#PY\nadm = Avidemux()\neditor = Editor()\nadm.clearSegments()\n&quot;;
+    var ffmpeg = &quot;#!/bin/bash\nffmpeg=/usr/bin/ffmpeg\nm2ts='{{ videofile }}'\nbn=${m2ts%.*}\n\n&quot; + 'rm &quot;${bn}.list.txt&quot;\n\n';
+
+    var segments = [];
+    var seg_start = -1;
+    var seg_start_t = -1;
+    var last_fe = -1;
+    var last_te = -1;
+    var i;
+    for (i = 0; i &lt; blocks.length; i++) {
+      if (seg_start == -1 &amp;&amp; !blocks[i][&quot;isCM&quot;]) {
+        seg_start = blocks[i][&quot;fs&quot;];
+        seg_start_t = blocks[i][&quot;ts&quot;];
+      } else if (seg_start != -1 &amp;&amp; blocks[i][&quot;isCM&quot;]) {
+        segments.push({s: seg_start, e: last_fe, ts: seg_start_t, te: last_te});
+        seg_start = -1;
+      }
+      last_fe = blocks[i][&quot;fe&quot;];
+      last_te = blocks[i][&quot;te&quot;];
+    }
+    if (seg_start != -1) {
+      segments.push({s: seg_start, e: last_fe, ts: seg_start_t, te: last_te});
+    }
+    for (i = 0; i &lt; segments.length; i++) {
+      var s = segments[i][&quot;s&quot;];
+      var e = segments[i][&quot;e&quot;];
+      var ts = segments[i][&quot;ts&quot;];
+      var te = segments[i][&quot;te&quot;];
+      py += &quot;adm.addSegment(0, editor.getPts(&quot; + s + &quot;), editor.getPts(&quot; + e + &quot;) - editor.getPts(&quot; + s + &quot;))\n&quot;;
+      ffmpeg += '$ffmpeg -i &quot;$m2ts&quot; -ss ' + ts + ' -to ' + te + ' -c:v copy -c:a copy -y &quot;${bn}.chapter' + i + '.m2ts&quot;\n';
+      ffmpeg += 'echo file &quot;\'${bn}.chapter' + i + '.m2ts\'&quot; &gt;&gt; &quot;${bn}.list.txt&quot;\n\n';
+    }
+
+    ffmpeg += '$ffmpeg -f concat -i &quot;${bn}.list.txt&quot; -c copy &quot;${bn}.nocm.m2ts&quot;\n';
+
+    $(&quot;textarea#py&quot;).val(py);
+    $(&quot;textarea#ffmpeg&quot;).val(ffmpeg);
+  });
+  $(&quot;button.changeCM&quot;).click(function(){
+    var td = $(this).parent();
+    td.toggleClass(&quot;CM&quot;);
+    td.toggleClass(&quot;MV&quot;);
+    var span_orig = td.children(&quot;.orig&quot;);
+    span_orig.toggleClass(&quot;changed&quot;);
+    var span_mod = td.children(&quot;.mod&quot;);
+    if (span_mod.text() === &quot;&quot;) {
+      if (span_orig.text() === &quot;CM&quot;) {
+        span_mod.text(&quot;MV&quot;);
+      } else {
+        span_mod.text(&quot;CM&quot;);
+      }
+    } else {
+      span_mod.text(&quot;&quot;);
+    }
+    var idx = parseInt(td.attr(&quot;id&quot;));
+    blocks[idx][&quot;isCM&quot;] = !blocks[idx][&quot;isCM&quot;];
+  });
+  $(&quot;input.fs:radio&quot;).change(function(){
+    var idx = $(this).data(&quot;no&quot;);
+    var fs = $(this).data(&quot;f&quot;);
+    var ts = $(this).data(&quot;t&quot;);
+    blocks[idx][&quot;fs&quot;] = fs;
+    blocks[idx][&quot;ts&quot;] = ts;
+  });
+  $(&quot;input.fe:radio&quot;).change(function(){
+    var idx = $(this).data(&quot;no&quot;);
+    var fe = $(this).data(&quot;f&quot;);
+    var te = $(this).data(&quot;t&quot;);
+    blocks[idx][&quot;fe&quot;] = fe;
+    blocks[idx][&quot;te&quot;] = te;
+  });
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>出力されるHTMLには謎の文字列（data url）が埋め込まれているので、ブラウザで開くと以下のような画面が出ます。</p>
+
+<p><img src="/img/2015-10-19-html.png" alt="2015-10-19-html" />
+</p>
+
+<p>左の「CM」という列がこのブロックがCMとして検出されたことを示しています。「!!」ボタンを押すことでCM/本編を反転させることができます。
+ブロック分割が微妙にうまくいってなくて開始/終了がずれてるなー、という場合は、右のラジオボタンから適当なフレームを選択することで
+そこを開始/終了にすることもできます。</p>
+
+<p>画面には映っていませんが、下の方に「生成」ボタンがあり、押すとAvidemuxのPYファイル（名残り）とffmpegを呼び出しまくるシェルスクリプト（本命）が
+テキストエリアに出力されます。</p>
+
+<p>ファイルシステムに保存したりする機能は無いので、適当にコピペしてやることで、自分で修正したブロックが本編として残ったTSファイルを得ることができます。</p>
+
+	
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f&title=%e5%8d%8a%e8%87%aa%e5%8b%95CM%e3%82%ab%e3%83%83%e3%83%88%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%83%88%e3%81%ae%e4%bd%9c%e6%88%90&summary=%3cp%3ecomskip%e3%80%81%e8%89%b2%e3%80%85%e8%a8%ad%e5%ae%9a%e3%82%92%e5%a4%89%e3%81%88%e3%81%aa%e3%81%8c%e3%82%89%e8%a9%a6%e3%81%97%e3%81%9f%e3%81%ae%e3%81%a7%e3%81%99%e3%81%8c%e3%81%a9%e3%81%86%e3%82%84%e3%81%a3%e3%81%a6%e3%82%82%e5%ae%89%e5%bf%83%e3%81%97%e3%81%a6%e4%bb%bb%e3%81%9b%e3%82%89%e3%82%8c%e3%82%8b%e8%a8%ad%e5%ae%9a%e3%81%ab%e3%81%99%e3%82%8b%e3%81%93%e3%81%a8%e3%81%af%e7%84%a1%e7%90%86%e3%81%a0%e3%81%a8%e3%81%84%e3%81%86%e7%b5%90%e8%ab%96%e3%81%ab%e3%81%aa%e3%82%8a%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%0a%e3%81%8b%e3%81%a8%e3%81%84%e3%81%a3%e3%81%a6%e3%81%84%e3%81%a1%e3%81%84%e3%81%a11%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%9a%e3%81%a4%e3%81%a1%e3%81%be%e3%81%a1%e3%81%be%e3%81%a8CM%e3%82%ab%e3%83%83%e3%83%88%e4%bd%9c%e6%a5%ad%e3%82%92%e3%81%97%e3%81%9f%e3%81%8f%e3%81%af%e3%81%82%e3%82%8a%e3%81%be%e3%81%9b%e3%82%93%e3%80%82comskip%e3%81%a7%e3%81%82%e3%82%8b%e7%a8%8b%e5%ba%a6%e3%81%af%e6%a4%9c%e5%87%ba%e3%81%a7%e3%81%8d%e3%81%a6%e3%81%84%e3%82%8b%e3%81%ae%e3%81%a7%e3%81%99%e3%81%8b%e3%82%89%e3%80%82%0a%e3%81%9d%e3%81%86%e3%81%aa%e3%82%8b%e3%81%a8%e6%ac%a1%e3%81%af%e3%80%8c%e4%ba%ba%e9%96%93%e3%81%8c%e7%a2%ba%e8%aa%8d%e3%81%97%e3%81%a4%e3%81%a4%e3%80%81%e6%a5%bd%e3%82%92%e3%81%99%e3%82%8b%e3%80%8d%e3%82%88%e3%81%86%e3%81%ab%e3%81%97%e3%81%9f%e3%81%8f%e3%81%aa%e3%82%8a%e3%81%be%e3%81%99%e3%80%82%e3%81%9d%e3%81%93%e3%81%a7comskip%e3%81%ae%e4%bb%95%e7%b5%84%e3%81%bf%e3%82%92%e8%80%83%e6%85%ae%e3%81%97%e3%81%aa%e3%81%8c%e3%82%89%e3%80%81%0apython%e3%82%84%e3%82%89Javascript%e3%82%84%e3%82%89%e4%bd%bf%e3%81%a3%e3%81%a6CM%e3%82%ab%e3%83%83%e3%83%88%e7%92%b0%e5%a2%83%e3%82%92%e6%a7%8b%e7%af%89%e3%81%97%e3%81%a6%e3%81%bf%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=%e5%8d%8a%e8%87%aa%e5%8b%95CM%e3%82%ab%e3%83%83%e3%83%88%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%83%88%e3%81%ae%e4%bd%9c%e6%88%90&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-19-semiauto-cm-cut%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-comskip" href="https://kounoike.github.io//tags/comskip">comskip</a>,
+	                
+	                <a class="post-tag post-tag-chinachu" href="https://kounoike.github.io//tags/chinachu">chinachu</a>,
+	                
+	                <a class="post-tag post-tag-ubuntu" href="https://kounoike.github.io//tags/ubuntu">ubuntu</a>,
+	                
+	                <a class="post-tag post-tag-ffmpeg" href="https://kounoike.github.io//tags/ffmpeg">ffmpeg</a>,
+	                
+	                <a class="post-tag post-tag-python" href="https://kounoike.github.io//tags/python">python</a>,
+	                
+				</div>
+			
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+					
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="/posts/2015-10-04-azkaban-mail/">Azkabanでエラーメール</a>
+		            </div>
+		            
+
+					
+					<div class="paging-older">
+						<span class="dark-red">Newer</span><span class="decorative-marker">//</span>
+			            <a class="paging-link" href="/posts/2015-10-24-schedulers/">スケジューラ色々</a>
+		            </div>
+		            
+	            </div>
+            
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2016. All rights reserved.</p>
+</div>
+    </div>
+  </div>
+	
+	
+		<script type="text/javascript">
+			function popupShare(url) {
+				window.open(url, '_blank', 'scrollbars,resizable,height=525,width=600');
+				return false;
+			}
+		</script>
+	
+
+  
+</body>
+</html>

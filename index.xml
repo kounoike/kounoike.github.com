@@ -1,0 +1,1470 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kounoike&#39;s GitHub Pages</title>
+    <link>https://kounoike.github.io/</link>
+    <description>Recent content on Kounoike&#39;s GitHub Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <managingEditor>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</managingEditor>
+    <webMaster>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</webMaster>
+    <lastBuildDate>Thu, 03 Mar 2016 00:54:41 +0900</lastBuildDate>
+    <atom:link href="https://kounoike.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</title>
+      <link>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</link>
+      <pubDate>Thu, 03 Mar 2016 00:54:41 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</guid>
+      <description>&lt;p&gt;自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
+でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+ln -s &amp;quot;$1&amp;quot; &amp;quot;/video/未視聴&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ちなみに&lt;code&gt;/video&lt;/code&gt;を samba で共有してそこ経由で視聴しています。
+さらに&lt;code&gt;/video/未視聴&lt;/code&gt;は0755にしていますので chinachu ユーザで書いたものを samba のユーザで削除することができます。というわけで、このシンボリックリンクで録画を見て、見終わったらシンボリックリンクを削除することで、（手動だけど）簡単に未視聴管理ができるのでした。
+これはだいぶ便利なのでオススメ。&lt;/p&gt;
+
+&lt;p&gt;自動エンコードしてる人はエンコード完了したらエンコード後のファイルにシンボリックリンク貼るといいんじゃないでしょうかね。&lt;/p&gt;
+
+&lt;p&gt;@moribuden さんのツイートで思い出したので記事にしておきます。@moribuden さんは更に一歩進んで inotify を使って削除も自動化しようとしています。できたら面白いですね。
+・・・こっちが先に作っちゃおうかな（笑）&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Airflowのインストールメモ</title>
+      <link>https://kounoike.github.io/posts/2015-10-27-install-airflow/</link>
+      <pubDate>Tue, 27 Oct 2015 21:57:42 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-27-install-airflow/</guid>
+      <description>
+
+&lt;p&gt;なんか&lt;a href=&#34;https://twitter.com/wyukawa/status/658960252365336576&#34;&gt;リクエスト&lt;/a&gt;があったようなので、インストールメモを残しておこう。
+ついでに環境も残しておいていつでも起動できるようにしておこう。&lt;/p&gt;
+
+&lt;h1 id=&#34;インストール&#34;&gt;インストール&lt;/h1&gt;
+
+&lt;p&gt;基本的には&lt;code&gt;pip install airflow&lt;/code&gt;なんだけど、numpyのビルドをうだうだやった後になって「これ、&amp;ndash;allow-externalがいるんだけど」なんて
+言ってくるので面倒（どういうときにallow-externalがいるのか知らないけど）。最終的な手順としては以下のとおり。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ virtualenv env
+$ . env/bin/activate
+$ pip install --allow-external pygments pygments
+$ pip install --allow-external python-dateutil python-dateutil
+$ pip install --allow-external requests requests
+$ pip install --allow-external setproctitle setproctitle
+$ pip install airflow
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;virtualenvをactivateしたら最初にnumpyを入れるのもアリかもしれない。&lt;/p&gt;
+
+&lt;h1 id=&#34;初回起動-db作成&#34;&gt;初回起動（DB作成）&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;$ export AIRFLOW_HOME=~/python/airflow
+$ airflow initdb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;起動-web-ui-ワーカー&#34;&gt;起動（Web UI、ワーカー）&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;$ airflow webserver -p 8080
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;8080ポートにアクセスすると以下の画面が見える。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://kounoike.github.io/img/2015-10-27-airflow.png&#34; alt=&#34;2015-10-27-airflow.png&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&#34;登録されているジョブの実行&#34;&gt;登録されているジョブの実行&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd ~/python/airflow
+$ . env/bin/activate
+$ export AIRFLOW_HOME=~/python/airflow
+$ airflow run example_bash_operator runme_0 2015-01-01
+Sending to executor.
+Logging into: /home/kounoike/python/airflow/logs/example_bash_operator/runme_0/2015-01-01T00:00:00
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;example_bash_operatorというDAGのrunme_0というジョブが実行される。&lt;/p&gt;
+
+&lt;h1 id=&#34;課題&#34;&gt;課題&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;前提ジョブを含めて一通りのフローを実行するコマンドが分からないから、1個1個ジョブをrunする必要がある&lt;/li&gt;
+&lt;li&gt;Web UIからジョブの実行をさせるにはCeleryを入れないといけないみたい&lt;/li&gt;
+&lt;li&gt;認証のかけ方は？&lt;/li&gt;
+&lt;li&gt;ジョブ・DAGの登録の仕方を調べていない&lt;/li&gt;
+&lt;li&gt;スケジュール実行よりで（上も過去の時間を設定することで即時実行させている）イマイチ？&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</title>
+      <link>https://kounoike.github.io/posts/2015-10-25-chinachu-upstart/</link>
+      <pubDate>Sun, 25 Oct 2015 14:21:02 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-25-chinachu-upstart/</guid>
+      <description>&lt;p&gt;upstartを使うとサービスの記述が簡単です。chinachu-wuiとchinachu-operatorの記述をしてみました。&lt;/p&gt;
+
+&lt;p&gt;/etc/init/chinachu-wui.confが以下の通り。（YOUR NAME/YOUR EMAILは適当に置き換えて）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;description &amp;quot;Chinachu - WUI&amp;quot;
+author &amp;quot;YOUR NAME&amp;lt;YOUR EMAIL&amp;gt;&amp;quot;
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+setuid chinachu
+setgid chinachu
+
+chdir /home/chinachu/chinachu
+exec ./chinachu service wui execute
+respawn
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;/etc/init/chinachu-operator.confもほぼ同じ。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;description &amp;quot;Chinachu - operator&amp;quot;
+author &amp;quot;YOUR NAME &amp;lt;YOUR EMAIL&amp;gt;&amp;quot;
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+setuid chinachu
+setgid chinachu
+
+chdir /home/chinachu/chinachu
+exec ./chinachu service operator execute
+respawn
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;この2つのファイルを/etc/initに置いたら&lt;code&gt;sudo initctl reload-configuration&lt;/code&gt;して認識させる。
+で、再起動するか、&lt;code&gt;sudo start chinachu-wui&lt;/code&gt;、&lt;code&gt;sudo start chinachu-operator&lt;/code&gt;するだけ。&lt;/p&gt;
+
+&lt;p&gt;/etc/init.dに書くのに比べてこんなに簡単なんてびっくりだ。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>スケジューラ色々</title>
+      <link>https://kounoike.github.io/posts/2015-10-24-schedulers/</link>
+      <pubDate>Sat, 24 Oct 2015 14:43:17 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-24-schedulers/</guid>
+      <description>
+
+&lt;p&gt;Chinachuのエンコードジョブのバッチ管理に&lt;a href=&#34;https://azkaban.github.io/&#34;&gt;Azkaban&lt;/a&gt;を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
+結果、今のところAzkabanが最適だという結論になってしまった。&lt;/p&gt;
+
+&lt;h1 id=&#34;azkabanの不満&#34;&gt;Azkabanの不満&lt;/h1&gt;
+
+&lt;p&gt;Project（ジョブのまとまり）の名前が英数字といくつかの記号でしか使えない。使い方がChinachuのエンコード管理なので、
+Project名に「タイトル-日付」とかにしたい。&lt;/p&gt;
+
+&lt;p&gt;エンコードをずっとやっているとProjectがたまりまくって割りとうっとうしい。検索とかしやすくなると良いのだけど&lt;/p&gt;
+
+&lt;h1 id=&#34;要件&#34;&gt;要件&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;フロー・ジョブの登録がシェルスクリプトなどからできる（recordedCommandで実行するので）&lt;/li&gt;
+&lt;li&gt;ジョブの依存関係でDAGフローが作成できる&lt;/li&gt;
+&lt;li&gt;フローの即時実行ができる&lt;/li&gt;
+&lt;li&gt;フローの並列度を制御する&lt;/li&gt;
+&lt;li&gt;できれば、登録したジョブ・フローの検索性が良いこと&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;調査結果&#34;&gt;調査結果&lt;/h1&gt;
+
+&lt;h2 id=&#34;airflow-https-github-com-airbnb-airflow&#34;&gt;&lt;a href=&#34;https://github.com/airbnb/airflow&#34;&gt;airflow&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;なんかAzkaban派だった人たちが移行しているらしいとのうわさをTwitterで見つけてチェックしてみた。
+うーん、いまいち&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;flowの実行制御ができていない？（ジョブ１個ずつ走らせないと動かないような）&lt;/li&gt;
+&lt;li&gt;スケジュール実行（時間指定）がメインっぽいインターフェース&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;luigi-https-github-com-spotify-luigi&#34;&gt;&lt;a href=&#34;https://github.com/spotify/luigi&#34;&gt;luigi&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;シンプルなんだけど、機能不足&lt;/p&gt;
+
+&lt;h2 id=&#34;rundeck-http-rundeck-org&#34;&gt;&lt;a href=&#34;http://rundeck.org/&#34;&gt;Rundeck&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;割と良くできているように見えるけど、イマイチニーズに合わない。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;やっぱりスケジュール実行メインのインターフェース&lt;/li&gt;
+&lt;li&gt;DAGのフローではなくステップ実行がメイン？&lt;/li&gt;
+&lt;li&gt;タスク同時実行の並列度制御ができないらしい&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;結論&#34;&gt;結論&lt;/h1&gt;
+
+&lt;p&gt;Azkabanでいいじゃん&lt;/p&gt;
+
+&lt;h1 id=&#34;おまけ&#34;&gt;おまけ&lt;/h1&gt;
+
+&lt;p&gt;調べてる過程で見つけた、&lt;a href=&#34;https://pypi.python.org/pypi/azkaban&#34;&gt;pythonのazkabanバインディング&lt;/a&gt;がまあまあ良い感じだった。
+ごりごりと作るのはシェルスクリプトでやるのと似たようなものだけど、jobの一時ファイルを作らなくても良いとか、
+pyファイル1個で全部実現できるとかメリットが色々ある。&lt;/p&gt;
+
+&lt;p&gt;ただ、日本語をコマンド内に記述すると上手くいかないため、Projectのpropertiesに入れる必要があった。
+しかも、ただ入れただけじゃダメで、Javaの悪しき習慣である、native2ascii相当の処理をかけてやらないといけなかった。&lt;/p&gt;
+
+&lt;p&gt;で、native2ascii相当のことをするのに適当にpypi探して見つけたのが&lt;a href=&#34;https://github.com/zerok/pyjavaproperties-unicode&#34;&gt;zerok/pyjavaproperties-unicode&lt;/a&gt;。
+ただし、こいつもバグがあって、変換しなければいけないUnicode文字が複数続いていると落ちるとか・・・
+さくっと&lt;a href=&#34;https://github.com/zerok/pyjavaproperties-unicode/pull/2&#34;&gt;PR&lt;/a&gt;書いたので、そのうち反映されるかな・・・&lt;/p&gt;
+
+&lt;p&gt;まあ、このソースを参考にencode_unicode()を書けば良いだけなんだけど。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>半自動CMカットスクリプトの作成</title>
+      <link>https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/</link>
+      <pubDate>Mon, 19 Oct 2015 19:52:20 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/</guid>
+      <description>
+
+&lt;p&gt;comskip、色々設定を変えながら試したのですがどうやっても安心して任せられる設定にすることは無理だという結論になりました。
+かといっていちいち1ファイルずつちまちまとCMカット作業をしたくはありません。comskipである程度は検出できているのですから。
+そうなると次は「人間が確認しつつ、楽をする」ようにしたくなります。そこでcomskipの仕組みを考慮しながら、
+pythonやらJavascriptやら使ってCMカット環境を構築してみました。&lt;/p&gt;
+
+&lt;h1 id=&#34;概要&#34;&gt;概要&lt;/h1&gt;
+
+&lt;p&gt;TS録画する→comskipで処理する→comskipの&lt;strong&gt;ログ&lt;/strong&gt;からブロックを抽出→可視化→目視で確認・修正してカットスクリプトを生成→ffmpegでカット&lt;/p&gt;
+
+&lt;p&gt;ポイントはcomskipの最終結果であるCM判定を当てにしないで、ブロック単位で可視化して誤判定の修正をするところでしょうか。
+可視化の方法として、エンコードしたMP4に判定結果を埋め込んで閲覧しながら確認できるバージョンと、HTMLでサムネイルを見ながら確認する
+バージョンの2通りを作成しました。
+ただし、カットスクリプトの生成ができるのはHTMLバージョンだけです。&lt;/p&gt;
+
+&lt;h1 id=&#34;事前検討&#34;&gt;事前検討&lt;/h1&gt;
+
+&lt;h2 id=&#34;基本アイデア&#34;&gt;基本アイデア&lt;/h2&gt;
+
+&lt;p&gt;まず、comskipをある程度設定してあれば、「ブロックへの分割」まではそこそこ上手くいくことを期待しておきます。
+問題なのは、それぞれのブロックをCMか本編かに分類するときに誤判定があって、時に致命的な間違いを犯すことです。&lt;/p&gt;
+
+&lt;p&gt;comskipのフレーム→ブロック→CM検出の仕組みを大雑把に図にするとこんな感じです。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://kounoike.github.io/img/2015-10-19-comskip-block.png&#34; alt=&#34;2015-10-19-comskip-block.png&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;前半のブロックへの分割が大体detect_methodで指定しているものだと思います。ちなみに、コードを少し追いかけていて
+びっくりしたのは、comskipはブロック分割にはロゴの有無を使っていないんですね。ロゴ情報を使うのは後半の、
+ブロックを結合したりCM判定したりするところのようです。&lt;/p&gt;
+
+&lt;p&gt;繰り返しますが、前半の「ブロックへの分割」までは上手くいっていることを仮定します。ブロック分割に失敗しているような場合は手作業で
+どうにかすることにします。&lt;/p&gt;
+
+&lt;p&gt;UIとしてはHTMLを適当に使うことにします。
+Javascriptも使うことでクライアント側に特別なソフトを用意しなくても良いです。
+かつ、HTMLにdata urlでサムネイル画像を埋め込んで1ファイルで完結するようにもできます。
+comskipのログは.logを適当に文字列処理で解析すれば良いので、手馴れた言語であるPythonを使うことにします。
+TSからのサムネイル抜き出し方法と、判定結果を目視から修正した結果を使ったカット＆結合の方法が課題です。&lt;/p&gt;
+
+&lt;h2 id=&#34;技術検討-サムネイル切り出し&#34;&gt;技術検討(サムネイル切り出し)&lt;/h2&gt;
+
+&lt;p&gt;まず、TSからサムネイルを切り出す方法として考えたのが以下の2通りです。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;ffmpegのコマンドをたたく&lt;/li&gt;
+&lt;li&gt;ffmpegのライブラリをラップしたpythonパッケージを使う&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;1.のコマンドをたたくのは何度も何度も呼び出すオーバーヘッドや、一定区間の画像を切り出すときに色々オプション指定が面倒だったりしたので
+やめておいて、2.のライブラリを使う方法を考えます。ちなみに、ffmpegコマンドを呼び出すpythonラッパーライブラリもあるようですが、今回は
+検討していません。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://code.google.com/p/pyffmpeg/&#34;&gt;pyffmpeg@google code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mhaller/pyffmpeg&#34;&gt;mhaller/pyffmpeg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/tranx/pyffmpeg&#34;&gt;tranx/pyffmpeg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/Avpy/0.1.0&#34;&gt;Avpy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/ffms&#34;&gt;ffms&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;このうち、githubにあるpyffmpegはどちらもgoogle codeのプロジェクトからの移植です。で、どちらも使っているffmpegのAPIが古くて、
+ビルドすらできない状態です。がんばってビルドくらいは通るようにしてみたのですが、core dumpするので使い物になりませんでした。
+AvpyはAPI不足だったので使えませんでした。最終的にはffmsになりましたが、最初python2で動かそうとしたら色々ハマったので、python3+ffmsが
+最終形となりました。&lt;/p&gt;
+
+&lt;h2 id=&#34;技術検討-tsカット-結合&#34;&gt;技術検討（TSカット＆結合）&lt;/h2&gt;
+
+&lt;p&gt;最初はWindowsでもLinuxでも動く&lt;a href=&#34;http://fixounet.free.fr/avidemux/&#34;&gt;Avidemux&lt;/a&gt;のtinypyスクリプトを使って処理しようかと考えていました。
+しかし、カット＆結合は動くことには動くのですが、音声ストリームを認識しない動画があったりして微妙に苦労するのでやめました。
+最終的にはやっぱりffmpegに頼ることにしました。&lt;/p&gt;
+
+&lt;p&gt;ちなみに、（最近の？）ffmpegは&lt;a href=&#34;https://trac.ffmpeg.org/wiki/Seeking&#34;&gt;ドキュメント&lt;/a&gt;によると、&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Using -ss as input option together with -c:v copy might not be accurate since ffmpeg is forced to only use/split on i-frames.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;だそうで、適当に指定した時間からでもIフレームで切ってくれるみたいですね。（逆に、正確に指定した時間で切ってくれないとも言う）&lt;/p&gt;
+
+&lt;h2 id=&#34;技術検討-その他&#34;&gt;技術検討（その他）&lt;/h2&gt;
+
+&lt;p&gt;ffmsのpythonパッケージではnumpy配列でフレームのデータが得られるようなので、画像のPNG/JPEG変換としてPillowを使うことにします。
+さらに、HTML出力を見通し良く記述するために、テンプレート処理系として定番のJinja2を使うことにします。
+そして、コマンドライン処理を手抜きする個人的イチ推しライブラリの&lt;a href=&#34;http://click.pocoo.org/&#34;&gt;click&lt;/a&gt;も使うことにします。&lt;/p&gt;
+
+&lt;h1 id=&#34;準備&#34;&gt;準備&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;録画環境&lt;/li&gt;
+&lt;li&gt;comskip&lt;/li&gt;
+&lt;li&gt;ffmpeg（&amp;ndash;enable-libfreetypeしてあるもの）&lt;/li&gt;
+&lt;li&gt;libffms2（Ubuntu14.04だとlibffms2-3、たぶんlibffms2-devも必要）&lt;/li&gt;
+&lt;li&gt;python3
+** numpy
+** Pillow
+** Jinja2
+** click
+** ffms(python binding)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;comskipは&lt;a href=&#34;https://github.com/erikkaashoek/Comskip&#34;&gt;erikkaashoek/Comskip&lt;/a&gt;を使っていますが、別実装でもWine版でもお好きなように。
+ffmpegは&lt;a href=&#34;https://github.com/erikkaashoek/Comskip&#34;&gt;erikkaashoek/Comskip&lt;/a&gt;のubuntu trustyのインストール方法にあるppaを使うのが楽です。
+python3のパッケージはシステム全体に入れても良いし、virtualenvとかで独立させても良いです。
+ffmsのpython bindingは&lt;a href=&#34;https://bitbucket.org/spirit/ffms&#34;&gt;spirit/ffms&lt;/a&gt;から落としてきてpython3 setup.py installします。&lt;/p&gt;
+
+&lt;p&gt;ffmsのpython bindingはドキュメントが無くて苦労しましたが、ipython notebookの補完に頼って色々やってるうちになんとか必要な機能は
+たたけるようになりました。&lt;/p&gt;
+
+&lt;h1 id=&#34;コード-ffmpegでエンコード編&#34;&gt;コード（ffmpegでエンコード編）&lt;/h1&gt;
+
+&lt;p&gt;まずはTSをMP4にエンコードしつつ、vfオプションで文字を重ねることで「今見てるシーンはCM(or 本編)と検出されている」ことが
+分かるようにしましょう。同時にブロック番号・開始・終了時刻も分かるようにして、こんな感じにします。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://kounoike.github.io/img/2015-10-19-cm.jpg&#34; alt=&#34;2015-10-19-cm&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;エンコード自体はシェルスクリプトなどでやることにして、pythonでは長い長いフィルタコマンドを生成させます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#!/path/to/python3
+# coding: utf-8
+
+import click
+import datetime
+
+def to_timestamp(s):
+    return str(datetime.timedelta(seconds=s))[:-3].replace(&#39;:&#39;, r&#39;\:&#39;)
+
+
+@click.command()
+@click.argument(&#39;logfile&#39;, type=click.File(&amp;quot;r&amp;quot;, encoding=&amp;quot;utf-8&amp;quot;))
+def to_ffvf(logfile):
+    for line in logfile:
+        if line.startswith(&amp;quot;Block list after weighing&amp;quot;):
+            break
+    logfile.readline()
+    logfile.readline()
+
+    blocks = []
+    for line in logfile:
+        if line == &#39;\n&#39;:
+            break
+        block = {}
+        block[&amp;quot;no&amp;quot;] = int(line[0:3])
+        block[&amp;quot;isCM&amp;quot;] = (line[4:6] == &amp;quot;--&amp;quot;)
+        block[&amp;quot;fs&amp;quot;] = int(line[19:26])
+        block[&amp;quot;fe&amp;quot;] = int(line[26:33])
+        block[&amp;quot;ts&amp;quot;] = float(line[33:42])
+        block[&amp;quot;te&amp;quot;] = float(line[43:52])
+        block[&amp;quot;len&amp;quot;] = float(line[53:62])
+        blocks.append(block)
+
+    vfs = []
+    for b in blocks:
+        start = to_timestamp(b[&amp;quot;ts&amp;quot;])
+        end = to_timestamp(b[&amp;quot;te&amp;quot;])
+        if b[&amp;quot;isCM&amp;quot;]:
+            vf = &amp;quot;drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#%02d[CM]START\:%s END\:%s&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,%f)*lte(n,%f)&#39;&amp;quot; % (b[&amp;quot;no&amp;quot;], start, end, b[&#39;fs&#39;], b[&#39;fe&#39;])
+        else:
+            vf = &amp;quot;drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#%02d[MV]START\:%s END\:%s&#39;:fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable=&#39;gte(n,%f)*lte(n,%f)&#39;&amp;quot; % (b[&amp;quot;no&amp;quot;], start, end, b[&amp;quot;fs&amp;quot;], b[&amp;quot;fe&amp;quot;])
+        vfs.append(vf)
+    click.echo(&amp;quot;,&amp;quot;.join(vfs))
+
+if __name__ == &#39;__main__&#39;:
+    to_ffvf()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;このコマンドをcomskipのログファイルを引数にして呼び出すと、こんな出力が得られます。
+&lt;code&gt;:&lt;/code&gt;がffmpegのフィルタオプションの分割文字なので、エスケープしているところが注意点でしょうか。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#00[CM]START\:0\:00\:00.500 END\:0\:00\:05.340&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,1.000000)*lte(n,146.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#01[CM]START\:0\:00\:05.370 END\:0\:00\:35.440&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,147.000000)*lte(n,1048.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#02[CM]START\:0\:00\:35.470 END\:0\:00\:50.450&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,1049.000000)*lte(n,1498.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#03[CM]START\:0\:00\:50.480 END\:0\:01\:05.500&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,1499.000000)*lte(n,1949.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#04[CM]START\:0\:01\:05.530 END\:0\:01\:20.480&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,1950.000000)*lte(n,2398.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#05[CM]START\:0\:01\:20.510 END\:0\:01\:35.460&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,2399.000000)*lte(n,2847.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#06[CM]START\:0\:01\:35.500 END\:0\:03\:09.890&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,2848.000000)*lte(n,5677.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#07[CM]START\:0\:03\:09.920 END\:0\:03\:16.530&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,5678.000000)*lte(n,5876.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#08[CM]START\:0\:03\:16.560 END\:0\:03\:30.480&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,5877.000000)*lte(n,6294.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#09[CM]START\:0\:03\:30.510 END\:0\:03\:45.430&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,6295.000000)*lte(n,6742.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#10[CM]START\:0\:03\:45.460 END\:0\:04\:12.850&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,6743.000000)*lte(n,7564.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#11[CM]START\:0\:04\:12.890 END\:0\:04\:15.360&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,7565.000000)*lte(n,7639.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#12[CM]START\:0\:04\:15.390 END\:0\:04\:30.400&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,7640.000000)*lte(n,8090.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#13[CM]START\:0\:04\:30.440 END\:0\:04\:45.450&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,8091.000000)*lte(n,8541.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#14[CM]START\:0\:04\:45.490 END\:0\:05\:00.470&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,8542.000000)*lte(n,8991.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#15[CM]START\:0\:05\:00.500 END\:0\:05\:15.450&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,8992.000000)*lte(n,9440.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#16[CM]START\:0\:05\:15.480 END\:0\:05\:30.500&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,9441.000000)*lte(n,9891.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#17[CM]START\:0\:05\:30.530 END\:0\:05\:35.840&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,9892.000000)*lte(n,10051.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#18[MV]START\:0\:05\:35.870 END\:0\:08\:21.300&#39;:fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable=&#39;gte(n,10052.000000)*lte(n,15010.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#19[MV]START\:0\:08\:21.330 END\:0\:11\:32.460&#39;:fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable=&#39;gte(n,15011.000000)*lte(n,20739.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#20[MV]START\:0\:11\:32.490 END\:0\:16\:22.180&#39;:fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable=&#39;gte(n,20740.000000)*lte(n,29422.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#21[MV]START\:0\:16\:22.210 END\:0\:18\:17.260&#39;:fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable=&#39;gte(n,29423.000000)*lte(n,32871.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#22[CM]START\:0\:18\:17.300 END\:0\:18\:32.440&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,32872.000000)*lte(n,33326.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#23[CM]START\:0\:18\:32.480 END\:0\:18\:47.490&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,33327.000000)*lte(n,33777.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#24[CM]START\:0\:18\:47.530 END\:0\:19\:02.410&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,33778.000000)*lte(n,34224.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#25[CM]START\:0\:19\:02.440 END\:0\:19\:17.420&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,34225.000000)*lte(n,34674.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#26[CM]START\:0\:19\:17.460 END\:0\:19\:32.440&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,34675.000000)*lte(n,35124.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#27[CM]START\:0\:19\:32.470 END\:0\:19\:47.450&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,35125.000000)*lte(n,35574.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#28[CM]START\:0\:19\:47.490 END\:0\:20\:17.420&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,35575.000000)*lte(n,36472.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#29[CM]START\:0\:20\:17.450 END\:0\:20\:32.560&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,36473.000000)*lte(n,36926.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#30[MV]START\:0\:20\:32.600 END\:0\:27\:34.690&#39;:fontsize=40:fontcolor=limegreen@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=green@0.6:enable=&#39;gte(n,36927.000000)*lte(n,49577.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#31[CM]START\:0\:27\:34.720 END\:0\:29\:04.940&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,49578.000000)*lte(n,52282.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#32[CM]START\:0\:29\:04.980 END\:0\:29\:20.460&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,52283.000000)*lte(n,52747.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#33[CM]START\:0\:29\:20.490 END\:0\:29\:35.470&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,52748.000000)*lte(n,53197.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#34[CM]START\:0\:29\:35.510 END\:0\:29\:50.460&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,53198.000000)*lte(n,53646.000000)&#39;,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=5:y=5:text=&#39;#35[CM]START\:0\:29\:50.490 END\:0\:29\:56.230&#39;:fontsize=40:fontcolor=magenta@0.4:box=1:boxcolor=white@0.2:borderw=2:bordercolor=red@0.6:enable=&#39;gte(n,53647.000000)*lte(n,53820.000000)&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;この長い長い文字列をffmpegの-vfオプションと共に渡してやって、他の適当なエンコードオプションを指定してエンコードすることによって、動画上でブロック番号・開始・終了時刻・CM/本編(MV)が分かるようになります。&lt;/p&gt;
+
+&lt;h1 id=&#34;コード-html編&#34;&gt;コード（HTML編）&lt;/h1&gt;
+
+&lt;p&gt;上記で作成した動画を見て、「あー、今日は盛大に誤爆ってOPがCMにされてるなー」とか「ブロック分割は大体大丈夫かなー」とアタリを付けたら、次のスクリプトで
+生成するHTMLを使って、カット＆結合スクリプトを修正していきます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#!/home/chinachu/chinachu-scripts/utils/py3/env3/bin/python
+# coding: utf-8
+
+import base64
+import datetime
+from io import BytesIO
+import os.path
+import sys
+
+import click
+import ffms
+from PIL import Image
+import jinja2
+
+
+def to_timestamp(seconds):
+    td = datetime.timedelta(seconds=seconds)
+    return str(td)[:-3]
+
+
+class FFMSVideo:
+    def __init__(self, videofile):
+        self.vs = ffms.VideoSource(videofile, num_threads=1)
+        self.keyframes = self.vs.track.keyframes
+
+    def _get_img_by_frame(self, frame):
+        h = frame.EncodedHeight
+        w = int(frame.planes[0].shape[0] / h)
+        img = Image.fromarray(frame.planes[0].reshape(h, w))
+        return img.crop(box=(0, 0, frame.EncodedWidth, frame.EncodedHeight))
+
+    def get_frame_img(self, number, scale=None, dataurl=False):
+        if number &amp;lt; 0:
+            number = 0
+        if number &amp;gt;= self.vs.properties.NumFrames:
+            number = self.vs.properties.NumFrames - 1
+        try:
+            frame = self.vs.get_frame(number)
+        except ffms.Error as e:
+            click.echo(&amp;quot;number: %d&amp;quot; % number, err=True)
+            click.echo(str(e), err=True)
+            raise e
+        img = self._get_img_by_frame(frame)
+        if scale:
+            img = img.resize((int(img.width * scale), int(img.height * scale)))
+        if dataurl:
+            f = BytesIO()
+            img.save(f, &amp;quot;PNG&amp;quot;)
+            return &#39;data:img/png;base64,&#39; + base64.b64encode(f.getvalue()).decode(&#39;utf-8&#39;).replace(&#39;\n&#39;, &#39;&#39;)
+        return img
+
+    def get_near_keyframes(self, frame, delta=60):
+        return [x for x in self.keyframes if frame - delta &amp;lt;= x &amp;lt;= frame + delta]
+
+    def get_pts(self, frame):
+        info = self.vs.track.frame_info_list[frame]
+        return (info.PTS - self.vs.track.frame_info_list[0].PTS) * self.vs.track.time_base.Num / (self.vs.track.time_base.Den * 1000)
+
+
+class ComSkipResult:
+    def __init__(self, videofile):
+        if not os.path.exists(videofile):
+            raise &amp;quot;videofile: %s not found&amp;quot; % videofile
+        self.video = FFMSVideo(videofile)
+        self.videofile = videofile
+        (basename, ext) = os.path.splitext(videofile)
+        self.basename = basename
+        log = &amp;quot;%s.log&amp;quot; % basename
+        if os.path.exists(log):
+            with open(log) as f:
+                for line in f:
+                    if line.startswith(&amp;quot;Block list after weighing&amp;quot;):
+                        break
+                f.readline()
+                f.readline()
+                self.blocks = []
+                for line in f:
+                    if line == &amp;quot;\n&amp;quot;:
+                        break
+                    block = {}
+                    block[&amp;quot;no&amp;quot;] = int(line[0:3])
+                    block[&amp;quot;isCM&amp;quot;] = (line[4:6] == &amp;quot;--&amp;quot;)
+                    block[&amp;quot;sbf&amp;quot;] = int(line[6:11])
+                    block[&amp;quot;bs&amp;quot;] = int(line[11:15])
+                    block[&amp;quot;be&amp;quot;] = int(line[15:19])
+                    block[&amp;quot;fs&amp;quot;] = int(line[19:26])
+                    block[&amp;quot;fe&amp;quot;] = int(line[26:33])
+                    block[&amp;quot;ts&amp;quot;] = float(line[33:42])
+                    block[&amp;quot;te&amp;quot;] = float(line[43:52])
+                    block[&amp;quot;len&amp;quot;] = float(line[53:62])
+                    block[&amp;quot;sc&amp;quot;] = float(line[63:70])
+                    block[&amp;quot;scr&amp;quot;] = float(line[70:76])
+                    block[&amp;quot;cmb&amp;quot;] = int(line[76:80])
+                    block[&amp;quot;ar&amp;quot;] = float(line[80:85])
+                    cut = line[96:106]
+                    block[&amp;quot;bri&amp;quot;] = int(line[107:113])
+                    block[&amp;quot;bricode&amp;quot;] = line[113]
+                    block[&amp;quot;logo&amp;quot;] = float(line[115:119])
+                    block[&amp;quot;vol&amp;quot;] = int(line[120:124])
+                    block[&amp;quot;volcode&amp;quot;] = line[124]
+                    block[&amp;quot;sil&amp;quot;] = int(line[125:128])
+                    block[&amp;quot;silcode&amp;quot;] = line[128]
+                    block[&amp;quot;corr&amp;quot;] = float(line[130:136])
+                    block[&amp;quot;stdev&amp;quot;] = int(line[137:142])
+                    block[&amp;quot;cc&amp;quot;] = line[143:]
+                    block[&amp;quot;line&amp;quot;] = line
+
+                    cutreason = []
+                    r = {&amp;quot;F&amp;quot;: &amp;quot;F:scene&amp;quot;, &amp;quot;A&amp;quot;: &amp;quot;A:aspect&amp;quot;, &amp;quot;E&amp;quot;: &amp;quot;E:exceeds&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;L:logo&amp;quot;, &amp;quot;B&amp;quot;: &amp;quot;B:bright&amp;quot;,
+                         &amp;quot;C&amp;quot;: &amp;quot;C:combined&amp;quot;, &amp;quot;N&amp;quot;: &amp;quot;N:nonstrict&amp;quot;, &amp;quot;S&amp;quot;: &amp;quot;S:strict&amp;quot;, &amp;quot;c&amp;quot;: &amp;quot;c:change&amp;quot;, &amp;quot;t&amp;quot;: &amp;quot;t:cutscene&amp;quot;,
+                         &amp;quot;l&amp;quot;: &amp;quot;l:logo&amp;quot;, &amp;quot;v&amp;quot;: &amp;quot;v:volume&amp;quot;, &amp;quot;s&amp;quot;: &amp;quot;s:scene_change&amp;quot;, &amp;quot;a&amp;quot;: &amp;quot;a:aspect_ratio&amp;quot;,
+                         &amp;quot;u&amp;quot;: &amp;quot;u:uniform_frame&amp;quot;, &amp;quot;b&amp;quot;: &amp;quot;b:black_frame&amp;quot;, &amp;quot;r&amp;quot;: &amp;quot;r:resolution&amp;quot;}
+                    for c in cut:
+                        if c in r:
+                            cutreason.append(r[c])
+
+                    block[&amp;quot;cut&amp;quot;] = &amp;quot;, &amp;quot;.join(cutreason)
+
+                    self.blocks.append(block)
+
+    def to_html(self):
+        tmpl_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(sys.argv[0])), autoescape=False)
+        tmpl = tmpl_env.get_template(&amp;quot;tmpl.j2&amp;quot;)
+        tmpl_vars = {&amp;quot;videofile&amp;quot;: self.videofile, &amp;quot;comskip&amp;quot;: self, &amp;quot;to_timestamp&amp;quot;: to_timestamp}
+        with open(self.basename + &amp;quot;.html&amp;quot;, &amp;quot;w&amp;quot;) as f:
+            f.write(tmpl.render(tmpl_vars))
+
+
+@click.command()
+@click.argument(&#39;videofile&#39;, type=click.Path(exists=True))
+def to_html(videofile):
+    comskip = ComSkipResult(videofile)
+    comskip.to_html()
+
+
+if __name__ == &#39;__main__&#39;:
+    to_html()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;HTML生成のために読み込んでいるJinja2テンプレート（tmpl.j2）は以下の通り。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;ja&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+&amp;lt;title&amp;gt;{{ videofile }}&amp;lt;/title&amp;gt;
+&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+.blocks {
+  border-collapse: collapse;
+}
+.blocks th {
+  padding: 6px;
+  text-align: left;
+  color: #333;
+  background-color: #eee;
+  border: 1px solid #b9b9b9;
+}
+.blocks td {
+  padding: 6px;
+  text-align: right;
+  background-color: #fff;
+  border: 1px solid #b9b9b9;
+}
+.blocks td.CM {
+  background-color: #f0f;
+}
+.blocks td.MV {
+  background-color: #0f0;
+}
+.props {
+  border-collapse: collapse;
+}
+.props th {
+  background-color: #bbf;
+}
+span.changed {
+  text-decoration: line-through;
+}
+.thums {
+  border-collapse: collapse;
+}
+textarea {
+  width: 80%;
+  height: 10em;
+}
+&amp;lt;/style&amp;gt;
+&amp;lt;script src=&amp;quot;https://code.jquery.com/jquery-1.11.3.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
+var blocks = [];
+{% for b in comskip.blocks %}
+blocks.push({ no: {{ b.no }}, isCM: {{ &amp;quot;true&amp;quot; if b.isCM else &amp;quot;false&amp;quot; }}, fs: {{ b.fs }}, fe: {{ b.fe }}, ts: {{ b.ts }}, te: {{ b.te }} });
+{% endfor %}
+&amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;table class=&amp;quot;blocks&amp;quot;&amp;gt;
+    &amp;lt;thead&amp;gt;
+        &amp;lt;tr&amp;gt;
+            &amp;lt;th&amp;gt;#&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;CM&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;time/frame&amp;lt;/th&amp;gt;
+            &amp;lt;th&amp;gt;scene&amp;lt;/th&amp;gt;
+        &amp;lt;/tr&amp;gt;
+    &amp;lt;/thead&amp;gt;
+    &amp;lt;tbody&amp;gt;
+        {% for b in comskip.blocks %}
+            &amp;lt;tr&amp;gt;
+                &amp;lt;td&amp;gt;{{ b.no }}&amp;lt;/td&amp;gt;
+                &amp;lt;td class=&amp;quot;{{ &amp;quot;CM&amp;quot; if b.isCM else &amp;quot;MV&amp;quot; }}&amp;quot; id=&amp;quot;{{ b.no }}&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;orig&amp;quot;&amp;gt;{{ &amp;quot;CM&amp;quot; if b.isCM else &amp;quot;MV&amp;quot; }}&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span class=&amp;quot;mod&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;button class=&amp;quot;changeCM&amp;quot;&amp;gt;!!&amp;lt;/button&amp;gt;&amp;lt;/td&amp;gt;
+                &amp;lt;td&amp;gt;
+                    START&amp;lt;br /&amp;gt;{{ to_timestamp(b.ts) }}&amp;lt;br /&amp;gt;{{ b.fs }}f&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;
+                    END&amp;lt;br /&amp;gt;{{ to_timestamp(b.te) }}&amp;lt;br /&amp;gt;{{ b.fe }}f&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;
+                    LENGTH&amp;lt;br /&amp;gt;{{ to_timestamp(b.len) }}&amp;lt;br /&amp;gt;
+                &amp;lt;/td&amp;gt;
+                &amp;lt;td style=&amp;quot;text-align: left&amp;quot;&amp;gt;
+                    &amp;lt;table class=&amp;quot;thums&amp;quot;&amp;gt;
+                        &amp;lt;tr&amp;gt;
+                            &amp;lt;td&amp;gt;&amp;lt;img src=&amp;quot;{{ comskip.video.get_frame_img(b.fs, scale=1/8, dataurl=True) }}&amp;quot; /&amp;gt;&amp;lt;/td&amp;gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fs) %}
+                                &amp;lt;td&amp;gt;&amp;lt;img src=&amp;quot;{{ comskip.video.get_frame_img(k, scale=1/8, dataurl=True) }}&amp;quot; /&amp;gt;&amp;lt;/td&amp;gt;
+                            {% endfor %}
+                        &amp;lt;/tr&amp;gt;
+                        &amp;lt;tr&amp;gt;
+                            &amp;lt;td&amp;gt;&amp;lt;input type=&amp;quot;RADIO&amp;quot; class=&amp;quot;fs&amp;quot; name=&amp;quot;fs{{b.no}}&amp;quot; value=&amp;quot;{{b.fs}}&amp;quot; data-no=&amp;quot;{{b.no}}&amp;quot; data-f=&amp;quot;{{b.fs}}&amp;quot; data-t=&amp;quot;{{b.ts}}&amp;quot; checked=&amp;quot;checked&amp;quot;/&amp;gt;
+                              {{b.fs}}f,{{ to_timestamp(b.ts) }}
+                            &amp;lt;/td&amp;gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fs) %}
+                            &amp;lt;td&amp;gt;&amp;lt;input type=&amp;quot;RADIO&amp;quot; class=&amp;quot;fs&amp;quot; name=&amp;quot;fs{{b.no}}&amp;quot; value=&amp;quot;{{k}}&amp;quot; data-no=&amp;quot;{{b.no}}&amp;quot; data-f=&amp;quot;{{k}}&amp;quot; data-t=&amp;quot;{{comskip.video.get_pts(k)}}&amp;quot;/&amp;gt;
+                              {{k}}f,{{ to_timestamp(comskip.video.get_pts(k)) }}
+                            &amp;lt;/td&amp;gt;
+                            {% endfor %}
+                        &amp;lt;/tr&amp;gt;
+                    &amp;lt;/table&amp;gt;
+                    &amp;lt;hr /&amp;gt;
+                    &amp;lt;table class=&amp;quot;thums&amp;quot;&amp;gt;
+                        &amp;lt;tr&amp;gt;
+                            &amp;lt;td&amp;gt;&amp;lt;img src=&amp;quot;{{ comskip.video.get_frame_img(b.fe, scale=1/8, dataurl=True) }}&amp;quot; /&amp;gt;&amp;lt;/td&amp;gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fe) %}
+                                &amp;lt;td&amp;gt;&amp;lt;img src=&amp;quot;{{ comskip.video.get_frame_img(k, scale=1/8, dataurl=True) }}&amp;quot; /&amp;gt;&amp;lt;/td&amp;gt;
+                            {% endfor %}
+                        &amp;lt;/tr&amp;gt;
+                        &amp;lt;tr&amp;gt;
+                            &amp;lt;td&amp;gt;&amp;lt;input type=&amp;quot;RADIO&amp;quot; class=&amp;quot;fe&amp;quot; name=&amp;quot;fe{{b.no}}&amp;quot; value=&amp;quot;{{b.fe}}&amp;quot; data-no=&amp;quot;{{b.no}}&amp;quot; data-f=&amp;quot;{{b.fe}}&amp;quot; data-t=&amp;quot;{{b.te}}&amp;quot; checked=&amp;quot;checked&amp;quot;/&amp;gt;
+                              {{b.fe}}f,{{ to_timestamp(b.te) }}
+                            &amp;lt;/td&amp;gt;
+                            {% for k in comskip.video.get_near_keyframes(b.fe) %}
+                            &amp;lt;td&amp;gt;&amp;lt;input type=&amp;quot;RADIO&amp;quot; class=&amp;quot;fe&amp;quot; name=&amp;quot;fe{{b.no}}&amp;quot; value=&amp;quot;{{k}}&amp;quot; data-no=&amp;quot;{{b.no}}&amp;quot; data-f=&amp;quot;{{k}}&amp;quot; data-t=&amp;quot;{{comskip.video.get_pts(k)}}&amp;quot;/&amp;gt;
+                              {{k}}f,{{ to_timestamp(comskip.video.get_pts(k)) }}
+                            &amp;lt;/td&amp;gt;
+                            {% endfor %}
+                        &amp;lt;/tr&amp;gt;
+                    &amp;lt;/table&amp;gt;
+                    &amp;lt;table class=&amp;quot;props&amp;quot;&amp;gt;
+                        &amp;lt;thead&amp;gt;
+                            &amp;lt;th&amp;gt;sbf&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;sc&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;scr&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;cmb&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;ar&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;bri&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;logo&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;stdev&amp;lt;/th&amp;gt;
+                            &amp;lt;th&amp;gt;cut reason&amp;lt;/th&amp;gt;
+                        &amp;lt;/thead&amp;gt;
+                        &amp;lt;tbody&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.sbf }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.sc }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.scr }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.cmb }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.ar }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.bri }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.logo }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.stdev }}&amp;lt;/td&amp;gt;
+                            &amp;lt;td&amp;gt;{{ b.cut }}&amp;lt;/td&amp;gt;
+                        &amp;lt;/tbody&amp;gt;
+                    &amp;lt;/table&amp;gt;
+                &amp;lt;/td&amp;gt;
+            &amp;lt;/tr&amp;gt;
+        {% endfor %}
+    &amp;lt;/tbody&amp;gt;
+&amp;lt;/table&amp;gt;
+&amp;lt;button id=&amp;quot;gen&amp;quot;&amp;gt;生成&amp;lt;/button&amp;gt;
+&amp;lt;textarea id=&amp;quot;py&amp;quot;&amp;gt;
+&amp;lt;/textarea&amp;gt;
+&amp;lt;textarea id=&amp;quot;ffmpeg&amp;quot;&amp;gt;
+&amp;lt;/textarea&amp;gt;
+&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
+$(document).ready(function(){
+  $(&amp;quot;button#gen&amp;quot;).click(function(){
+    var py = &amp;quot;#PY\nadm = Avidemux()\neditor = Editor()\nadm.clearSegments()\n&amp;quot;;
+    var ffmpeg = &amp;quot;#!/bin/bash\nffmpeg=/usr/bin/ffmpeg\nm2ts=&#39;{{ videofile }}&#39;\nbn=${m2ts%.*}\n\n&amp;quot; + &#39;rm &amp;quot;${bn}.list.txt&amp;quot;\n\n&#39;;
+
+    var segments = [];
+    var seg_start = -1;
+    var seg_start_t = -1;
+    var last_fe = -1;
+    var last_te = -1;
+    var i;
+    for (i = 0; i &amp;lt; blocks.length; i++) {
+      if (seg_start == -1 &amp;amp;&amp;amp; !blocks[i][&amp;quot;isCM&amp;quot;]) {
+        seg_start = blocks[i][&amp;quot;fs&amp;quot;];
+        seg_start_t = blocks[i][&amp;quot;ts&amp;quot;];
+      } else if (seg_start != -1 &amp;amp;&amp;amp; blocks[i][&amp;quot;isCM&amp;quot;]) {
+        segments.push({s: seg_start, e: last_fe, ts: seg_start_t, te: last_te});
+        seg_start = -1;
+      }
+      last_fe = blocks[i][&amp;quot;fe&amp;quot;];
+      last_te = blocks[i][&amp;quot;te&amp;quot;];
+    }
+    if (seg_start != -1) {
+      segments.push({s: seg_start, e: last_fe, ts: seg_start_t, te: last_te});
+    }
+    for (i = 0; i &amp;lt; segments.length; i++) {
+      var s = segments[i][&amp;quot;s&amp;quot;];
+      var e = segments[i][&amp;quot;e&amp;quot;];
+      var ts = segments[i][&amp;quot;ts&amp;quot;];
+      var te = segments[i][&amp;quot;te&amp;quot;];
+      py += &amp;quot;adm.addSegment(0, editor.getPts(&amp;quot; + s + &amp;quot;), editor.getPts(&amp;quot; + e + &amp;quot;) - editor.getPts(&amp;quot; + s + &amp;quot;))\n&amp;quot;;
+      ffmpeg += &#39;$ffmpeg -i &amp;quot;$m2ts&amp;quot; -ss &#39; + ts + &#39; -to &#39; + te + &#39; -c:v copy -c:a copy -y &amp;quot;${bn}.chapter&#39; + i + &#39;.m2ts&amp;quot;\n&#39;;
+      ffmpeg += &#39;echo file &amp;quot;\&#39;${bn}.chapter&#39; + i + &#39;.m2ts\&#39;&amp;quot; &amp;gt;&amp;gt; &amp;quot;${bn}.list.txt&amp;quot;\n\n&#39;;
+    }
+
+    ffmpeg += &#39;$ffmpeg -f concat -i &amp;quot;${bn}.list.txt&amp;quot; -c copy &amp;quot;${bn}.nocm.m2ts&amp;quot;\n&#39;;
+
+    $(&amp;quot;textarea#py&amp;quot;).val(py);
+    $(&amp;quot;textarea#ffmpeg&amp;quot;).val(ffmpeg);
+  });
+  $(&amp;quot;button.changeCM&amp;quot;).click(function(){
+    var td = $(this).parent();
+    td.toggleClass(&amp;quot;CM&amp;quot;);
+    td.toggleClass(&amp;quot;MV&amp;quot;);
+    var span_orig = td.children(&amp;quot;.orig&amp;quot;);
+    span_orig.toggleClass(&amp;quot;changed&amp;quot;);
+    var span_mod = td.children(&amp;quot;.mod&amp;quot;);
+    if (span_mod.text() === &amp;quot;&amp;quot;) {
+      if (span_orig.text() === &amp;quot;CM&amp;quot;) {
+        span_mod.text(&amp;quot;MV&amp;quot;);
+      } else {
+        span_mod.text(&amp;quot;CM&amp;quot;);
+      }
+    } else {
+      span_mod.text(&amp;quot;&amp;quot;);
+    }
+    var idx = parseInt(td.attr(&amp;quot;id&amp;quot;));
+    blocks[idx][&amp;quot;isCM&amp;quot;] = !blocks[idx][&amp;quot;isCM&amp;quot;];
+  });
+  $(&amp;quot;input.fs:radio&amp;quot;).change(function(){
+    var idx = $(this).data(&amp;quot;no&amp;quot;);
+    var fs = $(this).data(&amp;quot;f&amp;quot;);
+    var ts = $(this).data(&amp;quot;t&amp;quot;);
+    blocks[idx][&amp;quot;fs&amp;quot;] = fs;
+    blocks[idx][&amp;quot;ts&amp;quot;] = ts;
+  });
+  $(&amp;quot;input.fe:radio&amp;quot;).change(function(){
+    var idx = $(this).data(&amp;quot;no&amp;quot;);
+    var fe = $(this).data(&amp;quot;f&amp;quot;);
+    var te = $(this).data(&amp;quot;t&amp;quot;);
+    blocks[idx][&amp;quot;fe&amp;quot;] = fe;
+    blocks[idx][&amp;quot;te&amp;quot;] = te;
+  });
+});
+&amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;出力されるHTMLには謎の文字列（data url）が埋め込まれているので、ブラウザで開くと以下のような画面が出ます。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://kounoike.github.io/img/2015-10-19-html.png&#34; alt=&#34;2015-10-19-html&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;左の「CM」という列がこのブロックがCMとして検出されたことを示しています。「!!」ボタンを押すことでCM/本編を反転させることができます。
+ブロック分割が微妙にうまくいってなくて開始/終了がずれてるなー、という場合は、右のラジオボタンから適当なフレームを選択することで
+そこを開始/終了にすることもできます。&lt;/p&gt;
+
+&lt;p&gt;画面には映っていませんが、下の方に「生成」ボタンがあり、押すとAvidemuxのPYファイル（名残り）とffmpegを呼び出しまくるシェルスクリプト（本命）が
+テキストエリアに出力されます。&lt;/p&gt;
+
+&lt;p&gt;ファイルシステムに保存したりする機能は無いので、適当にコピペしてやることで、自分で修正したブロックが本編として残ったTSファイルを得ることができます。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Azkabanでエラーメール</title>
+      <link>https://kounoike.github.io/posts/2015-10-04-azkaban-mail/</link>
+      <pubDate>Sun, 04 Oct 2015 22:06:26 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-04-azkaban-mail/</guid>
+      <description>&lt;p&gt;Azkabanでエラーがあったときにメールするようにしよう、と思ったらGmailの587ポート接続に対応していない。パッチを当てて再ビルドしよう。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/azkaban/azkaban/pull/395.patch&#34;&gt;PR #395のパッチ&lt;/a&gt;を当ててもう一度ビルド、出来上がったjarをazakabanのlib/に置いて再起動すれば
+mail.portの設定が使えるようになるので、Gmailでも使えるようになる。&lt;/p&gt;
+
+&lt;p&gt;しかし、これが本体に取り込まれる気配がないという。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)</title>
+      <link>https://kounoike.github.io/posts/2015-10-04-azkaban-for-chinachu-job/</link>
+      <pubDate>Sun, 04 Oct 2015 00:36:13 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-04-azkaban-for-chinachu-job/</guid>
+      <description>
+
+&lt;p&gt;Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
+まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
+エンコードオプションは、&lt;a href=&#34;http://d.hatena.ne.jp/munepi/20091227/1261941397&#34;&gt;ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた&lt;/a&gt;を参考に設定。&lt;/p&gt;
+
+&lt;h1 id=&#34;準備&#34;&gt;準備&lt;/h1&gt;
+
+&lt;p&gt;ジョブフローのアップロードにzipファイルの作成が必要なので、インストールしておく。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install zip
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ffmpegのプリセットを、/home/chinachu/chinachu/usr/share/ffmpeg/にlibx264-hq-ts.ffpresetの名前で置いておく。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;level=41
+crf=25
+coder=1
+flags=+loop
+cmp=+chroma
+partitions=+parti8x8+parti4x4+partp8x8+partb8x8
+me_method=umh
+subq=7
+me_range=16
+g=250
+keyint_min=25
+sc_threshold=40
+i_qfactor=0.71
+b_strategy=1
+qmin=10
+rc_eq=&#39;blurCplx^(1-qComp)&#39;
+bf=16
+bidir_refine=1
+refs=6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;deblockalpha, deblockbetaは設定しているとエラーになったので外した。&lt;/p&gt;
+
+&lt;h1 id=&#34;作成するジョブのイメージ&#34;&gt;作成するジョブのイメージ&lt;/h1&gt;
+
+&lt;h2 id=&#34;shared-properties-gr-properties&#34;&gt;shared.properties, gr.properties&lt;/h2&gt;
+
+&lt;p&gt;shared.propertiesには共有する変数などを代入しておく。以下は地上波用の設定値が入っている&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ffmpeg=/home/chinachu/chinachu/usr/bin/ffmpeg
+threads=2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gr.propertiesとして、地上波用エンコード設定値を入れておく。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;preset=libx264-hq-ts
+size=640x480
+rate=30000/1001
+aspect=16:9
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;encode-job&#34;&gt;encode.job&lt;/h2&gt;
+
+&lt;p&gt;エンコードを行うジョブ。テンポラリディレクトリでエンコードを行い、完了後にmvする。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type=command
+command=${ffmpeg} -y -i &amp;quot;${m2ts}&amp;quot; -v 0 -f mp4 -vcodec libx264 -vpre ${preset} -r ${rate} -aspect ${aspect} -s ${size} -bufsize 20000k -maxrate 25000k -acodec libfdk_aac -ac 2 -ar 48000 -ab 128k -threads ${threads} &amp;quot;${encodingmp4}&amp;quot;
+command.1=mv -f ${encodingmp4} ${encodedmp4}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;files-properties&#34;&gt;files.properties&lt;/h2&gt;
+
+&lt;p&gt;ファイル名を入れておく。シェルスクリプトでこのファイルだけを番組ごとに変える。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;m2ts=/path/to/recoreded.m2ts
+encodingmp4=/tmp/path/to/encoding.mp4
+encodedmp4=/another/path/to/encoded.mp4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;create-job-sh&#34;&gt;create_job.sh&lt;/h2&gt;
+
+&lt;p&gt;ジョブのzipファイルを作成し、アップロード・実行開始を指示するシェルスクリプト。
+recordedCommandから呼び出す前提で作っておくので、引数としてm2tsのファイル名・番組ID・チャンネルIDを渡すことにする。&lt;/p&gt;
+
+&lt;p&gt;TODO: チャンネルIDから放送波を見てエンコード設定を切り替える。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/bash
+
+JQ=/home/chinachu/chinachu-scripts/jq-linux64
+
+tmpldir=$(dirname $0)/job_tmpl
+jobsdir=$(dirname $0)/jobs
+
+m2ts=$1
+mp4=$(basename &amp;quot;${1%.*}&amp;quot;).mp4
+
+program_id=$2
+ch_id=$3
+
+encodingmp4=/video/encoding/$mp4
+encodedmp4=/video/mp4/$mp4
+
+tmpdir=/tmp/$program_id
+
+mkdir $tmpdir
+cd $tmpldir
+cp gr.properties shared.properties encode.job $tmpdir/
+cd $tmpdir
+
+cat &amp;lt;&amp;lt; EOS | native2ascii &amp;gt; files.properties
+# files.properties
+m2ts=${m2ts}
+encodingmp4=${encodingmp4}
+encodedmp4=${encodedmp4}
+EOS
+
+zip ${program_id}.zip *.properties *.job
+
+# login
+curl -o login.json -k -X POST --data &amp;quot;action=login&amp;amp;username=azkaban&amp;amp;password=azkaban&amp;quot; http://localhost:8081
+
+session_id=$($JQ -r &#39;.[&amp;quot;session.id&amp;quot;]&#39; login.json)
+if [ -z &amp;quot;$session_id&amp;quot; ] ; then
+  echo $($JQ -r &#39;.[&amp;quot;error&amp;quot;]&#39; login.json)
+  exit 1
+fi
+
+# Create project
+curl -k -o project.json -X POST --data &amp;quot;session.id=${session_id}&amp;amp;name=${program_id}&amp;amp;description=encode+${mp4}&amp;quot; http://localhost:8081/manager?action=create
+
+# Upload Project Zip
+curl -k -o upload.json -i -H &amp;quot;Content-Type: multipart/mixed&amp;quot; -X POST --form &amp;quot;session.id=${session_id}&amp;quot; --form &#39;ajax=upload&#39; --form &amp;quot;file=@${program_id}.zip;type=application/zip&amp;quot; --form &amp;quot;project=${program_id}&amp;quot; http://localhost:8081/manager
+
+# Fetch Flows of a Project
+curl -k -o flow.json --get --data &amp;quot;session.id=${session_id}&amp;amp;project=${program_id}&amp;amp;ajax=fetchprojectflows&amp;quot; http://localhost:8081/manager
+
+# Execute Flows
+for flowId in $($JQ -r &#39;.[&amp;quot;flows&amp;quot;][0][&amp;quot;flowId&amp;quot;]&#39; flow.json); do
+  echo &amp;quot;Execute ${flowId}&amp;quot;
+  curl -k -o ${flowId}.json --get --data &amp;quot;session.id=${session_id}&amp;amp;ajax=executeFlow&amp;amp;project=${program_id}&amp;amp;flow=${flowId}&amp;quot; http://localhost:8081/executor
+  $JQ -r &#39;.execid&#39; ${flowId}.json &amp;gt; ${jobsdir}/${flowId}
+done
+
+cd /
+rm -rf $tmpdir
+
+# お片づけ
+for f in ${jobsdir}/*; do
+  execid=$(cat $f)
+  status=$(curl -k --data &amp;quot;session.id=${session_id}&amp;amp;ajax=fetchexecflow&amp;amp;execid=${execid}&amp;quot; http://localhost:8081/executor | $JQ -r &#39;.status&#39;)
+  if [ &amp;quot;$status&amp;quot; -eq &amp;quot;SUCCEEDED&amp;quot; ]; then
+    proj=$(curl -k --data &amp;quot;session.id=${session_id}&amp;amp;ajax=fetchexecflow&amp;amp;execid=${execid}&amp;quot; http://localhost:8081/executor | $JQ -r &#39;.project&#39;)
+    curl -k --data &amp;quot;session.id=${session_id}&amp;amp;delete=true&amp;amp;project=${proj}&amp;quot; http://localhost:8081/manager
+    rm -f $f
+  fi
+done
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)</title>
+      <link>https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/</link>
+      <pubDate>Sat, 03 Oct 2015 20:14:58 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://azkaban.github.io/&#34;&gt;Azkaban&lt;/a&gt;というジョブ管理ツールがあります。
+今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
+recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
+Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
+非力なCPUですので、同時実行の制御は非常に重要です。&lt;/p&gt;
+
+&lt;h1 id=&#34;azkaban-のインストール&#34;&gt;Azkaban のインストール&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://azkaban.github.io/downloads.html&#34;&gt;Azkaban ダウンロードページ&lt;/a&gt; には 2.5.0 までしか無いですが、
+&lt;a href=&#34;https://github.com/azkaban/azkaban&#34;&gt;GitHub&lt;/a&gt; の Releases には 2.7.0 までがあります。
+したがって、自前でビルドすることにします。しかし、2.7.0はうまく動かないので、2.6.4をビルドします。&lt;/p&gt;
+
+&lt;p&gt;環境はいつもの Ubuntu Server LTS 14.04.3 です。&lt;/p&gt;
+
+&lt;h2 id=&#34;事前準備&#34;&gt;事前準備&lt;/h2&gt;
+
+&lt;p&gt;Java がいるのでOracle JDKを入れます。Ubuntu への入れ方は適当にぐぐって調べてください。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;2.6.4のtar.gzをダウンロード&lt;/li&gt;
+&lt;li&gt;展開＆cd&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;までやったとします。&lt;/p&gt;
+
+&lt;h2 id=&#34;azkaban-solo-server-のビルド&#34;&gt;Azkaban Solo Server のビルド&lt;/h2&gt;
+
+&lt;p&gt;今回は MySQLとかたっていないので、Javaの内蔵DBである H2 DBを使ってみます。
+更にWebUI のサーバと実行用サーバの2つが一緒になっている Solo Server というものでやってみます。&lt;/p&gt;
+
+&lt;p&gt;ビルドシステムも Ant から Gradle に変わっています。良く分からないのですが、以下の手順でいけるようです。&lt;/p&gt;
+
+&lt;h3 id=&#34;ビルド&#34;&gt;ビルド&lt;/h3&gt;
+
+&lt;p&gt;soloserver の配布用 tar をビルドします。
+なんかpythonジョブのテストに失敗するので、テストをスキップします。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ./gradlew soloserverDistTar -x test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;なんか注意が出てますけどとりあえずビルドは出来ました。build/distributionsにazkaban-solo-server-2.6.4.tar.gzが出来ています。&lt;/p&gt;
+
+&lt;h2 id=&#34;展開-テスト実行&#34;&gt;展開＆テスト実行&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$ tar zxvf build/distributions/azkaban-solo-server-2.6.4.tar.gz &amp;amp;&amp;amp; sudo cp -R azkaban-solo-server-2.6.4 /opt/azkaban-solo-server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;念のため設定系は一般ユーザから読めないようにしておきましょう。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ chmod og-r /opt/azkaban-solo-server/conf/*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;テスト実行してみます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd /opt/azkaban-solo-server
+$ sudo ./bin/azkaban-solo-start.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;バックグラウンドで色々微妙なログが流れますが、何か起動したっぽいです。&lt;/p&gt;
+
+&lt;h2 id=&#34;ufw-ファイアウォール-の設定&#34;&gt;ufw（ファイアウォール）の設定&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ufw allow 8081/tcp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ufwでファイアウォールを管理している場合は8081/tcpを空けます。&lt;/p&gt;
+
+&lt;p&gt;ポート8081にブラウザで接続して、何か見えるようでしたら、動作確認できたということで、もうちょっと設定をしていきます。
+azkaban-solo-shutdown.shで停止します。&lt;/p&gt;
+
+&lt;h1 id=&#34;設定&#34;&gt;設定&lt;/h1&gt;
+
+&lt;h2 id=&#34;conf-azkaban-users-xml&#34;&gt;conf/azkaban-users.xml&lt;/h2&gt;
+
+&lt;p&gt;てきとーにユーザ・パスワードを設定します。エンコード用にユーザchinachuを追加。&lt;/p&gt;
+
+&lt;h2 id=&#34;conf-azkaban-properties&#34;&gt;conf/azkaban.properties&lt;/h2&gt;
+
+&lt;p&gt;サーバの名前とタイムゾーンくらいは設定しておきましょう。重要なこととして、並列実行されるジョブを1つだけに制限しておきます。
+（executor.flow.threadsとflow.num.job.threadsのどっちが利くかわかってない。後者だけだと同時実行されちゃったので多分前者かな）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Azkaban Personalization Settings
+azkaban.name=pt3rec
+azkaban.label=My PT3REC Azkaban
+azkaban.color=#FF3601
+default.timezone.id=Asia/Tokyo
+
+executor.flow.threads=1
+
+flow.num.job.threads=1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ユーザ&#34;&gt;ユーザ&lt;/h2&gt;
+
+&lt;p&gt;なんか一般ユーザで実行させるっぽいので適当に作る。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo useradd -s /bin/false -d /opt/azkaban-solo-server azkaban
+$ sudo chown -R azkaban:azkaban /opt/azkaban-solo-server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;etc-init-azkaban-solo-conf&#34;&gt;/etc/init/azkaban-solo.conf&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-/etc/init/azkaban-solo.conf&#34;&gt;description &amp;quot;Azkaban Solo Server&amp;quot;
+author &amp;quot;KOUNOIKE Yuusuke &amp;lt;kounoike.yuusuke@gmail.com&amp;gt;&amp;quot;
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+setuid azkaban
+setgid azkaban
+
+chdir /opt/azkaban-solo-server
+
+script
+echo $$ &amp;gt; /var/run/azkaban-solo/azkaban-solo.pid
+
+azkaban_dir=/opt/azkaban-solo-server
+tmpdir=/tmp
+
+for file in $azkaban_dir/lib/*.jar;
+do
+  CLASSPATH=$CLASSPATH:$file
+done
+
+for file in $azkaban_dir/extlib/*.jar;
+do
+  CLASSPATH=$CLASSPATH:$file
+done
+
+for file in $azkaban_dir/plugins/*/*.jar;
+do
+  CLASSPATH=$CLASSPATH:$file
+done
+
+if [ &amp;quot;$HADOOP_HOME&amp;quot; != &amp;quot;&amp;quot; ]; then
+        echo &amp;quot;Using Hadoop from $HADOOP_HOME&amp;quot;
+        CLASSPATH=$CLASSPATH:$HADOOP_HOME/conf:$HADOOP_HOME/*
+        JAVA_LIB_PATH=&amp;quot;-Djava.library.path=$HADOOP_HOME/lib/native/Linux-amd64-64&amp;quot;
+fi
+
+if [ &amp;quot;$HIVE_HOME&amp;quot; != &amp;quot;&amp;quot; ]; then
+        echo &amp;quot;Using Hive from $HIVE_HOME&amp;quot;
+        CLASSPATH=$CLASSPATH:$HIVE_HOME/conf:$HIVE_HOME/lib/*
+fi
+
+echo $azkaban_dir;
+echo $CLASSPATH;
+
+executorport=`cat $azkaban_dir/conf/azkaban.properties | grep executor.port | cut -d = -f 2`
+serverpath=/opt/azkaban-solo-server
+
+if [ -z $AZKABAN_OPTS ]; then
+  AZKABAN_OPTS=-Xmx3G
+fi
+AZKABAN_OPTS=&amp;quot;$AZKABAN_OPTS -server -Dcom.sun.management.jmxremote -Djava.io.tmpdir=$tmpdir -Dexecutorport=$executorport -Dserverpath=$serverpath&amp;quot;
+
+java $AZKABAN_OPTS -cp $CLASSPATH azkaban.soloserver.AzkabanSingleServer -conf $azkaban_dir/conf &amp;gt;&amp;gt; /var/log/azkaban-solo/azkaban-solo.log 2&amp;gt;&amp;amp;1
+end script
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo mkdir /var/run/azkaban-solo /var/log/azkaban-solo
+$ sudo chown azkaban:azkaban /var/run/azkaban-solo /var/log/azkaban-solo
+$ sudo initctl reload-configuration
+$ sudo start azkaban-solo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Upstartよくわかんない。&lt;/p&gt;
+
+&lt;p&gt;ジョブ作成編に続く。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hugoのshortcodesでnicovideoの埋め込みを簡単にする</title>
+      <link>https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/</link>
+      <pubDate>Sat, 26 Sep 2015 00:53:15 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/</guid>
+      <description>
+
+&lt;p&gt;Hugoには&lt;a href=&#34;https://gohugo.io/extras/shortcodes/&#34;&gt;shortcodes&lt;/a&gt;という仕組みで、カスタムタグみたいなことを実現できるみたいです。
+そこで、ニコニコ動画の動画サムネイルやプレイヤーの埋め込みを行うshortcodesを書いてみました。&lt;/p&gt;
+
+&lt;h1 id=&#34;動画サムネイル&#34;&gt;動画サムネイル&lt;/h1&gt;
+
+&lt;p&gt;layouts/shortcodes/nicovideo.htmlとして、以下をおきます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe width=&amp;quot;312&amp;quot; height=&amp;quot;200&amp;quot; src=&amp;quot;http://ext.nicovideo.jp/thumb/{{ .Get 0 }}&amp;quot; scrolling=&amp;quot;no&amp;quot; style=&amp;quot;border:solid 1px #CCC;&amp;quot; frameborder=&amp;quot;0&amp;quot;&amp;gt;
+&amp;lt;/iframe&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;記事のMarkdownでは以下のように書きます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;｛｛&amp;lt;nicovideo sm9 &amp;gt;｝｝
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;・・・code fenceの中でさえshortcodesの置き換えが利いちゃうので、全角｛を半角に書き換えてください。&lt;/p&gt;
+
+&lt;p&gt;こうなります。
+&lt;iframe width=&#34;312&#34; height=&#34;200&#34; src=&#34;http://ext.nicovideo.jp/thumb/sm9&#34; scrolling=&#34;no&#34; style=&#34;border:solid 1px #CCC;&#34; frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&#34;動画プレイヤー&#34;&gt;動画プレイヤー&lt;/h1&gt;
+
+&lt;p&gt;同じnicovideoにして、ifで分岐させようと思ったのですが、色々やってもうまくいかなかったので別の名前のshortcodesにしちゃいました。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;{{ $sm := .Get 0 }}
+{{ $url := printf &amp;quot;http://api.ce.nicovideo.jp/nicoapi/v1/video.info?v=%s&amp;amp;__format=json&amp;quot; $sm }}
+{{ $dataJ := getJSON $url }}
+{{ $title := $dataJ.nicovideo_video_response.video.title }}
+&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;http://ext.nicovideo.jp/thumb_watch/{{ $sm }}?w=490&amp;amp;amp;h=307&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;noscript&amp;gt;&amp;lt;a href=&amp;quot;http://www.nicovideo.jp/watch/{{ $sm }}&amp;quot;&amp;gt;{{ $title }}&amp;lt;/a&amp;gt;&amp;lt;/noscript&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使い方はこう。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;｛｛&amp;lt;nicovideoplayer sm9 &amp;gt;｝｝
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こうなります。
+
+
+
+
+&lt;script type=&#34;text/javascript&#34; src=&#34;http://ext.nicovideo.jp/thumb_watch/sm9?w=490&amp;amp;h=307&#34;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;a href=&#34;http://www.nicovideo.jp/watch/sm9&#34;&gt;新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師&lt;/a&gt;&lt;/noscript&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hugoを入れてみた</title>
+      <link>https://kounoike.github.io/posts/2015-09-25-hugo/</link>
+      <pubDate>Fri, 25 Sep 2015 22:02:31 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-25-hugo/</guid>
+      <description>&lt;p&gt;GitHub PagesはJekyllで作っていたのだが、なんとなくHugoに入れ替えてみたのでテスト。&lt;/p&gt;
+
+&lt;p&gt;Syntax highlightはqiitaとかで使えるのに比べて少ないような。&lt;a href=&#34;https://highlightjs.org/static/demo/&#34;&gt;https://highlightjs.org/static/demo/&lt;/a&gt; にあるものだけ。
+shell-sessionが無いのがつらい。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import sys
+
+print sys.argv[1]
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>TAS</title>
+      <link>https://kounoike.github.io/links/TAS/</link>
+      <pubDate>Fri, 25 Sep 2015 14:31:07 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/links/TAS/</guid>
+      <description>&lt;p&gt;&lt;iframe width=&#34;312&#34; height=&#34;200&#34; src=&#34;http://ext.nicovideo.jp/thumb/sm23280135&#34; scrolling=&#34;no&#34; style=&#34;border:solid 1px #CCC;&#34; frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+
+&lt;iframe width=&#34;312&#34; height=&#34;200&#34; src=&#34;http://ext.nicovideo.jp/thumb/sm24571384&#34; scrolling=&#34;no&#34; style=&#34;border:solid 1px #CCC;&#34; frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+
+&lt;iframe width=&#34;312&#34; height=&#34;200&#34; src=&#34;http://ext.nicovideo.jp/thumb/sm16498187&#34; scrolling=&#34;no&#34; style=&#34;border:solid 1px #CCC;&#34; frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+
+&lt;iframe width=&#34;312&#34; height=&#34;200&#34; src=&#34;http://ext.nicovideo.jp/thumb/sm22990748&#34; scrolling=&#34;no&#34; style=&#34;border:solid 1px #CCC;&#34; frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+
+
+
+&lt;script type=&#34;text/javascript&#34; src=&#34;http://ext.nicovideo.jp/thumb_watch/sm23280135?w=490&amp;amp;h=307&#34;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;a href=&#34;http://www.nicovideo.jp/watch/sm23280135&#34;&gt;【TAS】えあふり　観鈴ちん危機一髪　ノーマルモードハード観鈴 in 20:41.60&lt;/a&gt;&lt;/noscript&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>chinachu と ttytter で Twitter に録画投稿</title>
+      <link>https://kounoike.github.io/posts/2015-09-25-chinachu-ttytter/</link>
+      <pubDate>Fri, 25 Sep 2015 14:27:40 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-25-chinachu-ttytter/</guid>
+      <description>
+
+&lt;h1 id=&#34;やること&#34;&gt;やること&lt;/h1&gt;
+
+&lt;p&gt;recordedCommand で Twitter に録画終了を投稿する。&lt;/p&gt;
+
+&lt;h1 id=&#34;前提&#34;&gt;前提&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://kounoike.github.io/posts/2015-09-23-ttytter/&#34;&gt;ttytterのセットアップ&lt;/a&gt; が出来ていること&lt;/li&gt;
+&lt;li&gt;chinachu がセットアップできていること&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://stedolan.github.io/jq/&#34;&gt;jq&lt;/a&gt; を落としてきてあること&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;chinachu-の設定&#34;&gt;chinachu の設定&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;  &amp;quot;recordedCommand&amp;quot;: &amp;quot;/home/chinachu/chinachu-scripts/recorded.sh&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;を一行書きましょう。もちろん、recorded.shは&lt;code&gt;chmod +x&lt;/code&gt;しておきます。&lt;/p&gt;
+
+&lt;h1 id=&#34;recorded-sh&#34;&gt;recorded.sh&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/bash
+
+RECORDED=$1
+PROGRAM_JSON=$2
+JQ=$(dirname $0)/jq-linux64
+
+MSG=$(echo &amp;quot;$PROGRAM_JSON&amp;quot; | $JQ -r &#39;&amp;quot;ID:&amp;quot; + .id + &amp;quot; &amp;quot; + .channel.name + &amp;quot;で「&amp;quot; + .title + &amp;quot;」の録画を終了しました&amp;quot;&#39;)
+
+ttytter -ssl -status=&amp;quot;$MSG&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;はい、簡単ですね。ドキュメントの無いoperTweeterを設定するよりも簡単かと。
+コマンドラインのメール送信ツールとして、heirloom-mailxとかを入れていればメール送信することも簡単です。&lt;/p&gt;
+
+&lt;p&gt;しかし、録画準備・録画開始はTweeterフックがあって、終了だけスクリプト実行フックがあるという、今の実装は何か意図があってのものなのでしょうかね。
+いっそのこと、全部スクリプトフックでいいんじゃないかということで、&lt;a href=&#34;https://github.com/kanreisa/Chinachu/pull/214&#34;&gt;#214&lt;/a&gt;を出してます。
+&amp;ldquo;under review&amp;rdquo; になっているので、そのうちマージされるのではないでしょうか。&lt;/p&gt;
+
+&lt;p&gt;ちなみにうちではこのパッチを当てたchinachuを動かしているので、準備・開始・終了でフックが走るようになっています。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>https://kounoike.github.io/about/</link>
+      <pubDate>Fri, 25 Sep 2015 14:11:09 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/about/</guid>
+      <description>
+
+&lt;h2 id=&#34;ヘッダ&#34;&gt;ヘッダ&lt;/h2&gt;
+
+&lt;p&gt;コンテンツ&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ttytterのセットアップ</title>
+      <link>https://kounoike.github.io/posts/2015-09-23-ttytter/</link>
+      <pubDate>Wed, 23 Sep 2015 00:00:00 +0000</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-23-ttytter/</guid>
+      <description>
+
+&lt;h1 id=&#34;何それ&#34;&gt;何それ&lt;/h1&gt;
+
+&lt;p&gt;コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。&lt;/p&gt;
+
+&lt;h1 id=&#34;インストール&#34;&gt;インストール&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install ttytter
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;初期設定&#34;&gt;初期設定&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://qiita.com/kamayaplus/items/ba6dbe4cd3a335bf60ba&#34;&gt;TTYtterを使ったったー&lt;/a&gt; などの記事もあるので簡単に。&lt;/p&gt;
+
+&lt;h2 id=&#34;初回起動&#34;&gt;初回起動&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ttytter
+trying to find cURL ... /usr/bin/curl
+-- Streaming API disabled (no -dostream) (TTYtter will use REST API only)
+-- no version check performed (use /vcheck, or -vcheck to check on startup)
+
++----------------------------------------------------------------------------+
+|| WELCOME TO TTYtter: Authorize TTYtter by signing into Twitter with OAuth ||
++----------------------------------------------------------------------------+
+Looks like you&#39;re starting TTYtter for the first time, and/or creating a
+keyfile. Welcome to the most user-hostile, highly obfuscated, spaghetti code
+infested and obscenely obscure Twitter client that&#39;s out there. You&#39;ll love it.
+
+TTYtter generates a keyfile that contains credentials for you, including your
+access tokens. This needs to be done JUST ONCE. You can take this keyfile with
+you to other systems. If you revoke TTYtter&#39;s access, you must remove the
+keyfile and start again with a new token. You need to do this once per account
+you use with TTYtter; only one account token can be stored per keyfile. If you
+have multiple accounts, use -keyf=... to specify different keyfiles. KEEP THESE
+FILES SECRET.
+
+** This wizard will overwrite /home/chinachu/.ttytterkey
+Press RETURN/ENTER to continue or CTRL-C NOW! to abort.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;初回起動で、~/.ttytterkeyを書き込むよ、と言っているようだ。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Request from http://api.twitter.com/oauth/request_token ...... FAILED!: &amp;quot;SSL is required
+&amp;quot;
+unable to fetch token. here are some possible reasons:
+ - root certificates are not updated (see documentation)
+ - you entered your authentication information wrong
+ - your computer&#39;s clock is not set correctly
+ - Twitter farted
+fix these possible problems, or try again later.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;・・・ダメじゃん。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo update-ca-certificates
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こんな感じか・・・というのは関係なく、ttytterに-sslオプションを付ければ良いだけだったかもしれない。（CAのアップデートが効いたのかもしれない）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ttytter -ssl
+-- using SSL for default URLs.
+trying to find cURL ... /usr/bin/curl
+-- Streaming API disabled (no -dostream) (TTYtter will use REST API only)
+-- no version check performed (use /vcheck, or -vcheck to check on startup)
+
++----------------------------------------------------------------------------+
+|| WELCOME TO TTYtter: Authorize TTYtter by signing into Twitter with OAuth ||
++----------------------------------------------------------------------------+
+Looks like you&#39;re starting TTYtter for the first time, and/or creating a
+keyfile. Welcome to the most user-hostile, highly obfuscated, spaghetti code
+infested and obscenely obscure Twitter client that&#39;s out there. You&#39;ll love it.
+
+TTYtter generates a keyfile that contains credentials for you, including your
+access tokens. This needs to be done JUST ONCE. You can take this keyfile with
+you to other systems. If you revoke TTYtter&#39;s access, you must remove the
+keyfile and start again with a new token. You need to do this once per account
+you use with TTYtter; only one account token can be stored per keyfile. If you
+have multiple accounts, use -keyf=... to specify different keyfiles. KEEP THESE
+FILES SECRET.
+
+** This wizard will overwrite /home/chinachu/.ttytterkey
+Press RETURN/ENTER to continue or CTRL-C NOW! to abort.
+
+
+Request from https://api.twitter.com/oauth/request_token ... SUCCEEDED!
+
+1. Visit, in your browser, ALL ON ONE LINE,
+
+https://api.twitter.com/oauth/authorize?oauth_token=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+2. If you are not already signed in, fill in your username and password.
+
+3. Verify that TTYtter is the requesting application, and that its permissions
+are as you expect (read your timeline, see who you follow and follow new
+people, update your profile, post tweets on your behalf and access your
+direct messages). IF THIS IS NOT CORRECT, PRESS CTRL-C NOW!
+
+4. Click Authorize app.
+
+5. A PIN will appear. Enter it below.
+
+Enter PIN&amp;gt; XXXXXXX
+
+Request from https://api.twitter.com/oauth/access_token ... SUCCEEDED!
+Written keyfile /home/chinachu/.ttytterkey
+
+Now, restart TTYtter to use this keyfile.
+(To choose between multiple keyfiles other than the default .ttytterkey,
+ tell TTYtter where the key is using -keyf=... .)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;途中の「Enter PIN」のところで止まっているので、1. に表示されている URL にブラウザでアクセスしてTwitter連携認証を取る。そのときにPINコードが表示されるので、ttytterに入力してやれば良い。
+これで、~/.ttytterkeyが出来上がる。&lt;/p&gt;
+
+&lt;h2 id=&#34;使い方&#34;&gt;使い方&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;ttytter -ssl&lt;/code&gt; でタイムラインの取得が可能。&lt;code&gt;ttytter -ssl -status=&amp;quot;メッセージ&amp;quot;&lt;/code&gt; で「メッセージ」と投稿することが可能。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>waqwaqproject2</title>
+      <link>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</link>
+      <pubDate>Mon, 22 Sep 2014 00:00:00 +0000</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/next49/20140916/p1&#34;&gt;next49さんのリクエスト&lt;/a&gt;に応じてスクリプトを改造してみた。ちょっと一つのCSVにまとめたりencodingの指定したりとかで依存ライブラリが増えてしまったけれど。&lt;/p&gt;
+
+&lt;p&gt;確か、MS-Excelは普通にCSVを開くとShiftJISとして読み込んでしまうので、UTF-8を読み込ませるにはBOMを付ける必要があったはず。UTF-8が必要な執筆者がいなければ、ShiftJIS指定でもOKかと。&lt;/p&gt;
+
+&lt;p&gt;ポイントは過去データの取得制限で、ちょこっとHTMLのフォームを読んだ限りではWikiPedia（MediaWiki？）には「過去いついつから取得」という機能が無い様子。そこで、件数（get_limit）を指定してまとめて取得することにした。値は調整しながら運用で回避ということで。&lt;/p&gt;
+
+&lt;p&gt;あと、プロトタイプのExcel出力の狙いは主催者側よりも、執筆者側にあって、執筆者側が右肩上がりのグラフを見ることでモチベーションの向上につながるかなーと思って作ったものだったりする。なので、Excel出力の機能はあえて残している。&lt;/p&gt;
+
+&lt;p&gt;{% gist d73b798384195bd893d5 %}&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

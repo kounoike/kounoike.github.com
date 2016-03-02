@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    Airflowのインストールメモ // Kounoike&#39;s GitHub Pages
+  </title>
+
+  <script type="text/javascript">
+    if(location.protocol == 'http:') {
+      location.replace(location.href.replace(/http:/, 'https:/'))
+    }
+  </script>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.14" />
+
+  <meta property="og:title" content="Airflowのインストールメモ" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://kounoike.github.io/posts/2015-10-27-install-airflow/" />
+
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="https://kounoike.github.io//css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://kounoike.github.io//css/custom.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Kounoike&#39;s GitHub Pages" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/rainbow.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', "UA-54218698-1", 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">こーのいけのGitHub Page</h1>
+    
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://kounoike.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts/">Blog</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/links/">Pages</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/kounoike" target="_blank"><i class='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.twitter.com/ko_noike" target="_blank"><i class='fa fa-twitter'></i></a>
+        
+      
+      
+    </div>
+    
+
+  <div class="tags">
+    <p>tags</p>
+    <ul class="tag-list">
+      
+      
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/airflow">airflow</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/azkaban">azkaban</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/chinachu">chinachu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/comskip">comskip</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ffmpeg">ffmpeg</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/github">github</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/hugo">hugo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/luigi">luigi</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/nicovideo">nicovideo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/pycon">pycon</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/python">python</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/rundeck">rundeck</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/tas">tas</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ttytter">ttytter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/twitter">twitter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ubuntu">ubuntu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/waqwaq">waqwaq</a></li>
+        
+      
+    </ul>
+  </div>
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    <div id="toc" class="pure-u-1 pure-u-md-1-4">
+				<small class="toc-label">Contents</small>
+		   	 	<nav id="TableOfContents">
+<ul>
+<li><a href="#インストール">インストール</a></li>
+<li><a href="#初回起動-db作成">初回起動（DB作成）</a></li>
+<li><a href="#起動-web-ui-ワーカー">起動（Web UI、ワーカー）</a></li>
+<li><a href="#登録されているジョブの実行">登録されているジョブの実行</a></li>
+<li><a href="#課題">課題</a></li>
+</ul>
+</nav>
+		    </div>
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="/posts/2015-10-27-install-airflow/">Airflowのインストールメモ</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	<span class="post-date">
+                	<span class="post-date-day"><sup>27</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Oct</span> <span class="post-date-year">2015</span>
+            	</span>
+            	
+            
+            	
+            
+
+			
+			
+
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f&title=Airflow%e3%81%ae%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%83%a1%e3%83%a2&summary=%3cp%3e%e3%81%aa%e3%82%93%e3%81%8b%3ca%20href%3d%22https%3a%2f%2ftwitter.com%2fwyukawa%2fstatus%2f658960252365336576%22%3e%e3%83%aa%e3%82%af%e3%82%a8%e3%82%b9%e3%83%88%3c%2fa%3e%e3%81%8c%e3%81%82%e3%81%a3%e3%81%9f%e3%82%88%e3%81%86%e3%81%aa%e3%81%ae%e3%81%a7%e3%80%81%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%83%a1%e3%83%a2%e3%82%92%e6%ae%8b%e3%81%97%e3%81%a6%e3%81%8a%e3%81%93%e3%81%86%e3%80%82%0a%e3%81%a4%e3%81%84%e3%81%a7%e3%81%ab%e7%92%b0%e5%a2%83%e3%82%82%e6%ae%8b%e3%81%97%e3%81%a6%e3%81%8a%e3%81%84%e3%81%a6%e3%81%84%e3%81%a4%e3%81%a7%e3%82%82%e8%b5%b7%e5%8b%95%e3%81%a7%e3%81%8d%e3%82%8b%e3%82%88%e3%81%86%e3%81%ab%e3%81%97%e3%81%a6%e3%81%8a%e3%81%93%e3%81%86%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=Airflow%e3%81%ae%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%83%a1%e3%83%a2&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+
+            
+
+<p>なんか<a href="https://twitter.com/wyukawa/status/658960252365336576">リクエスト</a>があったようなので、インストールメモを残しておこう。
+ついでに環境も残しておいていつでも起動できるようにしておこう。</p>
+
+<h1 id="インストール">インストール</h1>
+
+<p>基本的には<code>pip install airflow</code>なんだけど、numpyのビルドをうだうだやった後になって「これ、&ndash;allow-externalがいるんだけど」なんて
+言ってくるので面倒（どういうときにallow-externalがいるのか知らないけど）。最終的な手順としては以下のとおり。</p>
+
+<pre><code>$ virtualenv env
+$ . env/bin/activate
+$ pip install --allow-external pygments pygments
+$ pip install --allow-external python-dateutil python-dateutil
+$ pip install --allow-external requests requests
+$ pip install --allow-external setproctitle setproctitle
+$ pip install airflow
+</code></pre>
+
+<p>virtualenvをactivateしたら最初にnumpyを入れるのもアリかもしれない。</p>
+
+<h1 id="初回起動-db作成">初回起動（DB作成）</h1>
+
+<pre><code>$ export AIRFLOW_HOME=~/python/airflow
+$ airflow initdb
+</code></pre>
+
+<h1 id="起動-web-ui-ワーカー">起動（Web UI、ワーカー）</h1>
+
+<pre><code>$ airflow webserver -p 8080
+</code></pre>
+
+<p>8080ポートにアクセスすると以下の画面が見える。</p>
+
+<p><img src="/img/2015-10-27-airflow.png" alt="2015-10-27-airflow.png" />
+</p>
+
+<h1 id="登録されているジョブの実行">登録されているジョブの実行</h1>
+
+<pre><code>$ cd ~/python/airflow
+$ . env/bin/activate
+$ export AIRFLOW_HOME=~/python/airflow
+$ airflow run example_bash_operator runme_0 2015-01-01
+Sending to executor.
+Logging into: /home/kounoike/python/airflow/logs/example_bash_operator/runme_0/2015-01-01T00:00:00
+</code></pre>
+
+<p>example_bash_operatorというDAGのrunme_0というジョブが実行される。</p>
+
+<h1 id="課題">課題</h1>
+
+<ul>
+<li>前提ジョブを含めて一通りのフローを実行するコマンドが分からないから、1個1個ジョブをrunする必要がある</li>
+<li>Web UIからジョブの実行をさせるにはCeleryを入れないといけないみたい</li>
+<li>認証のかけ方は？</li>
+<li>ジョブ・DAGの登録の仕方を調べていない</li>
+<li>スケジュール実行よりで（上も過去の時間を設定することで即時実行させている）イマイチ？</li>
+</ul>
+
+	
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f&title=Airflow%e3%81%ae%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%83%a1%e3%83%a2&summary=%3cp%3e%e3%81%aa%e3%82%93%e3%81%8b%3ca%20href%3d%22https%3a%2f%2ftwitter.com%2fwyukawa%2fstatus%2f658960252365336576%22%3e%e3%83%aa%e3%82%af%e3%82%a8%e3%82%b9%e3%83%88%3c%2fa%3e%e3%81%8c%e3%81%82%e3%81%a3%e3%81%9f%e3%82%88%e3%81%86%e3%81%aa%e3%81%ae%e3%81%a7%e3%80%81%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%83%a1%e3%83%a2%e3%82%92%e6%ae%8b%e3%81%97%e3%81%a6%e3%81%8a%e3%81%93%e3%81%86%e3%80%82%0a%e3%81%a4%e3%81%84%e3%81%a7%e3%81%ab%e7%92%b0%e5%a2%83%e3%82%82%e6%ae%8b%e3%81%97%e3%81%a6%e3%81%8a%e3%81%84%e3%81%a6%e3%81%84%e3%81%a4%e3%81%a7%e3%82%82%e8%b5%b7%e5%8b%95%e3%81%a7%e3%81%8d%e3%82%8b%e3%82%88%e3%81%86%e3%81%ab%e3%81%97%e3%81%a6%e3%81%8a%e3%81%93%e3%81%86%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=Airflow%e3%81%ae%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%83%a1%e3%83%a2&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-27-install-airflow%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-airflow" href="https://kounoike.github.io//tags/airflow">airflow</a>,
+	                
+	                <a class="post-tag post-tag-ubuntu" href="https://kounoike.github.io//tags/ubuntu">ubuntu</a>,
+	                
+				</div>
+			
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+					
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="/posts/2015-10-25-chinachu-upstart/">Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</a>
+		            </div>
+		            
+
+					
+					<div class="paging-older">
+						<span class="dark-red">Newer</span><span class="decorative-marker">//</span>
+			            <a class="paging-link" href="/posts/2016-03-03-chinachu-symlink/">エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</a>
+		            </div>
+		            
+	            </div>
+            
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2016. All rights reserved.</p>
+</div>
+    </div>
+  </div>
+	
+	
+		<script type="text/javascript">
+			function popupShare(url) {
+				window.open(url, '_blank', 'scrollbars,resizable,height=525,width=600');
+				return false;
+			}
+		</script>
+	
+
+  
+</body>
+</html>

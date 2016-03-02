@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Kounoike&#39;s GitHub Pages</title>
+    <link>https://kounoike.github.io/tags/hugo/</link>
+    <description>Recent content in Hugo on Kounoike&#39;s GitHub Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <managingEditor>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</managingEditor>
+    <webMaster>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</webMaster>
+    <lastBuildDate>Sat, 26 Sep 2015 00:53:15 +0900</lastBuildDate>
+    <atom:link href="https://kounoike.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Hugoのshortcodesでnicovideoの埋め込みを簡単にする</title>
+      <link>https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/</link>
+      <pubDate>Sat, 26 Sep 2015 00:53:15 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/</guid>
+      <description>
+
+&lt;p&gt;Hugoには&lt;a href=&#34;https://gohugo.io/extras/shortcodes/&#34;&gt;shortcodes&lt;/a&gt;という仕組みで、カスタムタグみたいなことを実現できるみたいです。
+そこで、ニコニコ動画の動画サムネイルやプレイヤーの埋め込みを行うshortcodesを書いてみました。&lt;/p&gt;
+
+&lt;h1 id=&#34;動画サムネイル&#34;&gt;動画サムネイル&lt;/h1&gt;
+
+&lt;p&gt;layouts/shortcodes/nicovideo.htmlとして、以下をおきます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe width=&amp;quot;312&amp;quot; height=&amp;quot;200&amp;quot; src=&amp;quot;http://ext.nicovideo.jp/thumb/{{ .Get 0 }}&amp;quot; scrolling=&amp;quot;no&amp;quot; style=&amp;quot;border:solid 1px #CCC;&amp;quot; frameborder=&amp;quot;0&amp;quot;&amp;gt;
+&amp;lt;/iframe&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;記事のMarkdownでは以下のように書きます。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;｛｛&amp;lt;nicovideo sm9 &amp;gt;｝｝
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;・・・code fenceの中でさえshortcodesの置き換えが利いちゃうので、全角｛を半角に書き換えてください。&lt;/p&gt;
+
+&lt;p&gt;こうなります。
+&lt;iframe width=&#34;312&#34; height=&#34;200&#34; src=&#34;http://ext.nicovideo.jp/thumb/sm9&#34; scrolling=&#34;no&#34; style=&#34;border:solid 1px #CCC;&#34; frameborder=&#34;0&#34;&gt;
+&lt;/iframe&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&#34;動画プレイヤー&#34;&gt;動画プレイヤー&lt;/h1&gt;
+
+&lt;p&gt;同じnicovideoにして、ifで分岐させようと思ったのですが、色々やってもうまくいかなかったので別の名前のshortcodesにしちゃいました。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;{{ $sm := .Get 0 }}
+{{ $url := printf &amp;quot;http://api.ce.nicovideo.jp/nicoapi/v1/video.info?v=%s&amp;amp;__format=json&amp;quot; $sm }}
+{{ $dataJ := getJSON $url }}
+{{ $title := $dataJ.nicovideo_video_response.video.title }}
+&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;http://ext.nicovideo.jp/thumb_watch/{{ $sm }}?w=490&amp;amp;amp;h=307&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;noscript&amp;gt;&amp;lt;a href=&amp;quot;http://www.nicovideo.jp/watch/{{ $sm }}&amp;quot;&amp;gt;{{ $title }}&amp;lt;/a&amp;gt;&amp;lt;/noscript&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使い方はこう。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;｛｛&amp;lt;nicovideoplayer sm9 &amp;gt;｝｝
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こうなります。
+
+
+
+
+&lt;script type=&#34;text/javascript&#34; src=&#34;http://ext.nicovideo.jp/thumb_watch/sm9?w=490&amp;amp;h=307&#34;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;a href=&#34;http://www.nicovideo.jp/watch/sm9&#34;&gt;新・豪血寺一族 -煩悩解放 - レッツゴー！陰陽師&lt;/a&gt;&lt;/noscript&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hugoを入れてみた</title>
+      <link>https://kounoike.github.io/posts/2015-09-25-hugo/</link>
+      <pubDate>Fri, 25 Sep 2015 22:02:31 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-25-hugo/</guid>
+      <description>&lt;p&gt;GitHub PagesはJekyllで作っていたのだが、なんとなくHugoに入れ替えてみたのでテスト。&lt;/p&gt;
+
+&lt;p&gt;Syntax highlightはqiitaとかで使えるのに比べて少ないような。&lt;a href=&#34;https://highlightjs.org/static/demo/&#34;&gt;https://highlightjs.org/static/demo/&lt;/a&gt; にあるものだけ。
+shell-sessionが無いのがつらい。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import sys
+
+print sys.argv[1]
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

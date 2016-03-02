@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編) // Kounoike&#39;s GitHub Pages
+  </title>
+
+  <script type="text/javascript">
+    if(location.protocol == 'http:') {
+      location.replace(location.href.replace(/http:/, 'https:/'))
+    }
+  </script>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.14" />
+
+  <meta property="og:title" content="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/" />
+
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="https://kounoike.github.io//css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://kounoike.github.io//css/custom.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Kounoike&#39;s GitHub Pages" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/rainbow.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', "UA-54218698-1", 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">こーのいけのGitHub Page</h1>
+    
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://kounoike.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts/">Blog</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/links/">Pages</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/kounoike" target="_blank"><i class='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.twitter.com/ko_noike" target="_blank"><i class='fa fa-twitter'></i></a>
+        
+      
+      
+    </div>
+    
+
+  <div class="tags">
+    <p>tags</p>
+    <ul class="tag-list">
+      
+      
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/airflow">airflow</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/azkaban">azkaban</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/chinachu">chinachu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/comskip">comskip</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ffmpeg">ffmpeg</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/github">github</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/hugo">hugo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/luigi">luigi</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/nicovideo">nicovideo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/pycon">pycon</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/python">python</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/rundeck">rundeck</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/tas">tas</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ttytter">ttytter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/twitter">twitter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ubuntu">ubuntu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/waqwaq">waqwaq</a></li>
+        
+      
+    </ul>
+  </div>
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    <div id="toc" class="pure-u-1 pure-u-md-1-4">
+				<small class="toc-label">Contents</small>
+		   	 	<nav id="TableOfContents">
+<ul>
+<li><a href="#azkaban-のインストール">Azkaban のインストール</a>
+<ul>
+<li><a href="#事前準備">事前準備</a></li>
+<li><a href="#azkaban-solo-server-のビルド">Azkaban Solo Server のビルド</a>
+<ul>
+<li><a href="#ビルド">ビルド</a></li>
+</ul></li>
+<li><a href="#展開-テスト実行">展開＆テスト実行</a></li>
+<li><a href="#ufw-ファイアウォール-の設定">ufw（ファイアウォール）の設定</a></li>
+</ul></li>
+<li><a href="#設定">設定</a>
+<ul>
+<li><a href="#conf-azkaban-users-xml">conf/azkaban-users.xml</a></li>
+<li><a href="#conf-azkaban-properties">conf/azkaban.properties</a></li>
+<li><a href="#ユーザ">ユーザ</a></li>
+<li><a href="#etc-init-azkaban-solo-conf">/etc/init/azkaban-solo.conf</a></li>
+</ul></li>
+</ul>
+</nav>
+		    </div>
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="/posts/2015-10-03-azkaban-for-chinachu/">Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	<span class="post-date">
+                	<span class="post-date-day"><sup>3</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Oct</span> <span class="post-date-year">2015</span>
+            	</span>
+            	
+            
+            	
+            
+
+			
+			
+
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f&title=Chinachu%e3%81%ae%e9%8c%b2%e7%94%bb%e5%be%8c%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%83%bbCM%e3%82%ab%e3%83%83%e3%83%88%e3%81%abAzkaban%e3%82%92%e5%85%a5%e3%82%8c%e3%81%a6%e3%82%b8%e3%83%a7%e3%83%96%e5%ae%9f%e8%a1%8c%e7%ae%a1%e7%90%86%e3%81%97%e3%81%a6%e3%81%bf%e3%82%8b%28Azkaban%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e7%b7%a8%29&summary=%3cp%3e%3ca%20href%3d%22http%3a%2f%2fazkaban.github.io%2f%22%3eAzkaban%3c%2fa%3e%e3%81%a8%e3%81%84%e3%81%86%e3%82%b8%e3%83%a7%e3%83%96%e7%ae%a1%e7%90%86%e3%83%84%e3%83%bc%e3%83%ab%e3%81%8c%e3%81%82%e3%82%8a%e3%81%be%e3%81%99%e3%80%82%0a%e4%bb%8a%e5%9b%9e%e3%81%af%e3%81%93%e3%82%8c%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6Chinachu%e3%81%ae%e9%8c%b2%e7%94%bb%e5%be%8c%e3%81%ab%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%83%bbCM%e6%a4%9c%e5%87%ba%e3%81%a8%e3%81%84%e3%81%a3%e3%81%9f%e3%82%b8%e3%83%a7%e3%83%96%e3%82%92%e6%8a%95%e3%81%92%e3%81%a6%e3%80%81%e3%82%b8%e3%83%a7%e3%83%96%e5%ae%9f%e8%a1%8c%e7%ae%a1%e7%90%86%e3%81%95%e3%81%9b%e3%81%a6%e3%81%bf%e3%81%be%e3%81%99%e3%80%82%0arecordedCommand%e3%81%a7%e7%9b%b4%e6%8e%a5%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%97%e3%81%9f%e5%a0%b4%e5%90%88%e3%81%ab%e3%81%af%e5%90%8c%e6%99%82%e5%ae%9f%e8%a1%8c%e3%81%95%e3%82%8c%e3%81%a6%e3%81%97%e3%81%be%e3%81%86%e3%81%a8%e3%81%84%e3%81%86%e5%95%8f%e9%a1%8c%e3%81%8c%e3%81%82%e3%82%8b%e3%81%ae%e3%81%a7%e3%80%81%0aAzkaban%e3%81%ab%e4%b8%a6%e5%88%97%e5%ae%9f%e8%a1%8c%e6%95%b0%e3%81%ae%e5%88%b6%e5%be%a1%e3%82%92%e3%82%84%e3%82%89%e3%81%9b%e3%81%a6%e3%81%bf%e3%82%8b%e3%81%93%e3%81%a8%e3%81%8c%e7%8b%99%e3%81%84%e3%81%a7%e3%81%99%e3%80%82%e3%81%aa%e3%82%93%e3%81%9b%e3%80%81J2900%e3%81%af30%e5%88%86%e3%81%ae%e7%95%aa%e7%b5%84%e3%81%ae%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab3%e6%99%82%e9%96%93%e3%82%82%e3%81%8b%e3%81%8b%e3%81%a3%e3%81%a6%e3%81%97%e3%81%be%e3%81%86%e3%82%88%e3%81%86%e3%81%aa%0a%e9%9d%9e%e5%8a%9b%e3%81%aaCPU%e3%81%a7%e3%81%99%e3%81%ae%e3%81%a7%e3%80%81%e5%90%8c%e6%99%82%e5%ae%9f%e8%a1%8c%e3%81%ae%e5%88%b6%e5%be%a1%e3%81%af%e9%9d%9e%e5%b8%b8%e3%81%ab%e9%87%8d%e8%a6%81%e3%81%a7%e3%81%99%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=Chinachu%e3%81%ae%e9%8c%b2%e7%94%bb%e5%be%8c%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%83%bbCM%e3%82%ab%e3%83%83%e3%83%88%e3%81%abAzkaban%e3%82%92%e5%85%a5%e3%82%8c%e3%81%a6%e3%82%b8%e3%83%a7%e3%83%96%e5%ae%9f%e8%a1%8c%e7%ae%a1%e7%90%86%e3%81%97%e3%81%a6%e3%81%bf%e3%82%8b%28Azkaban%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e7%b7%a8%29&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+
+            
+
+<p><a href="http://azkaban.github.io/">Azkaban</a>というジョブ管理ツールがあります。
+今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
+recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
+Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
+非力なCPUですので、同時実行の制御は非常に重要です。</p>
+
+<h1 id="azkaban-のインストール">Azkaban のインストール</h1>
+
+<p><a href="http://azkaban.github.io/downloads.html">Azkaban ダウンロードページ</a> には 2.5.0 までしか無いですが、
+<a href="https://github.com/azkaban/azkaban">GitHub</a> の Releases には 2.7.0 までがあります。
+したがって、自前でビルドすることにします。しかし、2.7.0はうまく動かないので、2.6.4をビルドします。</p>
+
+<p>環境はいつもの Ubuntu Server LTS 14.04.3 です。</p>
+
+<h2 id="事前準備">事前準備</h2>
+
+<p>Java がいるのでOracle JDKを入れます。Ubuntu への入れ方は適当にぐぐって調べてください。</p>
+
+<ul>
+<li>2.6.4のtar.gzをダウンロード</li>
+<li>展開＆cd</li>
+</ul>
+
+<p>までやったとします。</p>
+
+<h2 id="azkaban-solo-server-のビルド">Azkaban Solo Server のビルド</h2>
+
+<p>今回は MySQLとかたっていないので、Javaの内蔵DBである H2 DBを使ってみます。
+更にWebUI のサーバと実行用サーバの2つが一緒になっている Solo Server というものでやってみます。</p>
+
+<p>ビルドシステムも Ant から Gradle に変わっています。良く分からないのですが、以下の手順でいけるようです。</p>
+
+<h3 id="ビルド">ビルド</h3>
+
+<p>soloserver の配布用 tar をビルドします。
+なんかpythonジョブのテストに失敗するので、テストをスキップします。</p>
+
+<pre><code>$ ./gradlew soloserverDistTar -x test
+</code></pre>
+
+<p>なんか注意が出てますけどとりあえずビルドは出来ました。build/distributionsにazkaban-solo-server-2.6.4.tar.gzが出来ています。</p>
+
+<h2 id="展開-テスト実行">展開＆テスト実行</h2>
+
+<pre><code>$ tar zxvf build/distributions/azkaban-solo-server-2.6.4.tar.gz &amp;&amp; sudo cp -R azkaban-solo-server-2.6.4 /opt/azkaban-solo-server
+</code></pre>
+
+<p>念のため設定系は一般ユーザから読めないようにしておきましょう。</p>
+
+<pre><code>$ chmod og-r /opt/azkaban-solo-server/conf/*
+</code></pre>
+
+<p>テスト実行してみます。</p>
+
+<pre><code>$ cd /opt/azkaban-solo-server
+$ sudo ./bin/azkaban-solo-start.sh
+</code></pre>
+
+<p>バックグラウンドで色々微妙なログが流れますが、何か起動したっぽいです。</p>
+
+<h2 id="ufw-ファイアウォール-の設定">ufw（ファイアウォール）の設定</h2>
+
+<pre><code>$ ufw allow 8081/tcp
+</code></pre>
+
+<p>ufwでファイアウォールを管理している場合は8081/tcpを空けます。</p>
+
+<p>ポート8081にブラウザで接続して、何か見えるようでしたら、動作確認できたということで、もうちょっと設定をしていきます。
+azkaban-solo-shutdown.shで停止します。</p>
+
+<h1 id="設定">設定</h1>
+
+<h2 id="conf-azkaban-users-xml">conf/azkaban-users.xml</h2>
+
+<p>てきとーにユーザ・パスワードを設定します。エンコード用にユーザchinachuを追加。</p>
+
+<h2 id="conf-azkaban-properties">conf/azkaban.properties</h2>
+
+<p>サーバの名前とタイムゾーンくらいは設定しておきましょう。重要なこととして、並列実行されるジョブを1つだけに制限しておきます。
+（executor.flow.threadsとflow.num.job.threadsのどっちが利くかわかってない。後者だけだと同時実行されちゃったので多分前者かな）</p>
+
+<pre><code># Azkaban Personalization Settings
+azkaban.name=pt3rec
+azkaban.label=My PT3REC Azkaban
+azkaban.color=#FF3601
+default.timezone.id=Asia/Tokyo
+
+executor.flow.threads=1
+
+flow.num.job.threads=1
+</code></pre>
+
+<h2 id="ユーザ">ユーザ</h2>
+
+<p>なんか一般ユーザで実行させるっぽいので適当に作る。</p>
+
+<pre><code>$ sudo useradd -s /bin/false -d /opt/azkaban-solo-server azkaban
+$ sudo chown -R azkaban:azkaban /opt/azkaban-solo-server
+</code></pre>
+
+<h2 id="etc-init-azkaban-solo-conf">/etc/init/azkaban-solo.conf</h2>
+
+<pre><code class="language-/etc/init/azkaban-solo.conf">description &quot;Azkaban Solo Server&quot;
+author &quot;KOUNOIKE Yuusuke &lt;kounoike.yuusuke@gmail.com&gt;&quot;
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+setuid azkaban
+setgid azkaban
+
+chdir /opt/azkaban-solo-server
+
+script
+echo $$ &gt; /var/run/azkaban-solo/azkaban-solo.pid
+
+azkaban_dir=/opt/azkaban-solo-server
+tmpdir=/tmp
+
+for file in $azkaban_dir/lib/*.jar;
+do
+  CLASSPATH=$CLASSPATH:$file
+done
+
+for file in $azkaban_dir/extlib/*.jar;
+do
+  CLASSPATH=$CLASSPATH:$file
+done
+
+for file in $azkaban_dir/plugins/*/*.jar;
+do
+  CLASSPATH=$CLASSPATH:$file
+done
+
+if [ &quot;$HADOOP_HOME&quot; != &quot;&quot; ]; then
+        echo &quot;Using Hadoop from $HADOOP_HOME&quot;
+        CLASSPATH=$CLASSPATH:$HADOOP_HOME/conf:$HADOOP_HOME/*
+        JAVA_LIB_PATH=&quot;-Djava.library.path=$HADOOP_HOME/lib/native/Linux-amd64-64&quot;
+fi
+
+if [ &quot;$HIVE_HOME&quot; != &quot;&quot; ]; then
+        echo &quot;Using Hive from $HIVE_HOME&quot;
+        CLASSPATH=$CLASSPATH:$HIVE_HOME/conf:$HIVE_HOME/lib/*
+fi
+
+echo $azkaban_dir;
+echo $CLASSPATH;
+
+executorport=`cat $azkaban_dir/conf/azkaban.properties | grep executor.port | cut -d = -f 2`
+serverpath=/opt/azkaban-solo-server
+
+if [ -z $AZKABAN_OPTS ]; then
+  AZKABAN_OPTS=-Xmx3G
+fi
+AZKABAN_OPTS=&quot;$AZKABAN_OPTS -server -Dcom.sun.management.jmxremote -Djava.io.tmpdir=$tmpdir -Dexecutorport=$executorport -Dserverpath=$serverpath&quot;
+
+java $AZKABAN_OPTS -cp $CLASSPATH azkaban.soloserver.AzkabanSingleServer -conf $azkaban_dir/conf &gt;&gt; /var/log/azkaban-solo/azkaban-solo.log 2&gt;&amp;1
+end script
+</code></pre>
+
+<pre><code>$ sudo mkdir /var/run/azkaban-solo /var/log/azkaban-solo
+$ sudo chown azkaban:azkaban /var/run/azkaban-solo /var/log/azkaban-solo
+$ sudo initctl reload-configuration
+$ sudo start azkaban-solo
+</code></pre>
+
+<p>Upstartよくわかんない。</p>
+
+<p>ジョブ作成編に続く。</p>
+
+	
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f&title=Chinachu%e3%81%ae%e9%8c%b2%e7%94%bb%e5%be%8c%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%83%bbCM%e3%82%ab%e3%83%83%e3%83%88%e3%81%abAzkaban%e3%82%92%e5%85%a5%e3%82%8c%e3%81%a6%e3%82%b8%e3%83%a7%e3%83%96%e5%ae%9f%e8%a1%8c%e7%ae%a1%e7%90%86%e3%81%97%e3%81%a6%e3%81%bf%e3%82%8b%28Azkaban%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e7%b7%a8%29&summary=%3cp%3e%3ca%20href%3d%22http%3a%2f%2fazkaban.github.io%2f%22%3eAzkaban%3c%2fa%3e%e3%81%a8%e3%81%84%e3%81%86%e3%82%b8%e3%83%a7%e3%83%96%e7%ae%a1%e7%90%86%e3%83%84%e3%83%bc%e3%83%ab%e3%81%8c%e3%81%82%e3%82%8a%e3%81%be%e3%81%99%e3%80%82%0a%e4%bb%8a%e5%9b%9e%e3%81%af%e3%81%93%e3%82%8c%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6Chinachu%e3%81%ae%e9%8c%b2%e7%94%bb%e5%be%8c%e3%81%ab%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%83%bbCM%e6%a4%9c%e5%87%ba%e3%81%a8%e3%81%84%e3%81%a3%e3%81%9f%e3%82%b8%e3%83%a7%e3%83%96%e3%82%92%e6%8a%95%e3%81%92%e3%81%a6%e3%80%81%e3%82%b8%e3%83%a7%e3%83%96%e5%ae%9f%e8%a1%8c%e7%ae%a1%e7%90%86%e3%81%95%e3%81%9b%e3%81%a6%e3%81%bf%e3%81%be%e3%81%99%e3%80%82%0arecordedCommand%e3%81%a7%e7%9b%b4%e6%8e%a5%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%97%e3%81%9f%e5%a0%b4%e5%90%88%e3%81%ab%e3%81%af%e5%90%8c%e6%99%82%e5%ae%9f%e8%a1%8c%e3%81%95%e3%82%8c%e3%81%a6%e3%81%97%e3%81%be%e3%81%86%e3%81%a8%e3%81%84%e3%81%86%e5%95%8f%e9%a1%8c%e3%81%8c%e3%81%82%e3%82%8b%e3%81%ae%e3%81%a7%e3%80%81%0aAzkaban%e3%81%ab%e4%b8%a6%e5%88%97%e5%ae%9f%e8%a1%8c%e6%95%b0%e3%81%ae%e5%88%b6%e5%be%a1%e3%82%92%e3%82%84%e3%82%89%e3%81%9b%e3%81%a6%e3%81%bf%e3%82%8b%e3%81%93%e3%81%a8%e3%81%8c%e7%8b%99%e3%81%84%e3%81%a7%e3%81%99%e3%80%82%e3%81%aa%e3%82%93%e3%81%9b%e3%80%81J2900%e3%81%af30%e5%88%86%e3%81%ae%e7%95%aa%e7%b5%84%e3%81%ae%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%ab3%e6%99%82%e9%96%93%e3%82%82%e3%81%8b%e3%81%8b%e3%81%a3%e3%81%a6%e3%81%97%e3%81%be%e3%81%86%e3%82%88%e3%81%86%e3%81%aa%0a%e9%9d%9e%e5%8a%9b%e3%81%aaCPU%e3%81%a7%e3%81%99%e3%81%ae%e3%81%a7%e3%80%81%e5%90%8c%e6%99%82%e5%ae%9f%e8%a1%8c%e3%81%ae%e5%88%b6%e5%be%a1%e3%81%af%e9%9d%9e%e5%b8%b8%e3%81%ab%e9%87%8d%e8%a6%81%e3%81%a7%e3%81%99%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=Chinachu%e3%81%ae%e9%8c%b2%e7%94%bb%e5%be%8c%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%83%bbCM%e3%82%ab%e3%83%83%e3%83%88%e3%81%abAzkaban%e3%82%92%e5%85%a5%e3%82%8c%e3%81%a6%e3%82%b8%e3%83%a7%e3%83%96%e5%ae%9f%e8%a1%8c%e7%ae%a1%e7%90%86%e3%81%97%e3%81%a6%e3%81%bf%e3%82%8b%28Azkaban%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e7%b7%a8%29&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-03-azkaban-for-chinachu%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-azkaban" href="https://kounoike.github.io//tags/azkaban">azkaban</a>,
+	                
+	                <a class="post-tag post-tag-chinachu" href="https://kounoike.github.io//tags/chinachu">chinachu</a>,
+	                
+	                <a class="post-tag post-tag-ubuntu" href="https://kounoike.github.io//tags/ubuntu">ubuntu</a>,
+	                
+				</div>
+			
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+					
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="/posts/2015-09-26-hugo-shortcodes-nicovideo/">Hugoのshortcodesでnicovideoの埋め込みを簡単にする</a>
+		            </div>
+		            
+
+					
+					<div class="paging-older">
+						<span class="dark-red">Newer</span><span class="decorative-marker">//</span>
+			            <a class="paging-link" href="/posts/2015-10-04-azkaban-for-chinachu-job/">Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)</a>
+		            </div>
+		            
+	            </div>
+            
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2016. All rights reserved.</p>
+</div>
+    </div>
+  </div>
+	
+	
+		<script type="text/javascript">
+			function popupShare(url) {
+				window.open(url, '_blank', 'scrollbars,resizable,height=525,width=600');
+				return false;
+			}
+		</script>
+	
+
+  
+</body>
+</html>
