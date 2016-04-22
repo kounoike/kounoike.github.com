@@ -1,77 +1,274 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>スケジューラ色々 | こーのいけのGitHub Pages</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://kounoike.github.io/posts/2015-10-24-schedulers/">
-<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="KOUNOIKE Yuusuke">
-<meta property="og:site_name" content="こーのいけのGitHub Pages">
-<meta property="og:title" content="スケジューラ色々">
-<meta property="og:url" content="https://kounoike.github.io/posts/2015-10-24-schedulers/">
-<meta property="og:description" content="Chinachuのエンコードジョブのバッチ管理にAzkabanを使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
-結果、今のところAzkabanが最適だという結論になってしまった。
+  <title>
+    スケジューラ色々 // Kounoike&#39;s GitHub Pages
+  </title>
 
-Azkabanの不満
-Project（ジョブのまとまり）の名前が英数字といくつかの記号でしか使えない。使い方がChinachuのエンコード管理なので、
-Project名に「タイトル-日付」とかに">
-<meta property="og:type" content="article">
-<meta property="article:published_time" content="2015-10-24T14:43:17+09:00">
-<meta property="article:tag" content="airflow">
-<meta property="article:tag" content="azkaban">
-<meta property="article:tag" content="luigi">
-<meta property="article:tag" content="rundeck">
-<meta property="article:tag" content="ubuntu">
+  <script type="text/javascript">
+    if(location.protocol == 'http:') {
+      location.replace(location.href.replace(/http:/, 'https:/'))
+    }
+  </script>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.14" />
+
+  <meta property="og:title" content="スケジューラ色々" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://kounoike.github.io/posts/2015-10-24-schedulers/" />
+
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="https://kounoike.github.io//css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://kounoike.github.io//css/custom.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Kounoike&#39;s GitHub Pages" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/rainbow.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', "UA-54218698-1", 'auto');
+  ga('send', 'pageview');
+</script>
+
 </head>
+
 <body>
-    <section class="social"><ul>
-<li><a href="../../index.html" title="ホーム"><i class="icon-home"></i></a></li>
-            <li><a href="../../archive.html" title="文書一覧"><i class="icon-folder-open-alt"></i></a></li>
-            <li><a href="../../categories/index.html" title="タグ"><i class="icon-tags"></i></a></li>
-            <li><a href="../../rss.xml" title="RSSフィード"><i class="icon-rss"></i></a></li>
-            <li><a href="https://kounoike.github.io" title="About me"><i class="icon-user"></i></a></li>
-            <li><a href="https://twitter.com/ko_noike" title="My Twitter"><i class="icon-twitter"></i></a></li>
-            <li><a href="https://github.com/kounoike" title="My Github"><i class="icon-github"></i></a></li>
+	
 
-        </ul></section><section class="page-content"><div class="content" rel="main">
-    <div class="post">
-        <h1 class="p-name entry-title" itemprop="headline name">スケジューラ色々</h1>
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
 
-        <div class="meta">
-            <div class="authordate">
-                <time class="timeago" datetime="2015-10-24T14:43:17+09:00">2015-10-24 14:43</time>
-            
-                      |  
-        <a href="index.md" id="sourcelink">ソース</a>
+	
 
-            </div>
-                    <div itemprop="keywords" class="tags">
-        <ul>
-        タグ : 
-           <li><a class="tag p-category" href="../../categories/airflow/" rel="tag">airflow</a></li>
-           <li><a class="tag p-category" href="../../categories/azkaban/" rel="tag">azkaban</a></li>
-           <li><a class="tag p-category" href="../../categories/luigi/" rel="tag">luigi</a></li>
-           <li><a class="tag p-category" href="../../categories/rundeck/" rel="tag">rundeck</a></li>
-           <li><a class="tag p-category" href="../../categories/ubuntu/" rel="tag">ubuntu</a></li>
-        </ul>
+    <h1 class="brand-title">こーのいけのGitHub Page</h1>
+    
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://kounoike.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts/">Blog</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/links/">Pages</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/kounoike" target="_blank"><i class='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.twitter.com/ko_noike" target="_blank"><i class='fa fa-twitter'></i></a>
+        
+      
+      
+    </div>
+    
+
+  <div class="tags">
+    <p>tags</p>
+    <ul class="tag-list">
+      
+      
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/airflow">airflow</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/azkaban">azkaban</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/chinachu">chinachu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/comskip">comskip</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ffmpeg">ffmpeg</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/github">github</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/hugo">hugo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/luigi">luigi</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/nicovideo">nicovideo</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/pycon">pycon</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/python">python</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/rundeck">rundeck</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/tas">tas</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ttytter">ttytter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/twitter">twitter</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ubuntu">ubuntu</a></li>
+        
+      
+        
+          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/waqwaq">waqwaq</a></li>
+        
+      
+    </ul>
+  </div>
+
+  </div>
 </div>
 
-        </div>
-        <div class="body">
-            <div>
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    <div id="toc" class="pure-u-1 pure-u-md-1-4">
+				<small class="toc-label">Contents</small>
+		   	 	<nav id="TableOfContents">
+<ul>
+<li><a href="#azkabanの不満">Azkabanの不満</a></li>
+<li><a href="#要件">要件</a></li>
+<li><a href="#調査結果">調査結果</a>
+<ul>
+<li><a href="#airflow-https-github-com-airbnb-airflow"><a href="https://github.com/airbnb/airflow">airflow</a></a></li>
+<li><a href="#luigi-https-github-com-spotify-luigi"><a href="https://github.com/spotify/luigi">luigi</a></a></li>
+<li><a href="#rundeck-http-rundeck-org"><a href="http://rundeck.org/">Rundeck</a></a></li>
+</ul></li>
+<li><a href="#結論">結論</a></li>
+<li><a href="#おまけ">おまけ</a></li>
+</ul>
+</nav>
+		    </div>
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="/posts/2015-10-24-schedulers/">スケジューラ色々</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	<span class="post-date">
+                	<span class="post-date-day"><sup>24</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Oct</span> <span class="post-date-year">2015</span>
+            	</span>
+            	
+            
+            	
+            
+
+			
+			
+
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f&title=%e3%82%b9%e3%82%b1%e3%82%b8%e3%83%a5%e3%83%bc%e3%83%a9%e8%89%b2%e3%80%85&summary=%3cp%3eChinachu%e3%81%ae%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%82%b8%e3%83%a7%e3%83%96%e3%81%ae%e3%83%90%e3%83%83%e3%83%81%e7%ae%a1%e7%90%86%e3%81%ab%3ca%20href%3d%22https%3a%2f%2fazkaban.github.io%2f%22%3eAzkaban%3c%2fa%3e%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6%e3%81%84%e3%81%9f%e3%81%ae%e3%81%a0%e3%81%8c%e3%80%81%e8%8b%a5%e5%b9%b2%e4%b8%8d%e6%ba%80%e3%82%82%e3%81%82%e3%82%8b%e3%81%ae%e3%81%a7%e4%bb%96%e3%81%ab%e8%89%af%e3%81%84%e3%83%84%e3%83%bc%e3%83%ab%e3%81%8c%e3%81%aa%e3%81%84%e3%81%8b%e8%aa%bf%e3%81%b9%e3%81%a6%e3%81%bf%e3%81%9f%e3%80%82%0a%e7%b5%90%e6%9e%9c%e3%80%81%e4%bb%8a%e3%81%ae%e3%81%a8%e3%81%93%e3%82%8dAzkaban%e3%81%8c%e6%9c%80%e9%81%a9%e3%81%a0%e3%81%a8%e3%81%84%e3%81%86%e7%b5%90%e8%ab%96%e3%81%ab%e3%81%aa%e3%81%a3%e3%81%a6%e3%81%97%e3%81%be%e3%81%a3%e3%81%9f%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=%e3%82%b9%e3%82%b1%e3%82%b8%e3%83%a5%e3%83%bc%e3%83%a9%e8%89%b2%e3%80%85&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+		    
+
+			
+
+            
+
 <p>Chinachuのエンコードジョブのバッチ管理に<a href="https://azkaban.github.io/">Azkaban</a>を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
-結果、今のところAzkabanが最適だという結論になってしまった。
-<!--more--></p>
-<h2>Azkabanの不満</h2>
+結果、今のところAzkabanが最適だという結論になってしまった。</p>
+
+<h1 id="azkabanの不満">Azkabanの不満</h1>
+
 <p>Project（ジョブのまとまり）の名前が英数字といくつかの記号でしか使えない。使い方がChinachuのエンコード管理なので、
 Project名に「タイトル-日付」とかにしたい。</p>
+
 <p>エンコードをずっとやっているとProjectがたまりまくって割りとうっとうしい。検索とかしやすくなると良いのだけど</p>
-<h2>要件</h2>
+
+<h1 id="要件">要件</h1>
+
 <ul>
 <li>フロー・ジョブの登録がシェルスクリプトなどからできる（recordedCommandで実行するので）</li>
 <li>ジョブの依存関係でDAGフローが作成できる</li>
@@ -79,54 +276,124 @@ Project名に「タイトル-日付」とかにしたい。</p>
 <li>フローの並列度を制御する</li>
 <li>できれば、登録したジョブ・フローの検索性が良いこと</li>
 </ul>
-<h2>調査結果</h2>
-<h3><a href="https://github.com/airbnb/airflow">airflow</a></h3>
+
+<h1 id="調査結果">調査結果</h1>
+
+<h2 id="airflow-https-github-com-airbnb-airflow"><a href="https://github.com/airbnb/airflow">airflow</a></h2>
+
 <p>なんかAzkaban派だった人たちが移行しているらしいとのうわさをTwitterで見つけてチェックしてみた。
 うーん、いまいち</p>
+
 <ul>
 <li>flowの実行制御ができていない？（ジョブ１個ずつ走らせないと動かないような）</li>
 <li>スケジュール実行（時間指定）がメインっぽいインターフェース</li>
 </ul>
-<h3><a href="https://github.com/spotify/luigi">luigi</a></h3>
+
+<h2 id="luigi-https-github-com-spotify-luigi"><a href="https://github.com/spotify/luigi">luigi</a></h2>
+
 <p>シンプルなんだけど、機能不足</p>
-<h3><a href="http://rundeck.org/">Rundeck</a></h3>
+
+<h2 id="rundeck-http-rundeck-org"><a href="http://rundeck.org/">Rundeck</a></h2>
+
 <p>割と良くできているように見えるけど、イマイチニーズに合わない。</p>
+
 <ul>
 <li>やっぱりスケジュール実行メインのインターフェース</li>
 <li>DAGのフローではなくステップ実行がメイン？</li>
 <li>タスク同時実行の並列度制御ができないらしい</li>
 </ul>
-<h2>結論</h2>
+
+<h1 id="結論">結論</h1>
+
 <p>Azkabanでいいじゃん</p>
-<h2>おまけ</h2>
+
+<h1 id="おまけ">おまけ</h1>
+
 <p>調べてる過程で見つけた、<a href="https://pypi.python.org/pypi/azkaban">pythonのazkabanバインディング</a>がまあまあ良い感じだった。
 ごりごりと作るのはシェルスクリプトでやるのと似たようなものだけど、jobの一時ファイルを作らなくても良いとか、
 pyファイル1個で全部実現できるとかメリットが色々ある。</p>
+
 <p>ただ、日本語をコマンド内に記述すると上手くいかないため、Projectのpropertiesに入れる必要があった。
 しかも、ただ入れただけじゃダメで、Javaの悪しき習慣である、native2ascii相当の処理をかけてやらないといけなかった。</p>
+
 <p>で、native2ascii相当のことをするのに適当にpypi探して見つけたのが<a href="https://github.com/zerok/pyjavaproperties-unicode">zerok/pyjavaproperties-unicode</a>。
 ただし、こいつもバグがあって、変換しなければいけないUnicode文字が複数続いていると落ちるとか・・・
 さくっと<a href="https://github.com/zerok/pyjavaproperties-unicode/pull/2">PR</a>書いたので、そのうち反映されるかな・・・</p>
+
 <p>まあ、このソースを参考にencode_unicode()を書けば良いだけなんだけど。</p>
+
+	
+			
+		    	<div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f&title=%e3%82%b9%e3%82%b1%e3%82%b8%e3%83%a5%e3%83%bc%e3%83%a9%e8%89%b2%e3%80%85&summary=%3cp%3eChinachu%e3%81%ae%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%82%b8%e3%83%a7%e3%83%96%e3%81%ae%e3%83%90%e3%83%83%e3%83%81%e7%ae%a1%e7%90%86%e3%81%ab%3ca%20href%3d%22https%3a%2f%2fazkaban.github.io%2f%22%3eAzkaban%3c%2fa%3e%e3%82%92%e4%bd%bf%e3%81%a3%e3%81%a6%e3%81%84%e3%81%9f%e3%81%ae%e3%81%a0%e3%81%8c%e3%80%81%e8%8b%a5%e5%b9%b2%e4%b8%8d%e6%ba%80%e3%82%82%e3%81%82%e3%82%8b%e3%81%ae%e3%81%a7%e4%bb%96%e3%81%ab%e8%89%af%e3%81%84%e3%83%84%e3%83%bc%e3%83%ab%e3%81%8c%e3%81%aa%e3%81%84%e3%81%8b%e8%aa%bf%e3%81%b9%e3%81%a6%e3%81%bf%e3%81%9f%e3%80%82%0a%e7%b5%90%e6%9e%9c%e3%80%81%e4%bb%8a%e3%81%ae%e3%81%a8%e3%81%93%e3%82%8dAzkaban%e3%81%8c%e6%9c%80%e9%81%a9%e3%81%a0%e3%81%a8%e3%81%84%e3%81%86%e7%b5%90%e8%ab%96%e3%81%ab%e3%81%aa%e3%81%a3%e3%81%a6%e3%81%97%e3%81%be%e3%81%a3%e3%81%9f%e3%80%82%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=%e3%82%b9%e3%82%b1%e3%82%b8%e3%83%a5%e3%83%bc%e3%83%a9%e8%89%b2%e3%80%85&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2015-10-24-schedulers%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
 </div>
-        </div>
-                <ul class="pager hidden-print">
-<li class="previous">
-                <a href="../2015-10-19-semiauto-cm-cut/" rel="prev" title="半自動CMカットスクリプトの作成">一つ前の文書</a>
-            </li>
-            <li class="next">
-                <a href="../2015-10-25-chinachu-upstart/" rel="next" title="Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）">次の文書</a>
-            </li>
-        </ul>
-</div>
-                    <footer id="footer"><p>Contents © 2016         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+		    
+
+			
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-ubuntu" href="https://kounoike.github.io//tags/ubuntu">ubuntu</a>,
+	                
+	                <a class="post-tag post-tag-azkaban" href="https://kounoike.github.io//tags/azkaban">azkaban</a>,
+	                
+	                <a class="post-tag post-tag-airflow" href="https://kounoike.github.io//tags/airflow">airflow</a>,
+	                
+	                <a class="post-tag post-tag-luigi" href="https://kounoike.github.io//tags/luigi">luigi</a>,
+	                
+	                <a class="post-tag post-tag-rundeck" href="https://kounoike.github.io//tags/rundeck">rundeck</a>,
+	                
+				</div>
+			
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+					
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="/posts/2015-10-19-semiauto-cm-cut/">半自動CMカットスクリプトの作成</a>
+		            </div>
+		            
+
+					
+					<div class="paging-older">
+						<span class="dark-red">Newer</span><span class="decorative-marker">//</span>
+			            <a class="paging-link" href="/posts/2015-10-25-chinachu-upstart/">Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</a>
+		            </div>
+		            
+	            </div>
             
-        </footer>
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2016. All rights reserved.</p>
 </div>
-    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
-            $(function(){
-                $('.timeago').timeago();
-            });
-        </script>
+    </div>
+  </div>
+	
+	
+		<script type="text/javascript">
+			function popupShare(url) {
+				window.open(url, '_blank', 'scrollbars,resizable,height=525,width=600');
+				return false;
+			}
+		</script>
+	
+
+  
 </body>
 </html>

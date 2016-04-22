@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ttytter on Kounoike&#39;s GitHub Pages</title>
+    <link>https://kounoike.github.io/tags/ttytter/</link>
+    <description>Recent content in Ttytter on Kounoike&#39;s GitHub Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <managingEditor>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</managingEditor>
+    <webMaster>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</webMaster>
+    <lastBuildDate>Fri, 25 Sep 2015 14:27:40 +0900</lastBuildDate>
+    <atom:link href="https://kounoike.github.io/tags/ttytter/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>chinachu と ttytter で Twitter に録画投稿</title>
+      <link>https://kounoike.github.io/posts/2015-09-25-chinachu-ttytter/</link>
+      <pubDate>Fri, 25 Sep 2015 14:27:40 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-25-chinachu-ttytter/</guid>
+      <description>
+
+&lt;h1 id=&#34;やること&#34;&gt;やること&lt;/h1&gt;
+
+&lt;p&gt;recordedCommand で Twitter に録画終了を投稿する。&lt;/p&gt;
+
+&lt;h1 id=&#34;前提&#34;&gt;前提&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://kounoike.github.io/posts/2015-09-23-ttytter/&#34;&gt;ttytterのセットアップ&lt;/a&gt; が出来ていること&lt;/li&gt;
+&lt;li&gt;chinachu がセットアップできていること&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://stedolan.github.io/jq/&#34;&gt;jq&lt;/a&gt; を落としてきてあること&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;chinachu-の設定&#34;&gt;chinachu の設定&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;  &amp;quot;recordedCommand&amp;quot;: &amp;quot;/home/chinachu/chinachu-scripts/recorded.sh&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;を一行書きましょう。もちろん、recorded.shは&lt;code&gt;chmod +x&lt;/code&gt;しておきます。&lt;/p&gt;
+
+&lt;h1 id=&#34;recorded-sh&#34;&gt;recorded.sh&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/bash
+
+RECORDED=$1
+PROGRAM_JSON=$2
+JQ=$(dirname $0)/jq-linux64
+
+MSG=$(echo &amp;quot;$PROGRAM_JSON&amp;quot; | $JQ -r &#39;&amp;quot;ID:&amp;quot; + .id + &amp;quot; &amp;quot; + .channel.name + &amp;quot;で「&amp;quot; + .title + &amp;quot;」の録画を終了しました&amp;quot;&#39;)
+
+ttytter -ssl -status=&amp;quot;$MSG&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;はい、簡単ですね。ドキュメントの無いoperTweeterを設定するよりも簡単かと。
+コマンドラインのメール送信ツールとして、heirloom-mailxとかを入れていればメール送信することも簡単です。&lt;/p&gt;
+
+&lt;p&gt;しかし、録画準備・録画開始はTweeterフックがあって、終了だけスクリプト実行フックがあるという、今の実装は何か意図があってのものなのでしょうかね。
+いっそのこと、全部スクリプトフックでいいんじゃないかということで、&lt;a href=&#34;https://github.com/kanreisa/Chinachu/pull/214&#34;&gt;#214&lt;/a&gt;を出してます。
+&amp;ldquo;under review&amp;rdquo; になっているので、そのうちマージされるのではないでしょうか。&lt;/p&gt;
+
+&lt;p&gt;ちなみにうちではこのパッチを当てたchinachuを動かしているので、準備・開始・終了でフックが走るようになっています。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ttytterのセットアップ</title>
+      <link>https://kounoike.github.io/posts/2015-09-23-ttytter/</link>
+      <pubDate>Wed, 23 Sep 2015 00:00:00 +0000</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-09-23-ttytter/</guid>
+      <description>
+
+&lt;h1 id=&#34;何それ&#34;&gt;何それ&lt;/h1&gt;
+
+&lt;p&gt;コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。&lt;/p&gt;
+
+&lt;h1 id=&#34;インストール&#34;&gt;インストール&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install ttytter
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;初期設定&#34;&gt;初期設定&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://qiita.com/kamayaplus/items/ba6dbe4cd3a335bf60ba&#34;&gt;TTYtterを使ったったー&lt;/a&gt; などの記事もあるので簡単に。&lt;/p&gt;
+
+&lt;h2 id=&#34;初回起動&#34;&gt;初回起動&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ttytter
+trying to find cURL ... /usr/bin/curl
+-- Streaming API disabled (no -dostream) (TTYtter will use REST API only)
+-- no version check performed (use /vcheck, or -vcheck to check on startup)
+
++----------------------------------------------------------------------------+
+|| WELCOME TO TTYtter: Authorize TTYtter by signing into Twitter with OAuth ||
++----------------------------------------------------------------------------+
+Looks like you&#39;re starting TTYtter for the first time, and/or creating a
+keyfile. Welcome to the most user-hostile, highly obfuscated, spaghetti code
+infested and obscenely obscure Twitter client that&#39;s out there. You&#39;ll love it.
+
+TTYtter generates a keyfile that contains credentials for you, including your
+access tokens. This needs to be done JUST ONCE. You can take this keyfile with
+you to other systems. If you revoke TTYtter&#39;s access, you must remove the
+keyfile and start again with a new token. You need to do this once per account
+you use with TTYtter; only one account token can be stored per keyfile. If you
+have multiple accounts, use -keyf=... to specify different keyfiles. KEEP THESE
+FILES SECRET.
+
+** This wizard will overwrite /home/chinachu/.ttytterkey
+Press RETURN/ENTER to continue or CTRL-C NOW! to abort.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;初回起動で、~/.ttytterkeyを書き込むよ、と言っているようだ。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Request from http://api.twitter.com/oauth/request_token ...... FAILED!: &amp;quot;SSL is required
+&amp;quot;
+unable to fetch token. here are some possible reasons:
+ - root certificates are not updated (see documentation)
+ - you entered your authentication information wrong
+ - your computer&#39;s clock is not set correctly
+ - Twitter farted
+fix these possible problems, or try again later.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;・・・ダメじゃん。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo update-ca-certificates
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こんな感じか・・・というのは関係なく、ttytterに-sslオプションを付ければ良いだけだったかもしれない。（CAのアップデートが効いたのかもしれない）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ttytter -ssl
+-- using SSL for default URLs.
+trying to find cURL ... /usr/bin/curl
+-- Streaming API disabled (no -dostream) (TTYtter will use REST API only)
+-- no version check performed (use /vcheck, or -vcheck to check on startup)
+
++----------------------------------------------------------------------------+
+|| WELCOME TO TTYtter: Authorize TTYtter by signing into Twitter with OAuth ||
++----------------------------------------------------------------------------+
+Looks like you&#39;re starting TTYtter for the first time, and/or creating a
+keyfile. Welcome to the most user-hostile, highly obfuscated, spaghetti code
+infested and obscenely obscure Twitter client that&#39;s out there. You&#39;ll love it.
+
+TTYtter generates a keyfile that contains credentials for you, including your
+access tokens. This needs to be done JUST ONCE. You can take this keyfile with
+you to other systems. If you revoke TTYtter&#39;s access, you must remove the
+keyfile and start again with a new token. You need to do this once per account
+you use with TTYtter; only one account token can be stored per keyfile. If you
+have multiple accounts, use -keyf=... to specify different keyfiles. KEEP THESE
+FILES SECRET.
+
+** This wizard will overwrite /home/chinachu/.ttytterkey
+Press RETURN/ENTER to continue or CTRL-C NOW! to abort.
+
+
+Request from https://api.twitter.com/oauth/request_token ... SUCCEEDED!
+
+1. Visit, in your browser, ALL ON ONE LINE,
+
+https://api.twitter.com/oauth/authorize?oauth_token=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+2. If you are not already signed in, fill in your username and password.
+
+3. Verify that TTYtter is the requesting application, and that its permissions
+are as you expect (read your timeline, see who you follow and follow new
+people, update your profile, post tweets on your behalf and access your
+direct messages). IF THIS IS NOT CORRECT, PRESS CTRL-C NOW!
+
+4. Click Authorize app.
+
+5. A PIN will appear. Enter it below.
+
+Enter PIN&amp;gt; XXXXXXX
+
+Request from https://api.twitter.com/oauth/access_token ... SUCCEEDED!
+Written keyfile /home/chinachu/.ttytterkey
+
+Now, restart TTYtter to use this keyfile.
+(To choose between multiple keyfiles other than the default .ttytterkey,
+ tell TTYtter where the key is using -keyf=... .)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;途中の「Enter PIN」のところで止まっているので、1. に表示されている URL にブラウザでアクセスしてTwitter連携認証を取る。そのときにPINコードが表示されるので、ttytterに入力してやれば良い。
+これで、~/.ttytterkeyが出来上がる。&lt;/p&gt;
+
+&lt;h2 id=&#34;使い方&#34;&gt;使い方&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;ttytter -ssl&lt;/code&gt; でタイムラインの取得が可能。&lt;code&gt;ttytter -ssl -status=&amp;quot;メッセージ&amp;quot;&lt;/code&gt; で「メッセージ」と投稿することが可能。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

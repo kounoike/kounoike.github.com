@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Waqwaq on Kounoike&#39;s GitHub Pages</title>
+    <link>https://kounoike.github.io/tags/waqwaq/</link>
+    <description>Recent content in Waqwaq on Kounoike&#39;s GitHub Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <managingEditor>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</managingEditor>
+    <webMaster>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</webMaster>
+    <lastBuildDate>Mon, 22 Sep 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://kounoike.github.io/tags/waqwaq/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>waqwaqproject2</title>
+      <link>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</link>
+      <pubDate>Mon, 22 Sep 2014 00:00:00 +0000</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/next49/20140916/p1&#34;&gt;next49さんのリクエスト&lt;/a&gt;に応じてスクリプトを改造してみた。ちょっと一つのCSVにまとめたりencodingの指定したりとかで依存ライブラリが増えてしまったけれど。&lt;/p&gt;
+
+&lt;p&gt;確か、MS-Excelは普通にCSVを開くとShiftJISとして読み込んでしまうので、UTF-8を読み込ませるにはBOMを付ける必要があったはず。UTF-8が必要な執筆者がいなければ、ShiftJIS指定でもOKかと。&lt;/p&gt;
+
+&lt;p&gt;ポイントは過去データの取得制限で、ちょこっとHTMLのフォームを読んだ限りではWikiPedia（MediaWiki？）には「過去いついつから取得」という機能が無い様子。そこで、件数（get_limit）を指定してまとめて取得することにした。値は調整しながら運用で回避ということで。&lt;/p&gt;
+
+&lt;p&gt;あと、プロトタイプのExcel出力の狙いは主催者側よりも、執筆者側にあって、執筆者側が右肩上がりのグラフを見ることでモチベーションの向上につながるかなーと思って作ったものだったりする。なので、Excel出力の機能はあえて残している。&lt;/p&gt;
+
+&lt;p&gt;{% gist d73b798384195bd893d5 %}&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WAQWAQProject</title>
+      <link>https://kounoike.github.io/posts/2014-09-08-waqwaqproject/</link>
+      <pubDate>Mon, 08 Sep 2014 00:00:00 +0000</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2014-09-08-waqwaqproject/</guid>
+      <description>&lt;p&gt;next49さんが&lt;a href=&#34;http://d.hatena.ne.jp/next49/20140831/p1&#34;&gt;WAQWAQプロジェクト2014&lt;/a&gt;で進行状況チェックに
+困ってるらしいことを見つけた。&lt;/p&gt;
+
+&lt;p&gt;ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。&lt;/p&gt;
+
+&lt;p&gt;{% gist 4ee86c32058235ed2e68 %}&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://kounoike.github.io/waqwaq.xlsx&#34;&gt;waqwaq.xlsx&lt;/a&gt; こんなファイルが出来上がる。&lt;/p&gt;
+
+&lt;p&gt;TODO:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;コメント書く&lt;/li&gt;
+&lt;li&gt;MS-Excelで表示内容を確認する（Libre Officeでしか見てない）&lt;/li&gt;
+&lt;li&gt;matplotlibを使ったpng/svgの出力を試してみる&lt;/li&gt;
+&lt;li&gt;期間を限定する&lt;/li&gt;
+&lt;li&gt;スコアの重み付けの見直しをする&lt;/li&gt;
+&lt;li&gt;バイト数や、新規ページ数などでもグラフを作る&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;といった微修正が残っているが、まあ、まずはプロトタイプとしてこんな感じでどうだろうか。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

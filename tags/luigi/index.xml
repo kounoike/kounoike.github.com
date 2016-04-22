@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Luigi on Kounoike&#39;s GitHub Pages</title>
+    <link>https://kounoike.github.io/tags/luigi/</link>
+    <description>Recent content in Luigi on Kounoike&#39;s GitHub Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <managingEditor>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</managingEditor>
+    <webMaster>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</webMaster>
+    <lastBuildDate>Sat, 24 Oct 2015 14:43:17 +0900</lastBuildDate>
+    <atom:link href="https://kounoike.github.io/tags/luigi/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>スケジューラ色々</title>
+      <link>https://kounoike.github.io/posts/2015-10-24-schedulers/</link>
+      <pubDate>Sat, 24 Oct 2015 14:43:17 +0900</pubDate>
+      <author>kounoike.yuusuke@gmail.com (KOUNOIKE Yuusuke)</author>
+      <guid>https://kounoike.github.io/posts/2015-10-24-schedulers/</guid>
+      <description>
+
+&lt;p&gt;Chinachuのエンコードジョブのバッチ管理に&lt;a href=&#34;https://azkaban.github.io/&#34;&gt;Azkaban&lt;/a&gt;を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
+結果、今のところAzkabanが最適だという結論になってしまった。&lt;/p&gt;
+
+&lt;h1 id=&#34;azkabanの不満&#34;&gt;Azkabanの不満&lt;/h1&gt;
+
+&lt;p&gt;Project（ジョブのまとまり）の名前が英数字といくつかの記号でしか使えない。使い方がChinachuのエンコード管理なので、
+Project名に「タイトル-日付」とかにしたい。&lt;/p&gt;
+
+&lt;p&gt;エンコードをずっとやっているとProjectがたまりまくって割りとうっとうしい。検索とかしやすくなると良いのだけど&lt;/p&gt;
+
+&lt;h1 id=&#34;要件&#34;&gt;要件&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;フロー・ジョブの登録がシェルスクリプトなどからできる（recordedCommandで実行するので）&lt;/li&gt;
+&lt;li&gt;ジョブの依存関係でDAGフローが作成できる&lt;/li&gt;
+&lt;li&gt;フローの即時実行ができる&lt;/li&gt;
+&lt;li&gt;フローの並列度を制御する&lt;/li&gt;
+&lt;li&gt;できれば、登録したジョブ・フローの検索性が良いこと&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;調査結果&#34;&gt;調査結果&lt;/h1&gt;
+
+&lt;h2 id=&#34;airflow-https-github-com-airbnb-airflow&#34;&gt;&lt;a href=&#34;https://github.com/airbnb/airflow&#34;&gt;airflow&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;なんかAzkaban派だった人たちが移行しているらしいとのうわさをTwitterで見つけてチェックしてみた。
+うーん、いまいち&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;flowの実行制御ができていない？（ジョブ１個ずつ走らせないと動かないような）&lt;/li&gt;
+&lt;li&gt;スケジュール実行（時間指定）がメインっぽいインターフェース&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;luigi-https-github-com-spotify-luigi&#34;&gt;&lt;a href=&#34;https://github.com/spotify/luigi&#34;&gt;luigi&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;シンプルなんだけど、機能不足&lt;/p&gt;
+
+&lt;h2 id=&#34;rundeck-http-rundeck-org&#34;&gt;&lt;a href=&#34;http://rundeck.org/&#34;&gt;Rundeck&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;割と良くできているように見えるけど、イマイチニーズに合わない。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;やっぱりスケジュール実行メインのインターフェース&lt;/li&gt;
+&lt;li&gt;DAGのフローではなくステップ実行がメイン？&lt;/li&gt;
+&lt;li&gt;タスク同時実行の並列度制御ができないらしい&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;結論&#34;&gt;結論&lt;/h1&gt;
+
+&lt;p&gt;Azkabanでいいじゃん&lt;/p&gt;
+
+&lt;h1 id=&#34;おまけ&#34;&gt;おまけ&lt;/h1&gt;
+
+&lt;p&gt;調べてる過程で見つけた、&lt;a href=&#34;https://pypi.python.org/pypi/azkaban&#34;&gt;pythonのazkabanバインディング&lt;/a&gt;がまあまあ良い感じだった。
+ごりごりと作るのはシェルスクリプトでやるのと似たようなものだけど、jobの一時ファイルを作らなくても良いとか、
+pyファイル1個で全部実現できるとかメリットが色々ある。&lt;/p&gt;
+
+&lt;p&gt;ただ、日本語をコマンド内に記述すると上手くいかないため、Projectのpropertiesに入れる必要があった。
+しかも、ただ入れただけじゃダメで、Javaの悪しき習慣である、native2ascii相当の処理をかけてやらないといけなかった。&lt;/p&gt;
+
+&lt;p&gt;で、native2ascii相当のことをするのに適当にpypi探して見つけたのが&lt;a href=&#34;https://github.com/zerok/pyjavaproperties-unicode&#34;&gt;zerok/pyjavaproperties-unicode&lt;/a&gt;。
+ただし、こいつもバグがあって、変換しなければいけないUnicode文字が複数続いていると落ちるとか・・・
+さくっと&lt;a href=&#34;https://github.com/zerok/pyjavaproperties-unicode/pull/2&#34;&gt;PR&lt;/a&gt;書いたので、そのうち反映されるかな・・・&lt;/p&gt;
+
+&lt;p&gt;まあ、このソースを参考にencode_unicode()を書けば良いだけなんだけど。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
