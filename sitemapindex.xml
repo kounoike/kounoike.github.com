@@ -11,7 +11,7 @@
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/azkaban.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/cat_tas.xml</loc>
@@ -23,15 +23,15 @@
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/chinachu.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/comskip.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/ffmpeg.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/github.xml</loc>
@@ -50,12 +50,16 @@
   <lastmod>2016-04-22T19:27:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://kounoike.github.io/categories/nikola.xml</loc>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://kounoike.github.io/categories/pycon.xml</loc>
   <lastmod>2016-04-22T19:27:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/python.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/rundeck.xml</loc>
@@ -75,22 +79,18 @@
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/ubuntu.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/waqwaq.xml</loc>
   <lastmod>2016-04-22T19:27:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>https://kounoike.github.io/galleries/rss.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>https://kounoike.github.io/rss.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/sitemap.xml</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
  </sitemap>
 </sitemapindex>

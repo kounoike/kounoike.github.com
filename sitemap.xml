@@ -23,11 +23,11 @@
  </url>
  <url>
   <loc>https://kounoike.github.io/archive.html</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
  </url>
  <url>
   <loc>https://kounoike.github.io/categories/</loc>
-  <lastmod>2016-04-22T17:58:00Z</lastmod>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
  </url>
  <url>
   <loc>https://kounoike.github.io/categories/airflow/</loc>
@@ -74,6 +74,10 @@
   <lastmod>2016-04-22T17:58:00Z</lastmod>
  </url>
  <url>
+  <loc>https://kounoike.github.io/categories/nikola/</loc>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://kounoike.github.io/categories/pycon/</loc>
   <lastmod>2016-04-22T17:58:00Z</lastmod>
  </url>
@@ -106,16 +110,8 @@
   <lastmod>2016-04-22T17:58:00Z</lastmod>
  </url>
  <url>
-  <loc>https://kounoike.github.io/galleries/</loc>
-  <lastmod>2016-04-22T17:58:00Z</lastmod>
- </url>
- <url>
   <loc>https://kounoike.github.io/index-1.html</loc>
-  <lastmod>2016-04-22T19:27:00Z</lastmod>
- </url>
- <url>
-  <loc>https://kounoike.github.io/listings/</loc>
-  <lastmod>2016-04-22T17:58:00Z</lastmod>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
  </url>
  <url>
   <loc>https://kounoike.github.io/posts/2014-08-28-tas-next/</loc>
@@ -180,5 +176,9 @@
  <url>
   <loc>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</loc>
   <lastmod>2016-04-22T17:58:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://kounoike.github.io/posts/zieneretawonikolanibian-eta/</loc>
+  <lastmod>2016-04-22T19:54:00Z</lastmod>
  </url>
 </urlset>
