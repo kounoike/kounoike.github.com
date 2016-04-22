@@ -1,6 +1,5 @@
 <!-- 
 .. title: ジェネレータをNikolaに変えた
-.. slug: zieneretawonikolanibian-eta
 .. date: 2016-04-23 04:52:13 UTC+09:00
 .. tags: nikola
 .. category: 
