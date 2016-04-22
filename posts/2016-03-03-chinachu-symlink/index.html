@@ -1,318 +1,98 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="ja">
 <head>
-  <title>
-    エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand // Kounoike&#39;s GitHub Pages
-  </title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand | こーのいけのGitHub Pages</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="KOUNOIKE Yuusuke">
+<meta property="og:site_name" content="こーのいけのGitHub Pages">
+<meta property="og:title" content="エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand">
+<meta property="og:url" content="https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/">
+<meta property="og:description" content='自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
+でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）
 
-  <script type="text/javascript">
-    if(location.protocol == 'http:') {
-      location.replace(location.href.replace(/http:/, 'https:/'))
-    }
-  </script>
 
-  <link href="http://gmpg.org/xfn/11" rel="profile">
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
+#!/bin/bash
 
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
-<meta name="description" content="">
-<meta name="keywords" content="">
-<meta name="author" content="">
-<meta name="generator" content="Hugo 0.14" />
-
-  <meta property="og:title" content="エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:locale" content="en_US" />
-<meta property="og:url" content="https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/" />
+ln -s "$1" "/video/未視聴"
 
 
 
-  
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
-  
-  
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
-  
-  
-
-  <link rel="stylesheet" href="https://kounoike.github.io//css/redlounge.css">
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
-  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://kounoike.github.io//css/custom.css">
-
-  
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
-  <link rel="shortcut icon" href="/favicon.png">
-
-  
-  <link href="" rel="alternate" type="application/rss+xml" title="Kounoike&#39;s GitHub Pages" />
-
-    
-  
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/rainbow.min.css">
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-
-
-  
-
-  
-
-  
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', "UA-54218698-1", 'auto');
-  ga('send', 'pageview');
-</script>
-
+ちなみに/videoを samba '>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-03-03T00:54:41+09:00">
+<meta property="article:tag" content="chinachu">
 </head>
-
 <body>
-	
+    <section class="social"><ul>
+<li><a href="../../index.html" title="ホーム"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="文書一覧"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="タグ"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSSフィード"><i class="icon-rss"></i></a></li>
+            <li><a href="https://kounoike.github.io" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/ko_noike" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/kounoike" title="My Github"><i class="icon-github"></i></a></li>
 
-	<div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4">
-  <div class="header">
-    
+        </ul></section><section class="page-content"><div class="content" rel="main">
+    <div class="post">
+        <h1 class="p-name entry-title" itemprop="headline name">エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</h1>
 
-	
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2016-03-03T00:54:41+09:00">2016-03-03 00:54</time>
+            
+                      |  
+        <a href="index.md" id="sourcelink">ソース</a>
 
-    <h1 class="brand-title">こーのいけのGitHub Page</h1>
-    
-
-    <nav class="nav">
-      <ul class="nav-list">
-        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://kounoike.github.io/">Home</a></li>
-        
-          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts/">Blog</a></li>
-        
-          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/links/">Pages</a></li>
-        
-      </ul>
-    </nav>
-
-    
-    <div class="social-buttons">
-      
-        
-        <a href="https://github.com/kounoike" target="_blank"><i class='fa fa-github'></i></a>
-        
-      
-        
-        <a href="https://www.twitter.com/ko_noike" target="_blank"><i class='fa fa-twitter'></i></a>
-        
-      
-      
-    </div>
-    
-
-  <div class="tags">
-    <p>tags</p>
-    <ul class="tag-list">
-      
-      
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/airflow">airflow</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/azkaban">azkaban</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/chinachu">chinachu</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/comskip">comskip</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ffmpeg">ffmpeg</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/github">github</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/hugo">hugo</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/luigi">luigi</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/nicovideo">nicovideo</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/pycon">pycon</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/python">python</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/rundeck">rundeck</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/tas">tas</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ttytter">ttytter</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/twitter">twitter</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/ubuntu">ubuntu</a></li>
-        
-      
-        
-          <li class="tag-item"><span class="tag-item-separator">//</span><a href="https://kounoike.github.io//tags/waqwaq">waqwaq</a></li>
-        
-      
-    </ul>
-  </div>
-
-  </div>
+            </div>
+                    <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../../categories/chinachu/" rel="tag">chinachu</a></li>
+        </ul>
 </div>
 
-	
-	
-
-    <div class="content pure-u-1 pure-u-md-3-4">
-		<a name="top"></a>
-		
-
-		
-			
-	    
-  		<section class="post">
-            <h1 class="post-title">
-              <a href="/posts/2016-03-03-chinachu-symlink/">エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</a>
-            </h1>
-            <h3 class="post-subtitle">
-            	
-            </h3>
-            
-            	<span class="post-date">
-                	<span class="post-date-day"><sup>3</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Mar</span> <span class="post-date-year">2016</span>
-            	</span>
-            	
-            
-            	
-            
-
-			
-			
-
-			
-		    	<div class="social-sharing">
-	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
-	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
-	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f&title=%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%97%e3%81%aa%e3%81%84%e4%ba%ba%e3%81%ab%e3%82%82%e3%82%aa%e3%82%b9%e3%82%b9%e3%83%a1%e3%81%aeChinachu%e3%82%92%e4%be%bf%e5%88%a9%e3%81%ab%e3%81%99%e3%82%8b%e3%81%9f%e3%81%a3%e3%81%9f%e4%b8%80%e8%a1%8c%e3%81%aerecordedCommand&summary=%3cp%3e%e8%87%aa%e5%ae%85%e3%81%ae%e5%ae%b6%e9%9b%bb%e3%83%ac%e3%82%b3%e3%81%a8%e6%af%94%e3%81%b9%e3%81%9f%e3%81%a8%e3%81%8d%e3%81%ae%20Chinachu%20%e3%81%ae%e5%bc%b1%e7%82%b9%e3%81%af%e6%9c%aa%e8%a6%96%e8%81%b4%e7%ae%a1%e7%90%86%e3%81%8c%e3%81%a7%e3%81%8d%e3%81%aa%e3%81%84%e3%81%93%e3%81%a8%e3%81%a0%e3%81%a8%e6%80%9d%e3%81%a3%e3%81%a6%e3%81%84%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%0a%e3%81%a7%e3%82%82%e3%80%81%e3%81%a1%e3%82%87%e3%81%a3%e3%81%a8%e8%80%83%e3%81%88%e3%81%9f%e3%82%89%e7%b0%a1%e5%8d%98%e3%81%aa%e6%96%b9%e6%b3%95%e3%81%a7%e6%9c%aa%e8%a6%96%e8%81%b4%e7%ae%a1%e7%90%86%ef%bc%88%e3%82%82%e3%81%a9%e3%81%8d%ef%bc%89%e3%81%8c%e5%87%ba%e6%9d%a5%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%e3%81%9d%e3%82%8c%e3%81%8c%e4%bb%a5%e4%b8%8b%e3%81%ae%20recordedCommand%20%e3%81%ab%e7%99%bb%e9%8c%b2%e3%81%99%e3%82%8b%e3%82%b7%e3%82%a7%e3%83%ab%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%83%88%ef%bc%88%e5%ae%9f%e9%9a%9b%e3%81%ab%e3%81%af%e4%bb%96%e3%81%ab%e3%82%82%e8%89%b2%e3%80%85%e3%82%84%e3%81%a3%e3%81%a6%e3%81%be%e3%81%99%e3%81%91%e3%81%a9%ef%bc%89%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
-	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%97%e3%81%aa%e3%81%84%e4%ba%ba%e3%81%ab%e3%82%82%e3%82%aa%e3%82%b9%e3%82%b9%e3%83%a1%e3%81%aeChinachu%e3%82%92%e4%be%bf%e5%88%a9%e3%81%ab%e3%81%99%e3%82%8b%e3%81%9f%e3%81%a3%e3%81%9f%e4%b8%80%e8%a1%8c%e3%81%aerecordedCommand&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
-</div>
-		    
-
-			
-
-            <p>自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
+        </div>
+        <div class="body">
+            <div>
+<p>自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
 でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）</p>
+<!--more-->
 
-<pre><code>#!/bin/bash
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
 
-ln -s &quot;$1&quot; &quot;/video/未視聴&quot;
-</code></pre>
+ln -s <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="s2">"/video/未視聴"</span>
+</pre>
+
 
 <p>ちなみに<code>/video</code>を samba で共有してそこ経由で視聴しています。
 さらに<code>/video/未視聴</code>は0755にしていますので chinachu ユーザで書いたものを samba のユーザで削除することができます。というわけで、このシンボリックリンクで録画を見て、見終わったらシンボリックリンクを削除することで、（手動だけど）簡単に未視聴管理ができるのでした。
 これはだいぶ便利なのでオススメ。</p>
-
 <p>自動エンコードしてる人はエンコード完了したらエンコード後のファイルにシンボリックリンク貼るといいんじゃないでしょうかね。</p>
-
 <p>@moribuden さんのツイートで思い出したので記事にしておきます。@moribuden さんは更に一歩進んで inotify を使って削除も自動化しようとしています。できたら面白いですね。
 ・・・こっちが先に作っちゃおうかな（笑）</p>
-
-	
-			
-		    	<div class="social-sharing">
-	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
-	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
-	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f&title=%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%97%e3%81%aa%e3%81%84%e4%ba%ba%e3%81%ab%e3%82%82%e3%82%aa%e3%82%b9%e3%82%b9%e3%83%a1%e3%81%aeChinachu%e3%82%92%e4%be%bf%e5%88%a9%e3%81%ab%e3%81%99%e3%82%8b%e3%81%9f%e3%81%a3%e3%81%9f%e4%b8%80%e8%a1%8c%e3%81%aerecordedCommand&summary=%3cp%3e%e8%87%aa%e5%ae%85%e3%81%ae%e5%ae%b6%e9%9b%bb%e3%83%ac%e3%82%b3%e3%81%a8%e6%af%94%e3%81%b9%e3%81%9f%e3%81%a8%e3%81%8d%e3%81%ae%20Chinachu%20%e3%81%ae%e5%bc%b1%e7%82%b9%e3%81%af%e6%9c%aa%e8%a6%96%e8%81%b4%e7%ae%a1%e7%90%86%e3%81%8c%e3%81%a7%e3%81%8d%e3%81%aa%e3%81%84%e3%81%93%e3%81%a8%e3%81%a0%e3%81%a8%e6%80%9d%e3%81%a3%e3%81%a6%e3%81%84%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%0a%e3%81%a7%e3%82%82%e3%80%81%e3%81%a1%e3%82%87%e3%81%a3%e3%81%a8%e8%80%83%e3%81%88%e3%81%9f%e3%82%89%e7%b0%a1%e5%8d%98%e3%81%aa%e6%96%b9%e6%b3%95%e3%81%a7%e6%9c%aa%e8%a6%96%e8%81%b4%e7%ae%a1%e7%90%86%ef%bc%88%e3%82%82%e3%81%a9%e3%81%8d%ef%bc%89%e3%81%8c%e5%87%ba%e6%9d%a5%e3%81%be%e3%81%97%e3%81%9f%e3%80%82%e3%81%9d%e3%82%8c%e3%81%8c%e4%bb%a5%e4%b8%8b%e3%81%ae%20recordedCommand%20%e3%81%ab%e7%99%bb%e9%8c%b2%e3%81%99%e3%82%8b%e3%82%b7%e3%82%a7%e3%83%ab%e3%82%b9%e3%82%af%e3%83%aa%e3%83%97%e3%83%88%ef%bc%88%e5%ae%9f%e9%9a%9b%e3%81%ab%e3%81%af%e4%bb%96%e3%81%ab%e3%82%82%e8%89%b2%e3%80%85%e3%82%84%e3%81%a3%e3%81%a6%e3%81%be%e3%81%99%e3%81%91%e3%81%a9%ef%bc%89%3c%2fp%3e%0a}&source=Kounoike%27s%20GitHub%20Pages" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
-	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=%e3%82%a8%e3%83%b3%e3%82%b3%e3%83%bc%e3%83%89%e3%81%97%e3%81%aa%e3%81%84%e4%ba%ba%e3%81%ab%e3%82%82%e3%82%aa%e3%82%b9%e3%82%b9%e3%83%a1%e3%81%aeChinachu%e3%82%92%e4%be%bf%e5%88%a9%e3%81%ab%e3%81%99%e3%82%8b%e3%81%9f%e3%81%a3%e3%81%9f%e4%b8%80%e8%a1%8c%e3%81%aerecordedCommand&url=https%3a%2f%2fkounoike.github.io%2fposts%2f2016-03-03-chinachu-symlink%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
 </div>
-		    
-
-			
-				<div class="tags-list">
-					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
-					
-	                <a class="post-tag post-tag-chinachu" href="https://kounoike.github.io//tags/chinachu">Chinachu</a>,
-	                
-				</div>
-			
-
-			
-				<div class="paging">
-					<span class="paging-label">More Reading</span>
-					
-					<div class="paging-newer">
-						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
-						<a class="paging-link" href="/posts/2015-10-27-install-airflow/">Airflowのインストールメモ</a>
-		            </div>
-		            
-
-					
-	            </div>
+        </div>
+                <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../2015-10-27-install-airflow/" rel="prev" title="Airflowのインストールメモ">一つ前の文書</a>
+            </li>
+        </ul>
+</div>
+                    <footer id="footer"><p>Contents © 2016         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
-          </section>
-          
-          	
-          
-        
-      <div class="footer">
-	<hr class="thin" />
-	<div class="pure-menu pure-menu-horizontal pure-menu-open">
-		<ul class="footer-menu">
-		
-		</ul>
-	</div>
-
-	<p>&copy; 2016. All rights reserved.</p>
+        </footer>
 </div>
-    </div>
-  </div>
-	
-	
-		<script type="text/javascript">
-			function popupShare(url) {
-				window.open(url, '_blank', 'scrollbars,resizable,height=525,width=600');
-				return false;
-			}
-		</script>
-	
-
-  
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
 </body>
 </html>
