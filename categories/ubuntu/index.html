@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>ubuntuについての文書 | こーのいけのGitHub Pages</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS for tag ubuntu (ja)" href="../ubuntu.xml">
+<link rel="canonical" href="https://kounoike.github.io/categories/ubuntu/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="ホーム"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="文書一覧"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../index.html" title="タグ"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSSフィード"><i class="icon-rss"></i></a></li>
+            <li><a href="https://kounoike.github.io" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/ko_noike" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/kounoike" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-25-chinachu-upstart/">Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-25T14:21:02+09:00">2015-10-25 14:21</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../chinachu/" rel="tag">chinachu</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。
+</p>
+<p class="more"><a href="../../posts/2015-10-25-chinachu-upstart/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-24-schedulers/">スケジューラ色々</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-24T14:43:17+09:00">2015-10-24 14:43</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../airflow/" rel="tag">airflow</a></li>
+           <li><a class="tag p-category" href="../azkaban/" rel="tag">azkaban</a></li>
+           <li><a class="tag p-category" href="../luigi/" rel="tag">luigi</a></li>
+           <li><a class="tag p-category" href="../rundeck/" rel="tag">rundeck</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>Chinachuのエンコードジョブのバッチ管理に<a href="https://azkaban.github.io/">Azkaban</a>を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
+結果、今のところAzkabanが最適だという結論になってしまった。
+</p>
+<p class="more"><a href="../../posts/2015-10-24-schedulers/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-19-semiauto-cm-cut/">半自動CMカットスクリプトの作成</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-19T19:52:20+09:00">2015-10-19 19:52</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../chinachu/" rel="tag">chinachu</a></li>
+           <li><a class="tag p-category" href="../comskip/" rel="tag">comskip</a></li>
+           <li><a class="tag p-category" href="../ffmpeg/" rel="tag">ffmpeg</a></li>
+           <li><a class="tag p-category" href="../python/" rel="tag">python</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>comskip、色々設定を変えながら試したのですがどうやっても安心して任せられる設定にすることは無理だという結論になりました。
+かといっていちいち1ファイルずつちまちまとCMカット作業をしたくはありません。comskipである程度は検出できているのですから。
+そうなると次は「人間が確認しつつ、楽をする」ようにしたくなります。そこでcomskipの仕組みを考慮しながら、
+pythonやらJavascriptやら使ってCMカット環境を構築してみました。
+</p>
+<p class="more"><a href="../../posts/2015-10-19-semiauto-cm-cut/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-04-azkaban-mail/">Azkabanでエラーメール</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-04T22:06:26+09:00">2015-10-04 22:06</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../azkaban/" rel="tag">azkaban</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>Azkabanでエラーがあったときにメールするようにしよう、と思ったらGmailの587ポート接続に対応していない。パッチを当てて再ビルドしよう。
+</p>
+<p class="more"><a href="../../posts/2015-10-04-azkaban-mail/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-04-azkaban-for-chinachu-job/">Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-04T00:36:13+09:00">2015-10-04 00:36</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../azkaban/" rel="tag">azkaban</a></li>
+           <li><a class="tag p-category" href="../chinachu/" rel="tag">chinachu</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
+まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
+エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。
+</p>
+<p class="more"><a href="../../posts/2015-10-04-azkaban-for-chinachu-job/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-03-azkaban-for-chinachu/">Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-03T20:14:58+09:00">2015-10-03 20:14</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../azkaban/" rel="tag">azkaban</a></li>
+           <li><a class="tag p-category" href="../chinachu/" rel="tag">chinachu</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p><a href="http://azkaban.github.io/">Azkaban</a>というジョブ管理ツールがあります。
+今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
+recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
+Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
+非力なCPUですので、同時実行の制御は非常に重要です。
+</p>
+<p class="more"><a href="../../posts/2015-10-03-azkaban-for-chinachu/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-09-23-ttytter/">"ttytterのセットアップ"</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-09-23T00:00:00+09:00">2015-09-23 00:00</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../ttytter/" rel="tag">ttytter</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<h2>何それ</h2>
+<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。
+</p>
+<p class="more"><a href="../../posts/2015-09-23-ttytter/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+    
+    
+    
+                    <footer id="footer"><p>Contents © 2016         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>

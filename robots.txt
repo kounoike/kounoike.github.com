@@ -1,0 +1,4 @@
+Sitemap: https://kounoike.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: kounoike.github.io

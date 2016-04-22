@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>こーのいけのGitHub Pages (WAQWAQ)</title><link>https://kounoike.github.io/</link><description></description><atom:link type="application/rss+xml" rel="self" href="https://kounoike.github.io/categories/waqwaq.xml"></atom:link><language>ja</language><lastBuildDate>Fri, 22 Apr 2016 19:27:33 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>waqwaqproject2</title><link>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a href="http://d.hatena.ne.jp/next49/20140916/p1"&gt;next49さんのリクエスト&lt;/a&gt;に応じてスクリプトを改造してみた。&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>python</category><category>WAQWAQ</category><guid>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</guid><pubDate>Sun, 21 Sep 2014 15:00:00 GMT</pubDate></item><item><title>WAQWAQProject</title><link>https://kounoike.github.io/posts/2014-09-08-waqwaqproject/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;next49 さんが&lt;a href="http://d.hatena.ne.jp/next49/20140831/p1"&gt;WAQWAQプロジェクト2014&lt;/a&gt;で進行状況チェックに
+困ってるらしいことを見つけた。&lt;/p&gt;
+&lt;p&gt;ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。&lt;/p&gt;
+&lt;p&gt;&lt;script src="https://gist.github.com/4ee86c32058235ed2e68.js"&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/waqwaq.xlsx"&gt;waqwaq.xlsx&lt;/a&gt; こんなファイルが出来上がる。&lt;/p&gt;
+&lt;p&gt;TODO:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;コメント書く&lt;/li&gt;
+&lt;li&gt;MS-Excel で表示内容を確認する（Libre Office でしか見てない）&lt;/li&gt;
+&lt;li&gt;matplotlib を使った png/svg の出力を試してみる&lt;/li&gt;
+&lt;li&gt;期間を限定する&lt;/li&gt;
+&lt;li&gt;スコアの重み付けの見直しをする&lt;/li&gt;
+&lt;li&gt;バイト数や、新規ページ数などでもグラフを作る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;といった微修正が残っているが、まあ、まずはプロトタイプとしてこんな感じでどうだろうか。&lt;/p&gt;&lt;/div&gt;</description><category>python</category><category>WAQWAQ</category><guid>https://kounoike.github.io/posts/2014-09-08-waqwaqproject/</guid><pubDate>Sun, 07 Sep 2014 15:00:00 GMT</pubDate></item></channel></rss>

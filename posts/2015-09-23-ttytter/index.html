@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+<title>"ttytterのセットアップ" | こーのいけのGitHub Pages</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://kounoike.github.io/posts/2015-09-23-ttytter/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="KOUNOIKE Yuusuke">
+<meta property="og:site_name" content="こーのいけのGitHub Pages">
+<meta property="og:title" content='"ttytterのセットアップ"'>
+<meta property="og:url" content="https://kounoike.github.io/posts/2015-09-23-ttytter/">
+<meta property="og:description" content='""'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-09-23T00:00:00+09:00">
+<meta property="article:tag" content="ttytter">
+<meta property="article:tag" content="ubuntu">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="ホーム"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="文書一覧"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="タグ"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSSフィード"><i class="icon-rss"></i></a></li>
+            <li><a href="https://kounoike.github.io" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/ko_noike" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/kounoike" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+    <div class="post">
+        <h1 class="p-name entry-title" itemprop="headline name">"ttytterのセットアップ"</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2015-09-23T00:00:00+09:00">2015-09-23 00:00</time>
+            
+                      |  
+        <a href="index.md" id="sourcelink">ソース</a>
+
+            </div>
+                    <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../../categories/ttytter/" rel="tag">ttytter</a></li>
+           <li><a class="tag p-category" href="../../categories/ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<h2>何それ</h2>
+<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。
+<!--more--></p>
+<h2>インストール</h2>
+<pre class="code literal-block"><span></span>$ sudo apt-get install ttytter
+</pre>
+
+
+<h2>初期設定</h2>
+<p><a href="http://qiita.com/kamayaplus/items/ba6dbe4cd3a335bf60ba">TTYtterを使ったったー</a> などの記事もあるので簡単に。</p>
+<h3>初回起動</h3>
+<pre class="code literal-block"><span></span>$ ttytter
+trying to find cURL ... /usr/bin/curl
+-- Streaming API disabled <span class="o">(</span>no -dostream<span class="o">)</span> <span class="o">(</span>TTYtter will use REST API only<span class="o">)</span>
+-- no version check performed <span class="o">(</span>use /vcheck, or -vcheck to check on startup<span class="o">)</span>
+
++----------------------------------------------------------------------------+
+<span class="o">||</span> WELCOME TO TTYtter: Authorize TTYtter by signing into Twitter with OAuth <span class="o">||</span>
++----------------------------------------------------------------------------+
+Looks like you<span class="s1">'re starting TTYtter for the first time, and/or creating a</span>
+<span class="s1">keyfile. Welcome to the most user-hostile, highly obfuscated, spaghetti code</span>
+<span class="s1">infested and obscenely obscure Twitter client that'</span>s out there. You<span class="s1">'ll love it.</span>
+
+<span class="s1">TTYtter generates a keyfile that contains credentials for you, including your</span>
+<span class="s1">access tokens. This needs to be done JUST ONCE. You can take this keyfile with</span>
+<span class="s1">you to other systems. If you revoke TTYtter'</span>s access, you must remove the
+keyfile and start again with a new token. You need to <span class="k">do</span> this once per account
+you use with TTYtter<span class="p">;</span> only one account token can be stored per keyfile. If you
+have multiple accounts, use -keyf<span class="o">=</span>... to specify different keyfiles. KEEP THESE
+FILES SECRET.
+
+** This wizard will overwrite /home/chinachu/.ttytterkey
+Press RETURN/ENTER to <span class="k">continue</span> or CTRL-C NOW! to abort.
+</pre>
+
+
+<p>初回起動で、~/.ttytterkeyを書き込むよ、と言っているようだ。</p>
+<pre class="code literal-block"><span></span>Request from http://api.twitter.com/oauth/request_token ...... FAILED!: "SSL is required
+"
+unable to fetch token. here are some possible reasons:
+ - root certificates are not updated (see documentation)
+ - you entered your authentication information wrong
+ - your computer's clock is not set correctly
+ - Twitter farted
+fix these possible problems, or try again later.
+</pre>
+
+
+<p>・・・ダメじゃん。</p>
+<pre class="code literal-block"><span></span>$ sudo update-ca-certificates
+</pre>
+
+
+<p>こんな感じか・・・というのは関係なく、ttytterに-sslオプションを付ければ良いだけだったかもしれない。（CAのアップデートが効いたのかもしれない）</p>
+<pre class="code literal-block"><span></span>$ ttytter -ssl
+-- using SSL <span class="k">for</span> default URLs.
+trying to find cURL ... /usr/bin/curl
+-- Streaming API disabled <span class="o">(</span>no -dostream<span class="o">)</span> <span class="o">(</span>TTYtter will use REST API only<span class="o">)</span>
+-- no version check performed <span class="o">(</span>use /vcheck, or -vcheck to check on startup<span class="o">)</span>
+
++----------------------------------------------------------------------------+
+<span class="o">||</span> WELCOME TO TTYtter: Authorize TTYtter by signing into Twitter with OAuth <span class="o">||</span>
++----------------------------------------------------------------------------+
+Looks like you<span class="s1">'re starting TTYtter for the first time, and/or creating a</span>
+<span class="s1">keyfile. Welcome to the most user-hostile, highly obfuscated, spaghetti code</span>
+<span class="s1">infested and obscenely obscure Twitter client that'</span>s out there. You<span class="s1">'ll love it.</span>
+
+<span class="s1">TTYtter generates a keyfile that contains credentials for you, including your</span>
+<span class="s1">access tokens. This needs to be done JUST ONCE. You can take this keyfile with</span>
+<span class="s1">you to other systems. If you revoke TTYtter'</span>s access, you must remove the
+keyfile and start again with a new token. You need to <span class="k">do</span> this once per account
+you use with TTYtter<span class="p">;</span> only one account token can be stored per keyfile. If you
+have multiple accounts, use -keyf<span class="o">=</span>... to specify different keyfiles. KEEP THESE
+FILES SECRET.
+
+** This wizard will overwrite /home/chinachu/.ttytterkey
+Press RETURN/ENTER to <span class="k">continue</span> or CTRL-C NOW! to abort.
+
+
+Request from https://api.twitter.com/oauth/request_token ... SUCCEEDED!
+
+1. Visit, in your browser, ALL ON ONE LINE,
+
+https://api.twitter.com/oauth/authorize?oauth_token<span class="o">=</span>XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+2. If you are not already signed in, fill in your username and password.
+
+3. Verify that TTYtter is the requesting application, and that its permissions
+are as you expect <span class="o">(</span><span class="nb">read</span> your timeline, see who you follow and follow new
+people, update your profile, post tweets on your behalf and access your
+direct messages<span class="o">)</span>. IF THIS IS NOT CORRECT, PRESS CTRL-C NOW!
+
+4. Click Authorize app.
+
+5. A PIN will appear. Enter it below.
+
+Enter PIN&gt; XXXXXXX
+
+Request from https://api.twitter.com/oauth/access_token ... SUCCEEDED!
+Written keyfile /home/chinachu/.ttytterkey
+
+Now, restart TTYtter to use this keyfile.
+<span class="o">(</span>To choose between multiple keyfiles other than the default .ttytterkey,
+ tell TTYtter where the key is using -keyf<span class="o">=</span>... .<span class="o">)</span>
+</pre>
+
+
+<p>途中の「Enter PIN」のところで止まっているので、1. に表示されている URL にブラウザでアクセスしてTwitter連携認証を取る。そのときにPINコードが表示されるので、ttytterに入力してやれば良い。
+これで、~/.ttytterkeyが出来上がる。</p>
+<h3>使い方</h3>
+<p><code>ttytter -ssl</code> でタイムラインの取得が可能。<code>ttytter -ssl -status="メッセージ"</code> で「メッセージ」と投稿することが可能。</p>
+</div>
+        </div>
+                <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../2014-09-22-waqwaqproject2/" rel="prev" title="waqwaqproject2">一つ前の文書</a>
+            </li>
+            <li class="next">
+                <a href="../2015-09-25-chinachu-ttytter/" rel="next" title="chinachu と ttytter で Twitter に録画投稿">次の文書</a>
+            </li>
+        </ul>
+</div>
+                    <footer id="footer"><p>Contents © 2016         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>
