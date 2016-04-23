@@ -83,6 +83,7 @@ lang="{{ lang }}">
     {% elif not annotations and post and post.meta('annotations') %}
         {{ notes.css() }}
     {% endif %}
+    <link href="/assets/css/share-button.min.css" rel="stylesheet" type="text/css">
 {% endmacro %}
 
 {% macro late_load_js() %}
@@ -102,6 +103,7 @@ lang="{{ lang }}">
             <script src="/assets/js/jquery.timeago.js" type="text/javascript"></script>
         {% endif %}
     {% endif %}
+    <script src="/assets/js/share-button.min.js" type="text/javascript"></script>
     {{ social_buttons_code }}
 {% endmacro %}
 

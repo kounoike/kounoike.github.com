@@ -972,18 +972,26 @@ MARKDOWN_EXTENSIONS = ['fenced_code', 'codehilite', 'extra']
 # <!-- End of social buttons -->
 # """
 SOCIAL_BUTTONS_CODE = """
-<!-- Social buttons -->
-<div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
-<a class="addthis_button_more">Share</a>
-<ul><li><a class="addthis_button_facebook"></a>
-<li><a class="addthis_button_google_plusone_share"></a>
-<li><a class="addthis_button_linkedin"></a>
-<li><a class="addthis_button_twitter"></a>
-</ul>
-</div>
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-571a890cfb0979b4"></script>
-<!-- End of social buttons -->
+<script type="text/javascript">
+$(function(){
+    new ShareButton({
+        networks: {
+            pinterest: {
+                enabled: false
+            },
+            reddit: {
+                enabled: false
+            },
+            linkedin: {
+                enabled: false
+            },
+            whatsapp: {
+                enabled: false
+            }
+        }
+    });
+});
+</script>
 """
 
 # Show link to source for the posts?

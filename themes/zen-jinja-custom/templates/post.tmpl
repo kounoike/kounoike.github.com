@@ -29,6 +29,9 @@
         <div class="body">
             {{ post.text() }}
         </div>
+        <!-- Social buttons -->
+        <share-button></share-button>
+        <!-- End of social buttons -->
         {{ helper.html_pager(post) }}
         {% if not post.meta('nocomments') and site_has_comments %}
             {{ comments.comment_form(post.permalink(absolute=True), post.title(), post.base_path) }}
