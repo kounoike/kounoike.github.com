@@ -9,6 +9,7 @@ article: http://ogp.me/ns/article#
 <meta name="viewport" content="width=device-width">
 <title>2015年の文書 | こーのいけのGitHub Pages</title>
 <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/share-button.min.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
 <link rel="canonical" href="https://kounoike.github.io/2015/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
@@ -63,25 +64,26 @@ article: http://ogp.me/ns/article#
             
         </footer>
 </div>
-    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><!-- Social buttons --><div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
-<a class="addthis_button_more">Share</a>
-<ul>
-<li>
-<a class="addthis_button_facebook"></a>
-</li>
-<li>
-<a class="addthis_button_google_plusone_share"></a>
-</li>
-<li>
-<a class="addthis_button_linkedin"></a>
-</li>
-<li>
-<a class="addthis_button_twitter"></a>
-</li>
-</ul>
-</div>
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-571a890cfb0979b4"></script><!-- End of social buttons --><script type="text/javascript">
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script src="../assets/js/share-button.min.js" type="text/javascript"></script><script type="text/javascript">
+$(function(){
+    new ShareButton({
+        networks: {
+            pinterest: {
+                enabled: false
+            },
+            reddit: {
+                enabled: false
+            },
+            linkedin: {
+                enabled: false
+            },
+            whatsapp: {
+                enabled: false
+            }
+        }
+    });
+});
+</script><script type="text/javascript">
             $(function(){
                 $('.timeago').timeago();
             });
