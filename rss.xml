@@ -1,5 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>こーのいけのGitHub Pages</title><link>https://kounoike.github.io/</link><description>こーのいけのGitHub Pages powered by Nikola.</description><atom:link rel="self" href="https://kounoike.github.io/rss.xml" type="application/rss+xml"></atom:link><language>ja</language><lastBuildDate>Sat, 23 Apr 2016 02:11:10 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>ジェネレータをNikolaに変えた</title><link>https://kounoike.github.io/posts/2016-04-23-nikola/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;p&gt;なんとなく思うところあってサイトジェネレータを Hugo から Nikola に変えてみた。
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>こーのいけのGitHub Pages</title><link>https://kounoike.github.io/</link><description>こーのいけのGitHub Pages powered by Nikola.</description><atom:link rel="self" href="https://kounoike.github.io/rss.xml" type="application/rss+xml"></atom:link><language>ja</language><lastBuildDate>Thu, 16 Jun 2016 14:42:28 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>GitbookでPDF出力を試してみる</title><link>https://kounoike.github.io/posts/2016-06-16-gitbook-pdf/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
+asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
+というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
+&lt;a href="https://github.com/GitbookIO/gitbook"&gt;GitbookIO/gitboo&lt;/a&gt; を試してみる。&lt;/p&gt;
+&lt;h3&gt;インストール&lt;/h3&gt;
+&lt;p&gt;適当に Node.js/npm をインストールして、&lt;code&gt;sudo npm install -g gitbook-cli&lt;/code&gt; する。
+それから&lt;code&gt;gitbook fetch 3.1.1&lt;/code&gt;とかやると、~/.gitbook 以下にそのバージョンが入るっぽい。&lt;/p&gt;
+&lt;p&gt;あと PDF 生成に calibre とゆーのがいるみたいなんで、適当に &lt;code&gt;apt-get install&lt;/code&gt; する。Ubuntu 14.04 LTS では結構古いバージョンだけど多分大丈夫。（手動で新しいバージョンに入れ替えちゃった）&lt;/p&gt;
+&lt;p&gt;それから PDF を作成するときになぜか X が必要なので、ssh してたりとか、将来的に Jenkins 使ったりするときには、xvfb というパッケージを入れておく。&lt;/p&gt;
+&lt;h3&gt;book を書く&lt;/h3&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;$ gitbook init
+&lt;/pre&gt;
+
+
+&lt;p&gt;で雛形を作って、ごりごり書く。&lt;/p&gt;
+&lt;h3&gt;PDF を作る&lt;/h3&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;$ gitbook pdf ./ ./output.pdf
+&lt;/pre&gt;
+
+
+&lt;p&gt;とやると、ssh しているときとかだとなんかエラーが表示される。&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;$ xvfb-run gitbook pdf ./ ./output.pdf
+&lt;/pre&gt;
+
+
+&lt;p&gt;としてやると良い。&lt;/p&gt;
+&lt;h3&gt;PDF 出力の微調整&lt;/h3&gt;
+&lt;h4&gt;ページ番号を入れる&lt;/h4&gt;
+&lt;p&gt;```book.json
+{
+  "pdf": {
+    "pageNumbers": false
+  }
+}&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;なぜか、`pdf.pageNumbers` を **false** にしてやるとページ番号が出るみたい。
+バグ？
+
+### 余白
+
+book.json に `pdf.margin.top` とかで設定する。
+
+### 本文を字下げする
+
+`_layouts/ebook/page.html` というファイルを作る。これはテーマの同じ名前のファイルを置き換えることになるらしい。だからこのファイルの中で元のテーマを呼び出して拡張していく形にする。
+
+```page.html
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nv"&gt;template.self&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;block&lt;/span&gt; &lt;span class="nv"&gt;style&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;style&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;"text/css"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+.page .section &amp;gt; p {
+    text-indent: 1em;
+}
+.pdf-footer {
+    border-top: 1px solid #666;
+    color:#333;
+}
+.pdf-header {
+    border-bottom: 1px solid #666;
+    color:#333;
+}
+&lt;span class="nt"&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;block&lt;/span&gt; &lt;span class="nv"&gt;body&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"page"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;block&lt;/span&gt; &lt;span class="nv"&gt;page&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;h1&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"book-chapter book-chapter-&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;page.depth&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;page.title&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"section"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;page.content&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nf"&gt;safe&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;hr&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&amp;gt;&lt;/span&gt;ソース&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;hr&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"section"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;pre&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;page.content&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;e&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;最初の block style でスタイルシート定義部分を上書きする。&lt;code&gt;.page .section &amp;gt; p&lt;/code&gt; というセレクタを使っているので、本文だけがひっかかる・・・はず？&lt;/p&gt;
+&lt;p&gt;pdf-footer/pdf-header はヘッダ・フッタの色がデフォルトだと薄いので上書きしている。&lt;/p&gt;
+&lt;p&gt;block body の中ではページ（HTMLでいうページなので、PDFだと複数ページになり得る）をレンダリングする部分を上書きしている。
+普通はこれを定義しない（テーマのままにする）か、&lt;code&gt;super()&lt;/code&gt; するかで良いと思うが、
+ここではデバッグ用にちょっと書き換えている。普通にレンダリングした後で HTML タグをエスケープして出力することで、Markdown/asciidoc がどういう HTML タグに置き換えられたかをデバッグできるようにした。
+同時に、どんなタグ構造になってるかを把握することで、CSS のセレクタをちゃんと×ように・・・&lt;/p&gt;&lt;/div&gt;</description><category>gitbook pdf</category><guid>https://kounoike.github.io/posts/2016-06-16-gitbook-pdf/</guid><pubDate>Thu, 16 Jun 2016 14:18:17 GMT</pubDate></item><item><title>ジェネレータをNikolaに変えた</title><link>https://kounoike.github.io/posts/2016-04-23-nikola/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;p&gt;なんとなく思うところあってサイトジェネレータを Hugo から Nikola に変えてみた。
 Python で書かれていて、ソースにもテンプレートにも馴染みやすいのと、ipynb にも対応しているところがポイントかな。&lt;/p&gt;</description><category>nikola</category><guid>https://kounoike.github.io/posts/2016-04-23-nikola/</guid><pubDate>Fri, 22 Apr 2016 19:52:13 GMT</pubDate></item><item><title>エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</title><link>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
 でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>chinachu</category><guid>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</guid><pubDate>Wed, 02 Mar 2016 15:54:41 GMT</pubDate></item><item><title>Airflowのインストールメモ</title><link>https://kounoike.github.io/posts/2015-10-27-install-airflow/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;なんか&lt;a href="https://twitter.com/wyukawa/status/658960252365336576"&gt;リクエスト&lt;/a&gt;があったようなので、インストールメモを残しておこう。
@@ -20,7 +108,4 @@ pythonやらJavascriptやら使ってCMカット環境を構築してみまし�
 recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
 Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
 非力なCPUですので、同時実行の制御は非常に重要です。
-&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>azkaban</category><category>chinachu</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/</guid><pubDate>Sat, 03 Oct 2015 11:14:58 GMT</pubDate></item><item><title>Hugoのshortcodesでnicovideoの埋め込みを簡単にする</title><link>https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;！Nikola に乗り換えたので、現在以下のショートコードは動作しません&lt;/p&gt;
-&lt;p&gt;Hugo には &lt;a href="https://gohugo.io/extras/shortcodes/"&gt;shortcodes&lt;/a&gt; という仕組みで、カスタムタグみたいなことを実現できるみたいです。
-そこで、ニコニコ動画の動画サムネイルやプレイヤーの埋め込みを行う shortcodes を書いてみました。&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>hugo</category><category>nicovideo</category><guid>https://kounoike.github.io/posts/2015-09-26-hugo-shortcodes-nicovideo/</guid><pubDate>Fri, 25 Sep 2015 15:53:15 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>azkaban</category><category>chinachu</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-03-azkaban-for-chinachu/</guid><pubDate>Sat, 03 Oct 2015 11:14:58 GMT</pubDate></item></channel></rss>

@@ -34,6 +34,10 @@
   <lastmod>2016-04-23T02:10:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://kounoike.github.io/categories/gitbook-pdf.xml</loc>
+  <lastmod>2016-06-16T14:42:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://kounoike.github.io/categories/github.xml</loc>
   <lastmod>2016-04-23T02:10:00Z</lastmod>
  </sitemap>
@@ -51,7 +55,7 @@
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/nikola.xml</loc>
-  <lastmod>2016-04-23T02:10:00Z</lastmod>
+  <lastmod>2016-04-23T02:11:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/categories/pycon.xml</loc>
@@ -87,10 +91,10 @@
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/rss.xml</loc>
-  <lastmod>2016-04-23T02:10:00Z</lastmod>
+  <lastmod>2016-06-16T14:42:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://kounoike.github.io/sitemap.xml</loc>
-  <lastmod>2016-04-23T02:10:00Z</lastmod>
+  <lastmod>2016-06-16T14:42:00Z</lastmod>
  </sitemap>
 </sitemapindex>
