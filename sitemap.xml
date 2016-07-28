@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://kounoike.github.io/</loc>
-  <lastmod>2016-04-22T17:58:00Z</lastmod>
+  <lastmod>2016-07-28T22:12:00Z</lastmod>
  </url>
  <url>
   <loc>https://kounoike.github.io/2014/</loc>
@@ -23,7 +23,7 @@
  </url>
  <url>
   <loc>https://kounoike.github.io/archive.html</loc>
-  <lastmod>2016-06-16T14:42:00Z</lastmod>
+  <lastmod>2016-07-28T22:12:00Z</lastmod>
  </url>
  <url>
   <loc>https://kounoike.github.io/categories/</loc>
@@ -115,7 +115,7 @@
  </url>
  <url>
   <loc>https://kounoike.github.io/index-1.html</loc>
-  <lastmod>2016-06-16T14:42:00Z</lastmod>
+  <lastmod>2016-07-28T22:12:00Z</lastmod>
  </url>
  <url>
   <loc>https://kounoike.github.io/posts/2014-08-28-tas-next/</loc>
@@ -188,5 +188,9 @@
  <url>
   <loc>https://kounoike.github.io/posts/2016-06-16-gitbook-pdf/</loc>
   <lastmod>2016-06-16T14:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://kounoike.github.io/posts/2016-07-23-gitbucket-jenkins/</loc>
+  <lastmod>2016-07-28T22:12:00Z</lastmod>
  </url>
 </urlset>

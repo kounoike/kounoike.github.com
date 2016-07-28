@@ -26,6 +26,37 @@ article: http://ogp.me/ns/article#
 
         </ul></section><section class="page-content"><div class="content" rel="main">
         <div class="post">
+            <h1 class="title"><a href="posts/2015-10-03-azkaban-for-chinachu/">Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-03T20:14:58+09:00">2015-10-03 20:14</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="categories/azkaban/" rel="tag">azkaban</a></li>
+           <li><a class="tag p-category" href="categories/chinachu/" rel="tag">chinachu</a></li>
+           <li><a class="tag p-category" href="categories/ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p><a href="http://azkaban.github.io/">Azkaban</a>というジョブ管理ツールがあります。
+今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
+recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
+Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
+非力なCPUですので、同時実行の制御は非常に重要です。
+</p>
+<p class="more"><a href="posts/2015-10-03-azkaban-for-chinachu/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/2015-09-26-hugo-shortcodes-nicovideo/">Hugoのshortcodesでnicovideoの埋め込みを簡単にする</a></h1>
             <div class="meta">
                 <div class="authordate">

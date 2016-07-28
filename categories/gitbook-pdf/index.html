@@ -46,92 +46,9 @@ article: http://ogp.me/ns/article#
 <p>ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
 asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
-<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。</p>
-<h3>インストール</h3>
-<p>適当に Node.js/npm をインストールして、<code>sudo npm install -g gitbook-cli</code> する。
-それから<code>gitbook fetch 3.1.1</code>とかやると、~/.gitbook 以下にそのバージョンが入るっぽい。</p>
-<p>あと PDF 生成に calibre とゆーのがいるみたいなんで、適当に <code>apt-get install</code> する。Ubuntu 14.04 LTS では結構古いバージョンだけど多分大丈夫。（手動で新しいバージョンに入れ替えちゃった）</p>
-<p>それから PDF を作成するときになぜか X が必要なので、ssh してたりとか、将来的に Jenkins 使ったりするときには、xvfb というパッケージを入れておく。</p>
-<h3>book を書く</h3>
-<pre class="code literal-block"><span></span>$ gitbook init
-</pre>
-
-
-<p>で雛形を作って、ごりごり書く。</p>
-<h3>PDF を作る</h3>
-<pre class="code literal-block"><span></span>$ gitbook pdf ./ ./output.pdf
-</pre>
-
-
-<p>とやると、ssh しているときとかだとなんかエラーが表示される。</p>
-<pre class="code literal-block"><span></span>$ xvfb-run gitbook pdf ./ ./output.pdf
-</pre>
-
-
-<p>としてやると良い。</p>
-<h3>PDF 出力の微調整</h3>
-<h4>ページ番号を入れる</h4>
-<p>```book.json
-{
-  "pdf": {
-    "pageNumbers": false
-  }
-}</p>
-<pre class="code literal-block"><span></span>なぜか、`pdf.pageNumbers` を **false** にしてやるとページ番号が出るみたい。
-バグ？
-
-### 余白
-
-book.json に `pdf.margin.top` とかで設定する。
-
-### 本文を字下げする
-
-`_layouts/ebook/page.html` というファイルを作る。これはテーマの同じ名前のファイルを置き換えることになるらしい。だからこのファイルの中で元のテーマを呼び出して拡張していく形にする。
-
-```page.html
-<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">template.self</span> <span class="cp">%}</span>
-<span class="cp">{%</span> <span class="k">block</span> <span class="nv">style</span> <span class="cp">%}</span>
-<span class="cp">{{</span> <span class="nb">super</span><span class="o">()</span> <span class="cp">}}</span>
-<span class="nt">&lt;style</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
-.page .section &gt; p {
-    text-indent: 1em;
-}
-.pdf-footer {
-    border-top: 1px solid #666;
-    color:#333;
-}
-.pdf-header {
-    border-bottom: 1px solid #666;
-    color:#333;
-}
-<span class="nt">&lt;/style&gt;</span>
-<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
-
-<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page"</span><span class="nt">&gt;</span>
-    <span class="cp">{%</span> <span class="k">block</span> <span class="nv">page</span> <span class="cp">%}</span>
-        <span class="nt">&lt;h1</span> <span class="na">class=</span><span class="s">"book-chapter book-chapter-</span><span class="cp">{{</span> <span class="nv">page.depth</span> <span class="cp">}}</span><span class="s">"</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">page.title</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"section"</span><span class="nt">&gt;</span>
-            <span class="cp">{{</span> <span class="nv">page.content</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span>
-        <span class="nt">&lt;/div&gt;</span>
-        <span class="nt">&lt;hr</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;div&gt;</span>ソース<span class="nt">&lt;/div&gt;</span>
-        <span class="nt">&lt;hr</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"section"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;pre&gt;</span><span class="cp">{{</span> <span class="nv">page.content</span> <span class="o">|</span> <span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/pre&gt;</span>
-        <span class="nt">&lt;/div&gt;</span>
-    <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
-<span class="nt">&lt;/div&gt;</span>
-<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
-</pre>
-
-
-<p>最初の block style でスタイルシート定義部分を上書きする。<code>.page .section &gt; p</code> というセレクタを使っているので、本文だけがひっかかる・・・はず？</p>
-<p>pdf-footer/pdf-header はヘッダ・フッタの色がデフォルトだと薄いので上書きしている。</p>
-<p>block body の中ではページ（HTMLでいうページなので、PDFだと複数ページになり得る）をレンダリングする部分を上書きしている。
-普通はこれを定義しない（テーマのままにする）か、<code>super()</code> するかで良いと思うが、
-ここではデバッグ用にちょっと書き換えている。普通にレンダリングした後で HTML タグをエスケープして出力することで、Markdown/asciidoc がどういう HTML タグに置き換えられたかをデバッグできるようにした。
-同時に、どんなタグ構造になってるかを把握することで、CSS のセレクタをちゃんと×ように・・・</p>
+<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。
+</p>
+<p class="more"><a href="../../posts/2016-06-16-gitbook-pdf/">続きを読む…</a></p>
 </div>
             </div>
         </div>

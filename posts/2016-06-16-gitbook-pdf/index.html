@@ -19,8 +19,9 @@ article: http://ogp.me/ns/article#
 asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
 GitbookIO/gitboo を試してみる。
+
 インストール
-適当に Node.js/npm をインストールして、sudo np">
+適当に Node.js/npm をインストールして、sudo n">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-06-16T23:18:17+09:00">
 <meta property="article:tag" content="gitbook pdf">
@@ -60,7 +61,8 @@ GitbookIO/gitboo を試してみる。
 <p>ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
 asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
-<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。</p>
+<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。
+<!-- more --></p>
 <h3>インストール</h3>
 <p>適当に Node.js/npm をインストールして、<code>sudo npm install -g gitbook-cli</code> する。
 それから<code>gitbook fetch 3.1.1</code>とかやると、~/.gitbook 以下にそのバージョンが入るっぽい。</p>
@@ -152,6 +154,9 @@ book.json に `pdf.margin.top` とかで設定する。
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
                 <a href="../2016-04-23-nikola/" rel="prev" title="ジェネレータをNikolaに変えた">一つ前の文書</a>
+            </li>
+            <li class="next">
+                <a href="../2016-07-23-gitbucket-jenkins/" rel="next" title="GitBucket と Jenkins を Pipeline で強力に連携させる">次の文書</a>
             </li>
         </ul>
 </div>
