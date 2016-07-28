@@ -13,6 +13,7 @@
 asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
 [GitbookIO/gitboo](https://github.com/GitbookIO/gitbook) を試してみる。
+<!-- more -->
 
 ## インストール
 
