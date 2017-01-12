@@ -173,6 +173,9 @@ THEME_COLOR = '#5670d4'
 
 POSTS = (
     ("posts/*.md", "posts", "post.tmpl"),
+    ("posts/*/*.md", "posts", "post.tmpl"),
+    ("posts/*.adoc", "posts", "post.tmpl"),
+    ("posts/*/*.adoc", "posts", "post.tmpl"),
     ("posts/*.rst", "posts", "post.tmpl"),
     ("posts/*.txt", "posts", "post.tmpl"),
     ("posts/*.html", "posts", "post.tmpl"),
@@ -249,6 +252,7 @@ TIMEZONE = "JST"
 # 'html' assumes the file is HTML and just copies it
 COMPILERS = {
     "markdown": ('.md', '.mdown', '.markdown'),
+    "asciidoc": ('.adoc', '.ad'),
     #"misaka": ('.md', '.markdown'),
     "rest": ('.rst', '.txt'),
     "textile": ('.textile',),
@@ -266,6 +270,8 @@ COMPILERS = {
     # with many of the others.
     # "pandoc": ('.rst', '.md', '.txt'),
 }
+
+ASCIIDOC_BINARY = "asciidoctor"
 
 # Create by default posts in one file format?
 # Set to False for two-file posts, with separate metadata.
