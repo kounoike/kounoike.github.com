@@ -1,5 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>こーのいけのGitHub Pages</title><link>https://kounoike.github.io/</link><description>こーのいけのGitHub Pages powered by Nikola.</description><atom:link type="application/rss+xml" rel="self" href="https://kounoike.github.io/rss.xml"></atom:link><language>ja</language><lastBuildDate>Thu, 28 Jul 2016 22:12:12 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>GitBucket と Jenkins を Pipeline で強力に連携させる</title><link>https://kounoike.github.io/posts/2016-07-23-gitbucket-jenkins/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;Jenkins の 2.7.1 が LTS にやってきたことを機に Jenkins 2 について色々と調べてみた。
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>こーのいけのGitHub Pages</title><link>https://kounoike.github.io/</link><description>こーのいけのGitHub Pages powered by Nikola.</description><atom:link rel="self" href="https://kounoike.github.io/rss.xml" type="application/rss+xml"></atom:link><language>ja</language><lastBuildDate>Thu, 12 Jan 2017 16:32:00 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>ACR39-NTTCom on Linux</title><link>https://kounoike.github.io/posts/2017-01-13-acr39-nttcom/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、&lt;a href="https://www.amazon.co.jp/dp/B017Y8QV4O/"&gt;ACR39-NTTCom&lt;/a&gt;を買った。
+ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.acs.com.hk/en/driver/302/acr39u-smart-card-reader/"&gt;メーカーページ&lt;/a&gt; から &lt;code&gt;PC/SC Driver Package&lt;/code&gt; をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/Raspbian/Ubuntuとある。RaspbianもあるのでRaspberry Piでも大丈夫。&lt;/p&gt;
+&lt;p&gt;後は普通にPC/SC関連のパッケージを入れたりする。ただ今回は既に入っていたので、&lt;code&gt;sudo service pcscd restart&lt;/code&gt;すればOKだった。&lt;/p&gt;
+&lt;p&gt;これで地デジカード（直感とは逆に色付きの面を下にすることに注意）をさせばpcsc_scanとかで認識する。&lt;/p&gt;&lt;/div&gt;</description><category>B-CAS</category><category>Linux</category><category>Raspbian</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2017-01-13-acr39-nttcom/</guid><pubDate>Thu, 12 Jan 2017 16:25:13 GMT</pubDate></item><item><title>(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン</title><link>https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;div id="preamble"&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
+groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
+今回はその中でも GitHub Organization Folder Plugin に注目してみました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="_pipeline"&gt;Pipeline ジョブってナニ？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
+SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
+実行してくれるものです。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="_github_oraganization_folder_plugin"&gt;GitHub Oraganization Folder Plugin ってナニ？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitHub Organization Folder Plugin (以下GHO プラグイン) は、
+GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
+Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
+リポジトリに対応するフォルダーを作成してくれます。
+更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
+グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;strong&gt;Organization&lt;/strong&gt; Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="__gitbucket"&gt;それ GitBucket で出来ない？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
+今回は [GitBucket](&lt;a href="https://github.com/gitbucket/gitbucket"&gt;https://github.com/gitbucket/gitbucket&lt;/a&gt;) で使うことに挑戦してみます。
+GitBucket は&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;A Git platform powered by Scala with easy installation, high extensibility &amp;amp; github API compatibility&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
+動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では&lt;strong&gt;条件付きで&lt;/strong&gt;
+動くようになりました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="_"&gt;どうすれば動くの？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;API の認証に HTTP Basic 認証を使えなかった&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
+問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
+Git のリポジトリ URL を &lt;a href="http://server/user/repo.git"&gt;http://server/user/repo.git&lt;/a&gt; と決めうちにしているところが問題でした。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitBucket では &lt;a href="http://server:port/gitbucket_prefix/git/user/repo.git"&gt;http://server:port/gitbucket_prefix/git/user/repo.git&lt;/a&gt; となります。
+Jenkins の Git Branch Source Plugin では、&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;サーバのルートで動いているものとしている (prefix が指定できない)
+-&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>GitBucket</category><category>Jenkins</category><guid>https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/</guid><pubDate>Sun, 11 Sep 2016 07:58:38 GMT</pubDate></item><item><title>GitBucket と Jenkins を Pipeline で強力に連携させる</title><link>https://kounoike.github.io/posts/2016-07-23-gitbucket-jenkins/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;Jenkins の 2.7.1 が LTS にやってきたことを機に Jenkins 2 について色々と調べてみた。
 目玉はやはり Pipeline Plugin の導入であり、Pipeline ジョブの場合、GitHub との連携は
 GitHub Organization Folder Plugin で行うのがとても便利らしい。
 ところがこの GitHub Organization Folder Plugin はそのままでは GitBucket とは
@@ -21,8 +123,4 @@ Python で書かれていて、ソースにもテンプレートにも馴染み�
 かといっていちいち1ファイルずつちまちまとCMカット作業をしたくはありません。comskipである程度は検出できているのですから。
 そうなると次は「人間が確認しつつ、楽をする」ようにしたくなります。そこでcomskipの仕組みを考慮しながら、
 pythonやらJavascriptやら使ってCMカット環境を構築してみました。
-&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は7分)&lt;/p&gt;&lt;/div&gt;</description><category>chinachu</category><category>comskip</category><category>ffmpeg</category><category>python</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/</guid><pubDate>Mon, 19 Oct 2015 10:52:20 GMT</pubDate></item><item><title>Azkabanでエラーメール</title><link>https://kounoike.github.io/posts/2015-10-04-azkaban-mail/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;Azkabanでエラーがあったときにメールするようにしよう、と思ったらGmailの587ポート接続に対応していない。パッチを当てて再ビルドしよう。
-&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-04-azkaban-mail/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>azkaban</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-04-azkaban-mail/</guid><pubDate>Sun, 04 Oct 2015 13:06:26 GMT</pubDate></item><item><title>Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)</title><link>https://kounoike.github.io/posts/2015-10-04-azkaban-for-chinachu-job/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
-まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
-エンコードオプションは、&lt;a href="http://d.hatena.ne.jp/munepi/20091227/1261941397"&gt;ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた&lt;/a&gt;を参考に設定。
-&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-04-azkaban-for-chinachu-job/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>azkaban</category><category>chinachu</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-04-azkaban-for-chinachu-job/</guid><pubDate>Sat, 03 Oct 2015 15:36:13 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は7分)&lt;/p&gt;&lt;/div&gt;</description><category>chinachu</category><category>comskip</category><category>ffmpeg</category><category>python</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-19-semiauto-cm-cut/</guid><pubDate>Mon, 19 Oct 2015 10:52:20 GMT</pubDate></item></channel></rss>

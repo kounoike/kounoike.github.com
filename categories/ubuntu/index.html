@@ -25,6 +25,36 @@ article: http://ogp.me/ns/article#
 
         </ul></section><section class="page-content"><div class="content" rel="main">
         <div class="post">
+            <h1 class="title"><a href="../../posts/2017-01-13-acr39-nttcom/">ACR39-NTTCom on Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-01-13T01:25:13+09:00">2017-01-13 01:25</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../b-cas/" rel="tag">B-CAS</a></li>
+           <li><a class="tag p-category" href="../linux/" rel="tag">Linux</a></li>
+           <li><a class="tag p-category" href="../raspbian/" rel="tag">Raspbian</a></li>
+           <li><a class="tag p-category" href="." rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、<a href="https://www.amazon.co.jp/dp/B017Y8QV4O/">ACR39-NTTCom</a>を買った。
+ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。</p>
+<p><a href="http://www.acs.com.hk/en/driver/302/acr39u-smart-card-reader/">メーカーページ</a> から <code>PC/SC Driver Package</code> をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/Raspbian/Ubuntuとある。RaspbianもあるのでRaspberry Piでも大丈夫。</p>
+<p>後は普通にPC/SC関連のパッケージを入れたりする。ただ今回は既に入っていたので、<code>sudo service pcscd restart</code>すればOKだった。</p>
+<p>これで地デジカード（直感とは逆に色付きの面を下にすることに注意）をさせばpcsc_scanとかで認識する。</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="../../posts/2015-10-25-chinachu-upstart/">Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -228,7 +258,7 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
     
     
     
-                    <footer id="footer"><p>Contents © 2016         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

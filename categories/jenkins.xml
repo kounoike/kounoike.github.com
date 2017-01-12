@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>こーのいけのGitHub Pages (Jenkins)</title><link>https://kounoike.github.io/</link><description></description><atom:link type="application/rss+xml" href="https://kounoike.github.io/categories/jenkins.xml" rel="self"></atom:link><language>ja</language><lastBuildDate>Sun, 11 Sep 2016 14:58:39 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン</title><link>https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;div id="preamble"&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
+groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
+今回はその中でも GitHub Organization Folder Plugin に注目してみました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="_pipeline"&gt;Pipeline ジョブってナニ？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
+SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
+実行してくれるものです。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="_github_oraganization_folder_plugin"&gt;GitHub Oraganization Folder Plugin ってナニ？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitHub Organization Folder Plugin (以下GHO プラグイン) は、
+GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
+Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
+リポジトリに対応するフォルダーを作成してくれます。
+更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
+グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;strong&gt;Organization&lt;/strong&gt; Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="__gitbucket"&gt;それ GitBucket で出来ない？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
+今回は [GitBucket](&lt;a href="https://github.com/gitbucket/gitbucket"&gt;https://github.com/gitbucket/gitbucket&lt;/a&gt;) で使うことに挑戦してみます。
+GitBucket は&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre&gt;A Git platform powered by Scala with easy installation, high extensibility &amp;amp; github API compatibility&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
+動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では&lt;strong&gt;条件付きで&lt;/strong&gt;
+動くようになりました。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h3 id="_"&gt;どうすれば動くの？&lt;/h3&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;API の認証に HTTP Basic 認証を使えなかった&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
+問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
+Git のリポジトリ URL を &lt;a href="http://server/user/repo.git"&gt;http://server/user/repo.git&lt;/a&gt; と決めうちにしているところが問題でした。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;GitBucket では &lt;a href="http://server:port/gitbucket_prefix/git/user/repo.git"&gt;http://server:port/gitbucket_prefix/git/user/repo.git&lt;/a&gt; となります。
+Jenkins の Git Branch Source Plugin では、&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;サーバのルートで動いているものとしている (prefix が指定できない)
+-&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>GitBucket</category><category>Jenkins</category><guid>https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/</guid><pubDate>Sun, 11 Sep 2016 07:58:38 GMT</pubDate></item></channel></rss>

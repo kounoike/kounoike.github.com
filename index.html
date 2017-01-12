@@ -26,6 +26,158 @@ article: http://ogp.me/ns/article#
 
         </ul></section><section class="page-content"><div class="content" rel="main">
         <div class="post">
+            <h1 class="title"><a href="posts/2017-01-13-acr39-nttcom/">ACR39-NTTCom on Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-01-13T01:25:13+09:00">2017-01-13 01:25</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="categories/b-cas/" rel="tag">B-CAS</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">Linux</a></li>
+           <li><a class="tag p-category" href="categories/raspbian/" rel="tag">Raspbian</a></li>
+           <li><a class="tag p-category" href="categories/ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、<a href="https://www.amazon.co.jp/dp/B017Y8QV4O/">ACR39-NTTCom</a>を買った。
+ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。</p>
+<p><a href="http://www.acs.com.hk/en/driver/302/acr39u-smart-card-reader/">メーカーページ</a> から <code>PC/SC Driver Package</code> をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/Raspbian/Ubuntuとある。RaspbianもあるのでRaspberry Piでも大丈夫。</p>
+<p>後は普通にPC/SC関連のパッケージを入れたりする。ただ今回は既に入っていたので、<code>sudo service pcscd restart</code>すればOKだった。</p>
+<p>これで地デジカード（直感とは逆に色付きの面を下にすることに注意）をさせばpcsc_scanとかで認識する。</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/2016-09-11-jenkins-gitbucket-gho/">(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-09-11T16:58:38+09:00">2016-09-11 16:58</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="categories/gitbucket/" rel="tag">GitBucket</a></li>
+           <li><a class="tag p-category" href="categories/jenkins/" rel="tag">Jenkins</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
+groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
+今回はその中でも GitHub Organization Folder Plugin に注目してみました。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h3 id="_pipeline">Pipeline ジョブってナニ？</h3>
+<div class="sectionbody">
+<div class="paragraph">
+<p>groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
+SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
+実行してくれるものです。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h3 id="_github_oraganization_folder_plugin">GitHub Oraganization Folder Plugin ってナニ？</h3>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GitHub Organization Folder Plugin (以下GHO プラグイン) は、
+GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
+Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
+リポジトリに対応するフォルダーを作成してくれます。
+更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
+グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。</p>
+</div>
+<div class="paragraph">
+<p><strong>Organization</strong> Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h3 id="__gitbucket">それ GitBucket で出来ない？</h3>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
+今回は [GitBucket](<a href="https://github.com/gitbucket/gitbucket">https://github.com/gitbucket/gitbucket</a>) で使うことに挑戦してみます。
+GitBucket は</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>A Git platform powered by Scala with easy installation, high extensibility &amp; github API compatibility</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。</p>
+</div>
+<div class="paragraph">
+<p>そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
+動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では<strong>条件付きで</strong>
+動くようになりました。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h3 id="_">どうすれば動くの？</h3>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)</p>
+</li>
+<li>
+<p>API の認証に HTTP Basic 認証を使えなかった</p>
+</li>
+<li>
+<p>Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
+問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
+Git のリポジトリ URL を <a href="http://server/user/repo.git">http://server/user/repo.git</a> と決めうちにしているところが問題でした。</p>
+</div>
+<div class="paragraph">
+<p>GitBucket では <a href="http://server:port/gitbucket_prefix/git/user/repo.git">http://server:port/gitbucket_prefix/git/user/repo.git</a> となります。
+Jenkins の Git Branch Source Plugin では、</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)</p>
+</li>
+<li>
+<p>サーバのルートで動いているものとしている (prefix が指定できない)
+-</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/2016-07-23-gitbucket-jenkins/">GitBucket と Jenkins を Pipeline で強力に連携させる</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -231,66 +383,11 @@ pythonやらJavascriptやら使ってCMカット環境を構築してみまし�
 </div>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/2015-10-04-azkaban-mail/">Azkabanでエラーメール</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-10-04T22:06:26+09:00">2015-10-04 22:06</time>
-</div>
-                <div class="stats">
-                    
-                </div>
-                        <div itemprop="keywords" class="tags">
-        <ul>
-        タグ : 
-           <li><a class="tag p-category" href="categories/azkaban/" rel="tag">azkaban</a></li>
-           <li><a class="tag p-category" href="categories/ubuntu/" rel="tag">ubuntu</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>Azkabanでエラーがあったときにメールするようにしよう、と思ったらGmailの587ポート接続に対応していない。パッチを当てて再ビルドしよう。
-</p>
-<p class="more"><a href="posts/2015-10-04-azkaban-mail/">続きを読む…</a></p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/2015-10-04-azkaban-for-chinachu-job/">Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-10-04T00:36:13+09:00">2015-10-04 00:36</time>
-</div>
-                <div class="stats">
-                    
-                </div>
-                        <div itemprop="keywords" class="tags">
-        <ul>
-        タグ : 
-           <li><a class="tag p-category" href="categories/azkaban/" rel="tag">azkaban</a></li>
-           <li><a class="tag p-category" href="categories/chinachu/" rel="tag">chinachu</a></li>
-           <li><a class="tag p-category" href="categories/ubuntu/" rel="tag">ubuntu</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
-まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
-エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。
-</p>
-<p class="more"><a href="posts/2015-10-04-azkaban-for-chinachu-job/">続きを読む…</a></p>
-</div>
-            </div>
-        </div>
             <nav class="postindexpager"><ul class="pager">
 <li class="next">
-                <a href="index-1.html" rel="next">過去の文書</a>
+                <a href="index-2.html" rel="next">過去の文書</a>
             </li>
-        </ul></nav><footer id="footer"><p>Contents © 2016         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
