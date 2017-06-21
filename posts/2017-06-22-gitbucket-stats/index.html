@@ -6,24 +6,20 @@ article: http://ogp.me/ns/article#
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>ACR39-NTTCom on Linux | こーのいけのGitHub Pages</title>
+<title>GitBucket の統計データ表示プラグイン | こーのいけのGitHub Pages</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/share-button.min.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://kounoike.github.io/posts/2017-01-13-acr39-nttcom/">
+<link rel="canonical" href="https://kounoike.github.io/posts/2017-06-22-gitbucket-stats/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="KOUNOIKE Yuusuke">
 <meta property="og:site_name" content="こーのいけのGitHub Pages">
-<meta property="og:title" content="ACR39-NTTCom on Linux">
-<meta property="og:url" content="https://kounoike.github.io/posts/2017-01-13-acr39-nttcom/">
-<meta property="og:description" content="ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、ACR39-NTTComを買った。
-ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。
-メーカーページ から PC/SC Driver Package をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/R">
+<meta property="og:title" content="GitBucket の統計データ表示プラグイン">
+<meta property="og:url" content="https://kounoike.github.io/posts/2017-06-22-gitbucket-stats/">
+<meta property="og:description" content="ドラフト版
+こんな感じのを作ってみている">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2017-01-13T01:25:13+09:00">
-<meta property="article:tag" content="B-CAS">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Raspbian">
-<meta property="article:tag" content="ubuntu">
+<meta property="article:published_time" content="2017-06-22T00:00:00+09:00">
+<meta property="article:tag" content="GitBucket">
 </head>
 <body>
     <section class="social"><ul>
@@ -37,11 +33,11 @@ article: http://ogp.me/ns/article#
 
         </ul></section><section class="page-content"><div class="content" rel="main">
     <div class="post">
-        <h1 class="p-name entry-title" itemprop="headline name">ACR39-NTTCom on Linux</h1>
+        <h1 class="p-name entry-title" itemprop="headline name">GitBucket の統計データ表示プラグイン</h1>
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2017-01-13T01:25:13+09:00">2017-01-13 01:25</time>
+                <time class="timeago" datetime="2017-06-22T00:00:00+09:00">2017-06-22 00:00</time>
             
                       |  
         <a href="index.md" id="sourcelink">ソース</a>
@@ -50,30 +46,22 @@ article: http://ogp.me/ns/article#
                     <div itemprop="keywords" class="tags">
         <ul>
         タグ : 
-           <li><a class="tag p-category" href="../../categories/b-cas/" rel="tag">B-CAS</a></li>
-           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">Linux</a></li>
-           <li><a class="tag p-category" href="../../categories/raspbian/" rel="tag">Raspbian</a></li>
-           <li><a class="tag p-category" href="../../categories/ubuntu/" rel="tag">ubuntu</a></li>
+           <li><a class="tag p-category" href="../../categories/gitbucket/" rel="tag">GitBucket</a></li>
         </ul>
 </div>
 
         </div>
         <div class="body">
             <div>
-<p>ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、<a href="https://www.amazon.co.jp/dp/B017Y8QV4O/">ACR39-NTTCom</a>を買った。
-ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。</p>
-<p><a href="http://www.acs.com.hk/en/driver/302/acr39u-smart-card-reader/">メーカーページ</a> から <code>PC/SC Driver Package</code> をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/Raspbian/Ubuntuとある。RaspbianもあるのでRaspberry Piでも大丈夫。</p>
-<p>後は普通にPC/SC関連のパッケージを入れたりする。ただ今回は既に入っていたので、<code>sudo service pcscd restart</code>すればOKだった。</p>
-<p>これで地デジカード（直感とは逆に色付きの面を下にすることに注意）をさせばpcsc_scanとかで認識する。</p>
+<p><a href="gitbucket-gbstats-plugin_2.12-1.0.0.jar">ドラフト版</a></p>
+<p>こんな感じのを作ってみている
+<img alt="スクリーンショット" src="ss.png"></p>
 </div>
         </div>
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2016-09-11-jenkins-gitbucket-gho/" rel="prev" title="(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン">一つ前の文書</a>
-            </li>
-            <li class="next">
-                <a href="../2017-06-22-gitbucket-stats/" rel="next" title="GitBucket の統計データ表示プラグイン">次の文書</a>
+                <a href="../2017-01-13-acr39-nttcom/" rel="prev" title="ACR39-NTTCom on Linux">一つ前の文書</a>
             </li>
         </ul>
 </div>
