@@ -1,0 +1,7 @@
+{
+    "rules": {
+        "preset-ja-technical-writing": true,
+        "no-todo": true,
+        "spellcheck-tech-word": true
+    }
+}
