@@ -1,3 +1,4 @@
+name: nikola
 on: [push]
 
 jobs:
