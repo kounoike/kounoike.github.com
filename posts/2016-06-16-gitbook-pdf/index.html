@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -20,8 +17,9 @@ asciidoctor も調べたんだけど出力の微調整でうまくいかなく�
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
 GitbookIO/gitboo を試してみる。
 
+
 インストール
-適当に Node.js/npm をインストールして、sudo n">
+適当に Node.js/npm をインストールして、sudo ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-06-16T23:18:17+09:00">
 <meta property="article:tag" content="gitbook pdf">
@@ -61,51 +59,44 @@ GitbookIO/gitboo を試してみる。
 <p>ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
 asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
-<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。
-<!-- more --></p>
+<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。</p>
+<!-- more -->
+
 <h3>インストール</h3>
 <p>適当に Node.js/npm をインストールして、<code>sudo npm install -g gitbook-cli</code> する。
 それから<code>gitbook fetch 3.1.1</code>とかやると、~/.gitbook 以下にそのバージョンが入るっぽい。</p>
 <p>あと PDF 生成に calibre とゆーのがいるみたいなんで、適当に <code>apt-get install</code> する。Ubuntu 14.04 LTS では結構古いバージョンだけど多分大丈夫。（手動で新しいバージョンに入れ替えちゃった）</p>
 <p>それから PDF を作成するときになぜか X が必要なので、ssh してたりとか、将来的に Jenkins 使ったりするときには、xvfb というパッケージを入れておく。</p>
 <h3>book を書く</h3>
-<pre class="code literal-block"><span></span>$ gitbook init
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ gitbook init
+</code></pre>
 
 <p>で雛形を作って、ごりごり書く。</p>
 <h3>PDF を作る</h3>
-<pre class="code literal-block"><span></span>$ gitbook pdf ./ ./output.pdf
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ gitbook pdf ./ ./output.pdf
+</code></pre>
 
 <p>とやると、ssh しているときとかだとなんかエラーが表示される。</p>
-<pre class="code literal-block"><span></span>$ xvfb-run gitbook pdf ./ ./output.pdf
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ xvfb-run gitbook pdf ./ ./output.pdf
+</code></pre>
 
 <p>としてやると良い。</p>
 <h3>PDF 出力の微調整</h3>
 <h4>ページ番号を入れる</h4>
-<p>```book.json
-{
-  "pdf": {
-    "pageNumbers": false
-  }
-}</p>
-<pre class="code literal-block"><span></span>なぜか、`pdf.pageNumbers` を **false** にしてやるとページ番号が出るみたい。
-バグ？
+<pre class="code literal-block"><span></span><code><span class="err">{</span>
+<span class="err">  "pdf": {</span>
+<span class="err">    "pageNumbers": false</span>
+<span class="err">  }</span>
+<span class="err">}</span>
+</code></pre>
 
-### 余白
-
-book.json に `pdf.margin.top` とかで設定する。
-
-### 本文を字下げする
-
-`_layouts/ebook/page.html` というファイルを作る。これはテーマの同じ名前のファイルを置き換えることになるらしい。だからこのファイルの中で元のテーマを呼び出して拡張していく形にする。
-
-```page.html
-<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">template.self</span> <span class="cp">%}</span>
+<p>なぜか、<code>pdf.pageNumbers</code> を <strong>false</strong> にしてやるとページ番号が出るみたい。
+バグ？</p>
+<h4>余白</h4>
+<p>book.json に <code>pdf.margin.top</code> とかで設定する。</p>
+<h4>本文を字下げする</h4>
+<p><code>_layouts/ebook/page.html</code> というファイルを作る。これはテーマの同じ名前のファイルを置き換えることになるらしい。だからこのファイルの中で元のテーマを呼び出して拡張していく形にする。</p>
+<pre class="code literal-block"><span></span><code><span class="cp">{%</span> <span class="k">extends</span> <span class="nv">template.self</span> <span class="cp">%}</span>
 <span class="cp">{%</span> <span class="k">block</span> <span class="nv">style</span> <span class="cp">%}</span>
 <span class="cp">{{</span> <span class="nb">super</span><span class="o">()</span> <span class="cp">}}</span>
 <span class="nt">&lt;style</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
@@ -139,8 +130,7 @@ book.json に `pdf.margin.top` とかで設定する。
     <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
 <span class="nt">&lt;/div&gt;</span>
 <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
-</pre>
-
+</code></pre>
 
 <p>最初の block style でスタイルシート定義部分を上書きする。<code>.page .section &gt; p</code> というセレクタを使っているので、本文だけがひっかかる・・・はず？</p>
 <p>pdf-footer/pdf-header はヘッダ・フッタの色がデフォルトだと薄いので上書きしている。</p>
@@ -153,14 +143,14 @@ book.json に `pdf.margin.top` とかで設定する。
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2016-04-23-nikola/" rel="prev" title="ジェネレータをNikolaに変えた">一つ前の文書</a>
+                <a href="../2016-04-23-nikola/" rel="prev" title="ジェネレータをNikolaに変えた">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2016-07-23-gitbucket-jenkins/" rel="next" title="GitBucket と Jenkins を Pipeline で強力に連携させる">次の文書</a>
+                <a href="../2016-07-23-gitbucket-jenkins/" rel="next" title="GitBucket と Jenkins を Pipeline で強力に連携させる">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -63,8 +60,9 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
 今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
 recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
 Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
-非力なCPUですので、同時実行の制御は非常に重要です。
-<!--more--></p>
+非力なCPUですので、同時実行の制御は非常に重要です。</p>
+<!--more-->
+
 <h2>Azkaban のインストール</h2>
 <p><a href="http://azkaban.github.io/downloads.html">Azkaban ダウンロードページ</a> には 2.5.0 までしか無いですが、
 <a href="https://github.com/azkaban/azkaban">GitHub</a> の Releases には 2.7.0 までがあります。
@@ -84,32 +82,27 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
 <h4>ビルド</h4>
 <p>soloserver の配布用 tar をビルドします。
 なんかpythonジョブのテストに失敗するので、テストをスキップします。</p>
-<pre class="code literal-block"><span></span>$ ./gradlew soloserverDistTar -x <span class="nb">test</span>
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ ./gradlew soloserverDistTar -x <span class="nb">test</span>
+</code></pre>
 
 <p>なんか注意が出てますけどとりあえずビルドは出来ました。build/distributionsにazkaban-solo-server-2.6.4.tar.gzが出来ています。</p>
 <h3>展開＆テスト実行</h3>
-<pre class="code literal-block"><span></span>$ tar zxvf build/distributions/azkaban-solo-server-2.6.4.tar.gz <span class="o">&amp;&amp;</span> sudo cp -R azkaban-solo-server-2.6.4 /opt/azkaban-solo-server
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ tar zxvf build/distributions/azkaban-solo-server-2.6.4.tar.gz <span class="o">&amp;&amp;</span> sudo cp -R azkaban-solo-server-2.6.4 /opt/azkaban-solo-server
+</code></pre>
 
 <p>念のため設定系は一般ユーザから読めないようにしておきましょう。</p>
-<pre class="code literal-block"><span></span>$ chmod og-r /opt/azkaban-solo-server/conf/*
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ chmod og-r /opt/azkaban-solo-server/conf/*
+</code></pre>
 
 <p>テスト実行してみます。</p>
-<pre class="code literal-block"><span></span>$ <span class="nb">cd</span> /opt/azkaban-solo-server
+<pre class="code literal-block"><span></span><code>$ <span class="nb">cd</span> /opt/azkaban-solo-server
 $ sudo ./bin/azkaban-solo-start.sh
-</pre>
-
+</code></pre>
 
 <p>バックグラウンドで色々微妙なログが流れますが、何か起動したっぽいです。</p>
 <h3>ufw（ファイアウォール）の設定</h3>
-<pre class="code literal-block"><span></span>$ ufw allow 8081/tcp
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ ufw allow <span class="m">8081</span>/tcp
+</code></pre>
 
 <p>ufwでファイアウォールを管理している場合は8081/tcpを空けます。</p>
 <p>ポート8081にブラウザで接続して、何か見えるようでしたら、動作確認できたということで、もうちょっと設定をしていきます。
@@ -120,24 +113,22 @@ azkaban-solo-shutdown.shで停止します。</p>
 <h3>conf/azkaban.properties</h3>
 <p>サーバの名前とタイムゾーンくらいは設定しておきましょう。重要なこととして、並列実行されるジョブを1つだけに制限しておきます。
 （executor.flow.threadsとflow.num.job.threadsのどっちが利くかわかってない。後者だけだと同時実行されちゃったので多分前者かな）</p>
-<pre class="code literal-block"><span></span># Azkaban Personalization Settings
-azkaban.name=pt3rec
-azkaban.label=My PT3REC Azkaban
-azkaban.color=#FF3601
-default.timezone.id=Asia/Tokyo
+<pre class="code literal-block"><span></span><code><span class="o">#</span> <span class="n">Azkaban</span> <span class="n">Personalization</span> <span class="n">Settings</span>
+<span class="n">azkaban</span><span class="p">.</span><span class="n">name</span><span class="o">=</span><span class="n">pt3rec</span>
+<span class="n">azkaban</span><span class="p">.</span><span class="n">label</span><span class="o">=</span><span class="n">My</span> <span class="n">PT3REC</span> <span class="n">Azkaban</span>
+<span class="n">azkaban</span><span class="p">.</span><span class="n">color</span><span class="o">=#</span><span class="n">FF3601</span>
+<span class="k">default</span><span class="p">.</span><span class="n">timezone</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">Asia</span><span class="o">/</span><span class="n">Tokyo</span>
 
-executor.flow.threads=1
+<span class="n">executor</span><span class="p">.</span><span class="n">flow</span><span class="p">.</span><span class="n">threads</span><span class="o">=</span><span class="mi">1</span>
 
-flow.num.job.threads=1
-</pre>
-
+<span class="n">flow</span><span class="p">.</span><span class="n">num</span><span class="p">.</span><span class="n">job</span><span class="p">.</span><span class="n">threads</span><span class="o">=</span><span class="mi">1</span>
+</code></pre>
 
 <h3>ユーザ</h3>
 <p>なんか一般ユーザで実行させるっぽいので適当に作る。</p>
-<pre class="code literal-block"><span></span>$ sudo useradd -s /bin/false -d /opt/azkaban-solo-server azkaban
+<pre class="code literal-block"><span></span><code>$ sudo useradd -s /bin/false -d /opt/azkaban-solo-server azkaban
 $ sudo chown -R azkaban:azkaban /opt/azkaban-solo-server
-</pre>
-
+</code></pre>
 
 <h3>/etc/init/azkaban-solo.conf</h3>
 <p>```/etc/init/azkaban-solo.conf
@@ -183,9 +174,8 @@ fi
 AZKABAN_OPTS="$AZKABAN_OPTS -server -Dcom.sun.management.jmxremote -Djava.io.tmpdir=$tmpdir -Dexecutorport=$executorport -Dserverpath=$serverpath"</p>
 <p>java $AZKABAN_OPTS -cp $CLASSPATH azkaban.soloserver.AzkabanSingleServer -conf $azkaban_dir/conf &gt;&gt; /var/log/azkaban-solo/azkaban-solo.log 2&gt;&amp;1
 end script</p>
-<pre class="code literal-block"><span></span>
-</pre>
-
+<pre class="code literal-block"><span></span><code>
+</code></pre>
 
 <p>$ sudo mkdir /var/run/azkaban-solo /var/log/azkaban-solo
 $ sudo chown azkaban:azkaban /var/run/azkaban-solo /var/log/azkaban-solo
@@ -199,14 +189,14 @@ $ sudo start azkaban-solo
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2015-09-26-hugo-shortcodes-nicovideo/" rel="prev" title="Hugoのshortcodesでnicovideoの埋め込みを簡単にする">一つ前の文書</a>
+                <a href="../2015-09-26-hugo-shortcodes-nicovideo/" rel="prev" title="Hugoのshortcodesでnicovideoの埋め込みを簡単にする">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2015-10-04-azkaban-for-chinachu-job/" rel="next" title="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)">次の文書</a>
+                <a href="../2015-10-04-azkaban-for-chinachu-job/" rel="next" title="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(ジョブ作成編)">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

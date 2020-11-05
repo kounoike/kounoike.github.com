@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>ubuntuについての文書 | こーのいけのGitHub Pages</title>
+<title>ubuntuについての記事 | こーのいけのGitHub Pages</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/share-button.min.css" rel="stylesheet" type="text/css">
-<link rel="alternate" type="application/rss+xml" title="RSS for tag ubuntu (ja)" href="../ubuntu.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="https://kounoike.github.io/categories/ubuntu/">
-<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><link rel="alternate" type="application/rss+xml" title="RSS for tag ubuntu" hreflang="ja" href="../ubuntu.xml">
 </head>
 <body>
     <section class="social"><ul>
@@ -74,8 +71,7 @@ article: http://ogp.me/ns/article#
             </div>
             <div class="body">
                 <div>
-<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。
-</p>
+<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。</p>
 <p class="more"><a href="../../posts/2015-10-25-chinachu-upstart/">続きを読む…</a></p>
 </div>
             </div>
@@ -104,8 +100,7 @@ article: http://ogp.me/ns/article#
             <div class="body">
                 <div>
 <p>Chinachuのエンコードジョブのバッチ管理に<a href="https://azkaban.github.io/">Azkaban</a>を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
-結果、今のところAzkabanが最適だという結論になってしまった。
-</p>
+結果、今のところAzkabanが最適だという結論になってしまった。</p>
 <p class="more"><a href="../../posts/2015-10-24-schedulers/">続きを読む…</a></p>
 </div>
             </div>
@@ -136,8 +131,7 @@ article: http://ogp.me/ns/article#
 <p>comskip、色々設定を変えながら試したのですがどうやっても安心して任せられる設定にすることは無理だという結論になりました。
 かといっていちいち1ファイルずつちまちまとCMカット作業をしたくはありません。comskipである程度は検出できているのですから。
 そうなると次は「人間が確認しつつ、楽をする」ようにしたくなります。そこでcomskipの仕組みを考慮しながら、
-pythonやらJavascriptやら使ってCMカット環境を構築してみました。
-</p>
+pythonやらJavascriptやら使ってCMカット環境を構築してみました。</p>
 <p class="more"><a href="../../posts/2015-10-19-semiauto-cm-cut/">続きを読む…</a></p>
 </div>
             </div>
@@ -162,8 +156,7 @@ pythonやらJavascriptやら使ってCMカット環境を構築してみまし�
             </div>
             <div class="body">
                 <div>
-<p>Azkabanでエラーがあったときにメールするようにしよう、と思ったらGmailの587ポート接続に対応していない。パッチを当てて再ビルドしよう。
-</p>
+<p>Azkabanでエラーがあったときにメールするようにしよう、と思ったらGmailの587ポート接続に対応していない。パッチを当てて再ビルドしよう。</p>
 <p class="more"><a href="../../posts/2015-10-04-azkaban-mail/">続きを読む…</a></p>
 </div>
             </div>
@@ -191,8 +184,7 @@ pythonやらJavascriptやら使ってCMカット環境を構築してみまし�
                 <div>
 <p>Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
 まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
-エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。
-</p>
+エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。</p>
 <p class="more"><a href="../../posts/2015-10-04-azkaban-for-chinachu-job/">続きを読む…</a></p>
 </div>
             </div>
@@ -222,8 +214,7 @@ pythonやらJavascriptやら使ってCMカット環境を構築してみまし�
 今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
 recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
 Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
-非力なCPUですので、同時実行の制御は非常に重要です。
-</p>
+非力なCPUですので、同時実行の制御は非常に重要です。</p>
 <p class="more"><a href="../../posts/2015-10-03-azkaban-for-chinachu/">続きを読む…</a></p>
 </div>
             </div>
@@ -249,16 +240,16 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
             <div class="body">
                 <div>
 <h2>何それ</h2>
-<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。
-</p>
+<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。</p>
 <p class="more"><a href="../../posts/2015-09-23-ttytter/">続きを読む…</a></p>
 </div>
             </div>
         </div>
     
     
-    
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        
+
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

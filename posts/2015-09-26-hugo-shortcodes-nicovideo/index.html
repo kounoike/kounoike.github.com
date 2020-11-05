@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -68,34 +65,30 @@ layouts/shortcodes/nicovideo.html として、以下をおきます。
 
 <h2>動画サムネイル</h2>
 <p>layouts/shortcodes/nicovideo.html として、以下をおきます。</p>
-<pre class="code literal-block"><span></span><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">"312"</span> <span class="na">height</span><span class="o">=</span><span class="s">"200"</span> <span class="na">src</span><span class="o">=</span><span class="s">"http://ext.nicovideo.jp/thumb/{{ .Get 0 }}"</span> <span class="na">scrolling</span><span class="o">=</span><span class="s">"no"</span> <span class="na">style</span><span class="o">=</span><span class="s">"border:solid 1px #CCC;"</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">"0"</span><span class="p">&gt;</span>
+<pre class="code literal-block"><span></span><code><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">"312"</span> <span class="na">height</span><span class="o">=</span><span class="s">"200"</span> <span class="na">src</span><span class="o">=</span><span class="s">"http://ext.nicovideo.jp/thumb/{{ .Get 0 }}"</span> <span class="na">scrolling</span><span class="o">=</span><span class="s">"no"</span> <span class="na">style</span><span class="o">=</span><span class="s">"border:solid 1px #CCC;"</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">"0"</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
-</pre>
-
+</code></pre>
 
 <p>記事の Markdown では以下のように書きます。</p>
-<pre class="code literal-block"><span></span>｛｛&lt;nicovideo sm9 &gt;｝｝
-</pre>
-
+<pre class="code literal-block"><span></span><code><span class="err">｛｛&lt;nicovideo sm9 &gt;｝｝</span>
+</code></pre>
 
 <p>・・・code fence の中でさえ shortcodes の置き換えが利いちゃうので、全角｛を半角に書き換えてください。</p>
 <p>こうなります。
 {{&lt; nicovideo sm9 &gt;}}</p>
 <h2>動画プレイヤー</h2>
 <p>同じ nicovideo にして、if で分岐させようと思ったのですが、色々やってもうまくいかなかったので別の名前の shortcodes にしちゃいました。</p>
-<pre class="code literal-block"><span></span>{{ $sm := .Get 0 }}
+<pre class="code literal-block"><span></span><code>{{ $sm := .Get 0 }}
 {{ $url := printf "http://api.ce.nicovideo.jp/nicoapi/v1/video.info?v=%s<span class="err">&amp;</span>__format=json" $sm }}
 {{ $dataJ := getJSON $url }}
 {{ $title := $dataJ.nicovideo_video_response.video.title }}
 <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/javascript"</span> <span class="na">src</span><span class="o">=</span><span class="s">"http://ext.nicovideo.jp/thumb_watch/{{ $sm }}?w=490&amp;amp;h=307"</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">noscript</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"http://www.nicovideo.jp/watch/{{ $sm }}"</span><span class="p">&gt;</span>{{ $title }}<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">noscript</span><span class="p">&gt;</span>
-</pre>
-
+</code></pre>
 
 <p>使い方はこう。</p>
-<pre class="code literal-block"><span></span>｛｛&lt;nicovideoplayer sm9 &gt;｝｝
-</pre>
-
+<pre class="code literal-block"><span></span><code><span class="err">｛｛&lt;nicovideoplayer sm9 &gt;｝｝</span>
+</code></pre>
 
 <p>こうなります。
 {{<nicovideoplayer sm9>}}</nicovideoplayer></p>
@@ -104,14 +97,14 @@ layouts/shortcodes/nicovideo.html として、以下をおきます。
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2015-09-25-hugo/" rel="prev" title="Hugoを入れてみた">一つ前の文書</a>
+                <a href="../2015-09-25-hugo/" rel="prev" title="Hugoを入れてみた">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2015-10-03-azkaban-for-chinachu/" rel="next" title="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)">次の文書</a>
+                <a href="../2015-10-03-azkaban-for-chinachu/" rel="next" title="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

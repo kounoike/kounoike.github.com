@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -19,8 +16,9 @@ article: http://ogp.me/ns/article#
 まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
 エンコードオプションは、ffmpeg で TS をできるだけ高画質な mp4 へ変換してみたを参考に設定。
 
+
 準備
-ジョブフローのアップロードにzipファイルの作成が必要なので、インストール">
+ジョブフローのアップロードにzipファイルの作成が必要なので、インストー">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-10-04T00:36:13+09:00">
 <meta property="article:tag" content="azkaban">
@@ -63,16 +61,16 @@ article: http://ogp.me/ns/article#
             <div>
 <p>Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
 まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
-エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。
-<!--more--></p>
+エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。</p>
+<!--more-->
+
 <h2>準備</h2>
 <p>ジョブフローのアップロードにzipファイルの作成が必要なので、インストールしておく。</p>
-<pre class="code literal-block"><span></span><span class="gp">$</span> sudo apt-get install zip
-</pre>
-
+<pre class="code literal-block"><span></span><code><span class="gp">$</span> sudo apt-get install zip
+</code></pre>
 
 <p>ffmpegのプリセットを、/home/chinachu/chinachu/usr/share/ffmpeg/にlibx264-hq-ts.ffpresetの名前で置いておく。</p>
-<pre class="code literal-block"><span></span>level=41
+<pre class="code literal-block"><span></span><code>level=41
 crf=25
 coder=1
 flags=+loop
@@ -91,47 +89,42 @@ rc_eq='blurCplx^(1-qComp)'
 bf=16
 bidir_refine=1
 refs=6
-</pre>
-
+</code></pre>
 
 <p>deblockalpha, deblockbetaは設定しているとエラーになったので外した。</p>
 <h2>作成するジョブのイメージ</h2>
 <h3>shared.properties, gr.properties</h3>
 <p>shared.propertiesには共有する変数などを代入しておく。以下は地上波用の設定値が入っている</p>
-<pre class="code literal-block"><span></span>ffmpeg=/home/chinachu/chinachu/usr/bin/ffmpeg
+<pre class="code literal-block"><span></span><code>ffmpeg=/home/chinachu/chinachu/usr/bin/ffmpeg
 threads=2
-</pre>
-
+</code></pre>
 
 <p>gr.propertiesとして、地上波用エンコード設定値を入れておく。</p>
-<pre class="code literal-block"><span></span>preset=libx264-hq-ts
+<pre class="code literal-block"><span></span><code>preset=libx264-hq-ts
 size=640x480
 rate=30000/1001
 aspect=16:9
-</pre>
-
+</code></pre>
 
 <h3>encode.job</h3>
 <p>エンコードを行うジョブ。テンポラリディレクトリでエンコードを行い、完了後にmvする。</p>
-<pre class="code literal-block"><span></span><span class="nv">type</span><span class="o">=</span><span class="nb">command</span>
+<pre class="code literal-block"><span></span><code><span class="nv">type</span><span class="o">=</span><span class="nb">command</span>
 <span class="nv">command</span><span class="o">=</span><span class="si">${</span><span class="nv">ffmpeg</span><span class="si">}</span> -y -i <span class="s2">"</span><span class="si">${</span><span class="nv">m2ts</span><span class="si">}</span><span class="s2">"</span> -v <span class="m">0</span> -f mp4 -vcodec libx264 -vpre <span class="si">${</span><span class="nv">preset</span><span class="si">}</span> -r <span class="si">${</span><span class="nv">rate</span><span class="si">}</span> -aspect <span class="si">${</span><span class="nv">aspect</span><span class="si">}</span> -s <span class="si">${</span><span class="nv">size</span><span class="si">}</span> -bufsize 20000k -maxrate 25000k -acodec libfdk_aac -ac <span class="m">2</span> -ar <span class="m">48000</span> -ab 128k -threads <span class="si">${</span><span class="nv">threads</span><span class="si">}</span> <span class="s2">"</span><span class="si">${</span><span class="nv">encodingmp4</span><span class="si">}</span><span class="s2">"</span>
 command.1<span class="o">=</span>mv -f <span class="si">${</span><span class="nv">encodingmp4</span><span class="si">}</span> <span class="si">${</span><span class="nv">encodedmp4</span><span class="si">}</span>
-</pre>
-
+</code></pre>
 
 <h3>files.properties</h3>
 <p>ファイル名を入れておく。シェルスクリプトでこのファイルだけを番組ごとに変える。</p>
-<pre class="code literal-block"><span></span>m2ts=/path/to/recoreded.m2ts
+<pre class="code literal-block"><span></span><code>m2ts=/path/to/recoreded.m2ts
 encodingmp4=/tmp/path/to/encoding.mp4
 encodedmp4=/another/path/to/encoded.mp4
-</pre>
-
+</code></pre>
 
 <h3>create_job.sh</h3>
 <p>ジョブのzipファイルを作成し、アップロード・実行開始を指示するシェルスクリプト。
 recordedCommandから呼び出す前提で作っておくので、引数としてm2tsのファイル名・番組ID・チャンネルIDを渡すことにする。</p>
 <p>TODO: チャンネルIDから放送波を見てエンコード設定を切り替える。</p>
-<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+<pre class="code literal-block"><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="nv">JQ</span><span class="o">=</span>/home/chinachu/chinachu-scripts/jq-linux64
 
@@ -169,7 +162,7 @@ curl -o login.json -k -X POST --data <span class="s2">"action=login&amp;username
 <span class="nv">session_id</span><span class="o">=</span><span class="k">$(</span><span class="nv">$JQ</span> -r <span class="s1">'.["session.id"]'</span> login.json<span class="k">)</span>
 <span class="k">if</span> <span class="o">[</span> -z <span class="s2">"</span><span class="nv">$session_id</span><span class="s2">"</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
   <span class="nb">echo</span> <span class="k">$(</span><span class="nv">$JQ</span> -r <span class="s1">'.["error"]'</span> login.json<span class="k">)</span>
-  <span class="nb">exit</span> 1
+  <span class="nb">exit</span> <span class="m">1</span>
 <span class="k">fi</span>
 
 <span class="c1"># Create project</span>
@@ -201,20 +194,20 @@ rm -rf <span class="nv">$tmpdir</span>
     rm -f <span class="nv">$f</span>
   <span class="k">fi</span>
 <span class="k">done</span>
-</pre>
+</code></pre>
 </div>
         </div>
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2015-10-03-azkaban-for-chinachu/" rel="prev" title="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)">一つ前の文書</a>
+                <a href="../2015-10-03-azkaban-for-chinachu/" rel="prev" title="Chinachuの録画後エンコード・CMカットにAzkabanを入れてジョブ実行管理してみる(Azkabanインストール編)">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2015-10-04-azkaban-mail/" rel="next" title="Azkabanでエラーメール">次の文書</a>
+                <a href="../2015-10-04-azkaban-mail/" rel="next" title="Azkabanでエラーメール">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

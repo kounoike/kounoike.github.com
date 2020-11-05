@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -24,8 +21,7 @@ article: http://ogp.me/ns/article#
 ln -s "$1" "/video/未視聴"
 
 
-
-ちなみに/videoを samba '>
+ちなみに/videoを samba で'>
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-03-03T00:54:41+09:00">
 <meta property="article:tag" content="chinachu">
@@ -66,11 +62,10 @@ ln -s "$1" "/video/未視聴"
 でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）</p>
 <!--more-->
 
-<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+<pre class="code literal-block"><span></span><code><span class="ch">#!/bin/bash</span>
 
 ln -s <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="s2">"/video/未視聴"</span>
-</pre>
-
+</code></pre>
 
 <p>ちなみに<code>/video</code>を samba で共有してそこ経由で視聴しています。
 さらに<code>/video/未視聴</code>は0755にしていますので chinachu ユーザで書いたものを samba のユーザで削除することができます。というわけで、このシンボリックリンクで録画を見て、見終わったらシンボリックリンクを削除することで、（手動だけど）簡単に未視聴管理ができるのでした。
@@ -83,14 +78,14 @@ ln -s <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</spa
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2015-10-27-install-airflow/" rel="prev" title="Airflowのインストールメモ">一つ前の文書</a>
+                <a href="../2015-10-27-install-airflow/" rel="prev" title="Airflowのインストールメモ">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2016-04-23-nikola/" rel="next" title="ジェネレータをNikolaに変えた">次の文書</a>
+                <a href="../2016-04-23-nikola/" rel="next" title="ジェネレータをNikolaに変えた">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

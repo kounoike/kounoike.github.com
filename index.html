@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="こーのいけのGitHub Pages powered by Nikola.">
@@ -99,105 +96,49 @@ article: http://ogp.me/ns/article#
             </div>
             <div class="body">
                 <div>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
+<h3>(Jenkins + GitBucket) * GitHub Organization Folder Plugin</h3>
 <p>Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
 groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
 今回はその中でも GitHub Organization Folder Plugin に注目してみました。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="_pipeline">Pipeline ジョブってナニ？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<h4>Pipeline ジョブってナニ？</h4>
 <p>groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
 SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
 実行してくれるものです。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="_github_oraganization_folder_plugin">GitHub Oraganization Folder Plugin ってナニ？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<h4>GitHub Oraganization Folder Plugin ってナニ？</h4>
 <p>GitHub Organization Folder Plugin (以下GHO プラグイン) は、
 GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
 Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
 リポジトリに対応するフォルダーを作成してくれます。
 更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
 グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。</p>
-</div>
-<div class="paragraph">
-<p><strong>Organization</strong> Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="__gitbucket">それ GitBucket で出来ない？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<p><em>Organization</em> Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。</p>
+<h4>それ GitBucket で出来ない？</h4>
 <p>GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
-今回は [GitBucket](<a href="https://github.com/gitbucket/gitbucket">https://github.com/gitbucket/gitbucket</a>) で使うことに挑戦してみます。
+今回は <a href="https://github.com/gitbucket/gitbucket">GitBucket</a> で使うことに挑戦してみます。
 GitBucket は</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>A Git platform powered by Scala with easy installation, high extensibility &amp; github API compatibility</pre>
-</div>
-</div>
-<div class="paragraph">
+<blockquote>
+<p>A Git platform powered by Scala with easy installation, high extensibility &amp; github API compatibility</p>
+</blockquote>
 <p>と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。</p>
-</div>
-<div class="paragraph">
 <p>そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
 動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では<strong>条件付きで</strong>
 動くようになりました。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="_">どうすれば動くの？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<h4>どうすれば動くの？</h4>
 <p>GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。</p>
-</div>
-<div class="ulist">
 <ul>
-<li>
-<p>API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)</p>
-</li>
-<li>
-<p>API の認証に HTTP Basic 認証を使えなかった</p>
-</li>
-<li>
-<p>Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた</p>
-</li>
+<li>API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)</li>
+<li>API の認証に HTTP Basic 認証を使えなかった</li>
+<li>Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた</li>
 </ul>
-</div>
-<div class="paragraph">
 <p>このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
 問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
-Git のリポジトリ URL を <a href="http://server/user/repo.git">http://server/user/repo.git</a> と決めうちにしているところが問題でした。</p>
-</div>
-<div class="paragraph">
-<p>GitBucket では <a href="http://server:port/gitbucket_prefix/git/user/repo.git">http://server:port/gitbucket_prefix/git/user/repo.git</a> となります。
+Git のリポジトリ URL を http://server/user/repo.git と決めうちにしているところが問題でした。</p>
+<p>GitBucket では http://server:port/gitbucket_prefix/git/user/repo.git となります。
 Jenkins の Git Branch Source Plugin では、</p>
-</div>
-<div class="ulist">
 <ul>
-<li>
-<p>ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)</p>
-</li>
-<li>
-<p>サーバのルートで動いているものとしている (prefix が指定できない)
--</p>
-</li>
+<li>ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)</li>
+<li>サーバのルートで動いているものとしている (prefix が指定できない)</li>
 </ul>
-</div>
-</div>
-</div>
 </div>
             </div>
         </div>
@@ -246,8 +187,7 @@ GitHub Organization Folder Plugin で行うのがとても便利らしい。
 <p>ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
 asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
 というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
-<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。
-</p>
+<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。</p>
 <p class="more"><a href="posts/2016-06-16-gitbook-pdf/">続きを読む…</a></p>
 </div>
             </div>
@@ -313,8 +253,7 @@ Python で書かれていて、ソースにもテンプレートにも馴染み�
             <div class="body">
                 <div>
 <p>なんか<a href="https://twitter.com/wyukawa/status/658960252365336576">リクエスト</a>があったようなので、インストールメモを残しておこう。
-ついでに環境も残しておいていつでも起動できるようにしておこう。
-</p>
+ついでに環境も残しておいていつでも起動できるようにしておこう。</p>
 <p class="more"><a href="posts/2015-10-27-install-airflow/">続きを読む…</a></p>
 </div>
             </div>
@@ -339,8 +278,7 @@ Python で書かれていて、ソースにもテンプレートにも馴染み�
             </div>
             <div class="body">
                 <div>
-<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。
-</p>
+<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。</p>
 <p class="more"><a href="posts/2015-10-25-chinachu-upstart/">続きを読む…</a></p>
 </div>
             </div>
@@ -369,17 +307,16 @@ Python で書かれていて、ソースにもテンプレートにも馴染み�
             <div class="body">
                 <div>
 <p>Chinachuのエンコードジョブのバッチ管理に<a href="https://azkaban.github.io/">Azkaban</a>を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
-結果、今のところAzkabanが最適だという結論になってしまった。
-</p>
+結果、今のところAzkabanが最適だという結論になってしまった。</p>
 <p class="more"><a href="posts/2015-10-24-schedulers/">続きを読む…</a></p>
 </div>
             </div>
         </div>
             <nav class="postindexpager"><ul class="pager">
 <li class="next">
-                <a href="index-2.html" rel="next">過去の文書</a>
+                <a href="index-2.html" rel="next">過去の記事</a>
             </li>
-        </ul></nav><footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

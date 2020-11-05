@@ -9,19 +9,19 @@
 .. type: text
 ////
 
-= (Jenkins + GitBucket) * GitHub Organization Folder Plugin
+## (Jenkins + GitBucket) * GitHub Organization Folder Plugin
 
 Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
 groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
 今回はその中でも GitHub Organization Folder Plugin に注目してみました。
 
-== Pipeline ジョブってナニ？
+### Pipeline ジョブってナニ？
 
 groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
 SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
 実行してくれるものです。
 
-== GitHub Oraganization Folder Plugin ってナニ？
+### GitHub Oraganization Folder Plugin ってナニ？
 
 GitHub Organization Folder Plugin (以下GHO プラグイン) は、
 GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
@@ -32,16 +32,14 @@ Jenkinsfile があるリポジトリを探します。Jenkinsfile があると G
 
 *Organization* Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。
 
-== それ GitBucket で出来ない？
+### それ GitBucket で出来ない？
 
 GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
 今回は [GitBucket](https://github.com/gitbucket/gitbucket) で使うことに挑戦してみます。
 GitBucket は
 
-[quote]
-----
-A Git platform powered by Scala with easy installation, high extensibility & github API compatibility
-----
+
+> A Git platform powered by Scala with easy installation, high extensibility & github API compatibility
 
 と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。
 
@@ -49,7 +47,7 @@ A Git platform powered by Scala with easy installation, high extensibility & git
 動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では**条件付きで**
 動くようになりました。
 
-== どうすれば動くの？
+### どうすれば動くの？
 
 GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。
 
@@ -66,4 +64,3 @@ Jenkins の Git Branch Source Plugin では、
 
 - ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)
 - サーバのルートで動いているものとしている (prefix が指定できない)
--

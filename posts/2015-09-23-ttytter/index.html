@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="">
@@ -56,17 +53,17 @@ article: http://ogp.me/ns/article#
         <div class="body">
             <div>
 <h2>何それ</h2>
-<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。
-<!--more--></p>
-<h2>インストール</h2>
-<pre class="code literal-block"><span></span>$ sudo apt-get install ttytter
-</pre>
+<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。</p>
+<!--more-->
 
+<h2>インストール</h2>
+<pre class="code literal-block"><span></span><code>$ sudo apt-get install ttytter
+</code></pre>
 
 <h2>初期設定</h2>
 <p><a href="http://qiita.com/kamayaplus/items/ba6dbe4cd3a335bf60ba">TTYtterを使ったったー</a> などの記事もあるので簡単に。</p>
 <h3>初回起動</h3>
-<pre class="code literal-block"><span></span>$ ttytter
+<pre class="code literal-block"><span></span><code>$ ttytter
 trying to find cURL ... /usr/bin/curl
 -- Streaming API disabled <span class="o">(</span>no -dostream<span class="o">)</span> <span class="o">(</span>TTYtter will use REST API only<span class="o">)</span>
 -- no version check performed <span class="o">(</span>use /vcheck, or -vcheck to check on startup<span class="o">)</span>
@@ -88,28 +85,25 @@ FILES SECRET.
 
 ** This wizard will overwrite /home/chinachu/.ttytterkey
 Press RETURN/ENTER to <span class="k">continue</span> or CTRL-C NOW! to abort.
-</pre>
-
+</code></pre>
 
 <p>初回起動で、~/.ttytterkeyを書き込むよ、と言っているようだ。</p>
-<pre class="code literal-block"><span></span>Request from http://api.twitter.com/oauth/request_token ...... FAILED!: "SSL is required
-"
-unable to fetch token. here are some possible reasons:
- - root certificates are not updated (see documentation)
- - you entered your authentication information wrong
- - your computer's clock is not set correctly
- - Twitter farted
-fix these possible problems, or try again later.
-</pre>
-
+<pre class="code literal-block"><span></span><code><span class="err">Request from http://api.twitter.com/oauth/request_token ...... FAILED!: "SSL is required</span>
+<span class="err">"</span>
+<span class="err">unable to fetch token. here are some possible reasons:</span>
+<span class="err"> - root certificates are not updated (see documentation)</span>
+<span class="err"> - you entered your authentication information wrong</span>
+<span class="err"> - your computer's clock is not set correctly</span>
+<span class="err"> - Twitter farted</span>
+<span class="err">fix these possible problems, or try again later.</span>
+</code></pre>
 
 <p>・・・ダメじゃん。</p>
-<pre class="code literal-block"><span></span>$ sudo update-ca-certificates
-</pre>
-
+<pre class="code literal-block"><span></span><code>$ sudo update-ca-certificates
+</code></pre>
 
 <p>こんな感じか・・・というのは関係なく、ttytterに-sslオプションを付ければ良いだけだったかもしれない。（CAのアップデートが効いたのかもしれない）</p>
-<pre class="code literal-block"><span></span>$ ttytter -ssl
+<pre class="code literal-block"><span></span><code>$ ttytter -ssl
 -- using SSL <span class="k">for</span> default URLs.
 trying to find cURL ... /usr/bin/curl
 -- Streaming API disabled <span class="o">(</span>no -dostream<span class="o">)</span> <span class="o">(</span>TTYtter will use REST API only<span class="o">)</span>
@@ -136,20 +130,20 @@ Press RETURN/ENTER to <span class="k">continue</span> or CTRL-C NOW! to abort.
 
 Request from https://api.twitter.com/oauth/request_token ... SUCCEEDED!
 
-1. Visit, in your browser, ALL ON ONE LINE,
+<span class="m">1</span>. Visit, in your browser, ALL ON ONE LINE,
 
 https://api.twitter.com/oauth/authorize?oauth_token<span class="o">=</span>XXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-2. If you are not already signed in, fill in your username and password.
+<span class="m">2</span>. If you are not already signed in, fill in your username and password.
 
-3. Verify that TTYtter is the requesting application, and that its permissions
+<span class="m">3</span>. Verify that TTYtter is the requesting application, and that its permissions
 are as you expect <span class="o">(</span><span class="nb">read</span> your timeline, see who you follow and follow new
 people, update your profile, post tweets on your behalf and access your
 direct messages<span class="o">)</span>. IF THIS IS NOT CORRECT, PRESS CTRL-C NOW!
 
-4. Click Authorize app.
+<span class="m">4</span>. Click Authorize app.
 
-5. A PIN will appear. Enter it below.
+<span class="m">5</span>. A PIN will appear. Enter it below.
 
 Enter PIN&gt; XXXXXXX
 
@@ -159,8 +153,7 @@ Written keyfile /home/chinachu/.ttytterkey
 Now, restart TTYtter to use this keyfile.
 <span class="o">(</span>To choose between multiple keyfiles other than the default .ttytterkey,
  tell TTYtter where the key is using -keyf<span class="o">=</span>... .<span class="o">)</span>
-</pre>
-
+</code></pre>
 
 <p>途中の「Enter PIN」のところで止まっているので、1. に表示されている URL にブラウザでアクセスしてTwitter連携認証を取る。そのときにPINコードが表示されるので、ttytterに入力してやれば良い。
 これで、~/.ttytterkeyが出来上がる。</p>
@@ -171,14 +164,14 @@ Now, restart TTYtter to use this keyfile.
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2014-09-22-waqwaqproject2/" rel="prev" title="waqwaqproject2">一つ前の文書</a>
+                <a href="../2014-09-22-waqwaqproject2/" rel="prev" title="waqwaqproject2">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2015-09-25-chinachu-ttytter/" rel="next" title="chinachu と ttytter で Twitter に録画投稿">次の文書</a>
+                <a href="../2015-09-25-chinachu-ttytter/" rel="next" title="chinachu と ttytter で Twitter に録画投稿">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>こーのいけのGitHub Pages (postsについての記事)</title><link>https://kounoike.github.io/</link><description></description><atom:link href="https://kounoike.github.io/categories/cat_posts.xml" rel="self" type="application/rss+xml"></atom:link><language>ja</language><lastBuildDate>Thu, 05 Nov 2020 15:21:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>GitBucket の統計データ表示プラグイン</title><link>https://kounoike.github.io/posts/2017-06-22-gitbucket-stats/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/gitbucket-gbstats-plugin_2.12-1.0.0.jar"&gt;ドラフト版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;ちょっと作ってみている&lt;/p&gt;&lt;/div&gt;</description><category>GitBucket</category><guid>https://kounoike.github.io/posts/2017-06-22-gitbucket-stats/</guid><pubDate>Wed, 21 Jun 2017 15:00:00 GMT</pubDate></item><item><title>ACR39-NTTCom on Linux</title><link>https://kounoike.github.io/posts/2017-01-13-acr39-nttcom/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、&lt;a href="https://www.amazon.co.jp/dp/B017Y8QV4O/"&gt;ACR39-NTTCom&lt;/a&gt;を買った。
+ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.acs.com.hk/en/driver/302/acr39u-smart-card-reader/"&gt;メーカーページ&lt;/a&gt; から &lt;code&gt;PC/SC Driver Package&lt;/code&gt; をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/Raspbian/Ubuntuとある。RaspbianもあるのでRaspberry Piでも大丈夫。&lt;/p&gt;
+&lt;p&gt;後は普通にPC/SC関連のパッケージを入れたりする。ただ今回は既に入っていたので、&lt;code&gt;sudo service pcscd restart&lt;/code&gt;すればOKだった。&lt;/p&gt;
+&lt;p&gt;これで地デジカード（直感とは逆に色付きの面を下にすることに注意）をさせばpcsc_scanとかで認識する。&lt;/p&gt;&lt;/div&gt;</description><category>B-CAS</category><category>Linux</category><category>Raspbian</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2017-01-13-acr39-nttcom/</guid><pubDate>Thu, 12 Jan 2017 16:25:13 GMT</pubDate></item><item><title>(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン</title><link>https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;h3&gt;(Jenkins + GitBucket) * GitHub Organization Folder Plugin&lt;/h3&gt;
+&lt;p&gt;Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
+groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
+今回はその中でも GitHub Organization Folder Plugin に注目してみました。&lt;/p&gt;
+&lt;h4&gt;Pipeline ジョブってナニ？&lt;/h4&gt;
+&lt;p&gt;groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
+SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
+実行してくれるものです。&lt;/p&gt;
+&lt;h4&gt;GitHub Oraganization Folder Plugin ってナニ？&lt;/h4&gt;
+&lt;p&gt;GitHub Organization Folder Plugin (以下GHO プラグイン) は、
+GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
+Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
+リポジトリに対応するフォルダーを作成してくれます。
+更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
+グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Organization&lt;/em&gt; Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。&lt;/p&gt;
+&lt;h4&gt;それ GitBucket で出来ない？&lt;/h4&gt;
+&lt;p&gt;GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
+今回は &lt;a href="https://github.com/gitbucket/gitbucket"&gt;GitBucket&lt;/a&gt; で使うことに挑戦してみます。
+GitBucket は&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A Git platform powered by Scala with easy installation, high extensibility &amp;amp; github API compatibility&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。&lt;/p&gt;
+&lt;p&gt;そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
+動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では&lt;strong&gt;条件付きで&lt;/strong&gt;
+動くようになりました。&lt;/p&gt;
+&lt;h4&gt;どうすれば動くの？&lt;/h4&gt;
+&lt;p&gt;GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)&lt;/li&gt;
+&lt;li&gt;API の認証に HTTP Basic 認証を使えなかった&lt;/li&gt;
+&lt;li&gt;Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
+問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
+Git のリポジトリ URL を http://server/user/repo.git と決めうちにしているところが問題でした。&lt;/p&gt;
+&lt;p&gt;GitBucket では http://server:port/gitbucket_prefix/git/user/repo.git となります。
+Jenkins の Git Branch Source Plugin では、&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)&lt;/li&gt;
+&lt;li&gt;サーバのルートで動いているものとしている (prefix が指定できない)&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>GitBucket</category><category>Jenkins</category><guid>https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/</guid><pubDate>Sun, 11 Sep 2016 07:58:38 GMT</pubDate></item><item><title>GitBucket と Jenkins を Pipeline で強力に連携させる</title><link>https://kounoike.github.io/posts/2016-07-23-gitbucket-jenkins/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;Jenkins の 2.7.1 が LTS にやってきたことを機に Jenkins 2 について色々と調べてみた。
+目玉はやはり Pipeline Plugin の導入であり、Pipeline ジョブの場合、GitHub との連携は
+GitHub Organization Folder Plugin で行うのがとても便利らしい。
+ところがこの GitHub Organization Folder Plugin はそのままでは GitBucket とは
+連携できないらしい。そこで、どうして動かないのかを調べて、解決するべく PR 送るので、
+補足を兼ねてメモしておく。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2016-07-23-gitbucket-jenkins/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><guid>https://kounoike.github.io/posts/2016-07-23-gitbucket-jenkins/</guid><pubDate>Fri, 22 Jul 2016 15:00:00 GMT</pubDate></item><item><title>GitbookでPDF出力を試してみる</title><link>https://kounoike.github.io/posts/2016-06-16-gitbook-pdf/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
+asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
+というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
+&lt;a href="https://github.com/GitbookIO/gitbook"&gt;GitbookIO/gitboo&lt;/a&gt; を試してみる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2016-06-16-gitbook-pdf/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>gitbook pdf</category><guid>https://kounoike.github.io/posts/2016-06-16-gitbook-pdf/</guid><pubDate>Thu, 16 Jun 2016 14:18:17 GMT</pubDate></item><item><title>ジェネレータをNikolaに変えた</title><link>https://kounoike.github.io/posts/2016-04-23-nikola/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;p&gt;なんとなく思うところあってサイトジェネレータを Hugo から Nikola に変えてみた。
+Python で書かれていて、ソースにもテンプレートにも馴染みやすいのと、ipynb にも対応しているところがポイントかな。&lt;/p&gt;</description><category>nikola</category><guid>https://kounoike.github.io/posts/2016-04-23-nikola/</guid><pubDate>Fri, 22 Apr 2016 19:52:13 GMT</pubDate></item><item><title>エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</title><link>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
+でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>chinachu</category><guid>https://kounoike.github.io/posts/2016-03-03-chinachu-symlink/</guid><pubDate>Wed, 02 Mar 2016 15:54:41 GMT</pubDate></item><item><title>Airflowのインストールメモ</title><link>https://kounoike.github.io/posts/2015-10-27-install-airflow/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;なんか&lt;a href="https://twitter.com/wyukawa/status/658960252365336576"&gt;リクエスト&lt;/a&gt;があったようなので、インストールメモを残しておこう。
+ついでに環境も残しておいていつでも起動できるようにしておこう。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-27-install-airflow/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><guid>https://kounoike.github.io/posts/2015-10-27-install-airflow/</guid><pubDate>Tue, 27 Oct 2015 12:57:42 GMT</pubDate></item><item><title>Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</title><link>https://kounoike.github.io/posts/2015-10-25-chinachu-upstart/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-25-chinachu-upstart/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>chinachu</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-25-chinachu-upstart/</guid><pubDate>Sun, 25 Oct 2015 05:21:02 GMT</pubDate></item><item><title>スケジューラ色々</title><link>https://kounoike.github.io/posts/2015-10-24-schedulers/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;Chinachuのエンコードジョブのバッチ管理に&lt;a href="https://azkaban.github.io/"&gt;Azkaban&lt;/a&gt;を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
+結果、今のところAzkabanが最適だという結論になってしまった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2015-10-24-schedulers/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>airflow</category><category>azkaban</category><category>luigi</category><category>rundeck</category><category>ubuntu</category><guid>https://kounoike.github.io/posts/2015-10-24-schedulers/</guid><pubDate>Sat, 24 Oct 2015 05:43:17 GMT</pubDate></item></channel></rss>

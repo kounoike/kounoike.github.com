@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>postsについての記事 | こーのいけのGitHub Pages</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/share-button.min.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://kounoike.github.io/categories/cat_posts/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><link rel="alternate" type="application/rss+xml" title="RSS for category posts" hreflang="ja" href="../cat_posts.xml">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="ホーム"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="文書一覧"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../index.html" title="タグ"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSSフィード"><i class="icon-rss"></i></a></li>
+            <li><a href="https://kounoike.github.io" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/ko_noike" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/kounoike" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2017-06-22-gitbucket-stats/">GitBucket の統計データ表示プラグイン</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-06-22T00:00:00+09:00">2017-06-22 00:00</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../gitbucket/" rel="tag">GitBucket</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p><a href="../../gitbucket-gbstats-plugin_2.12-1.0.0.jar">ドラフト版</a></p>
+<p>ちょっと作ってみている</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2017-01-13-acr39-nttcom/">ACR39-NTTCom on Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-01-13T01:25:13+09:00">2017-01-13 01:25</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../b-cas/" rel="tag">B-CAS</a></li>
+           <li><a class="tag p-category" href="../linux/" rel="tag">Linux</a></li>
+           <li><a class="tag p-category" href="../raspbian/" rel="tag">Raspbian</a></li>
+           <li><a class="tag p-category" href="../ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>ちょっと地デジ受信のテストにB-CAS読めるマシンを増やしたくて、<a href="https://www.amazon.co.jp/dp/B017Y8QV4O/">ACR39-NTTCom</a>を買った。
+ところがこいつはそのままではLinuxでは認識してくれなかったのでメモ。</p>
+<p><a href="http://www.acs.com.hk/en/driver/302/acr39u-smart-card-reader/">メーカーページ</a> から <code>PC/SC Driver Package</code> をダウンロードして展開、中にあるパッケージから使ってるディストリビューションに合わせたものをインストールする。Debian/EPEL/Fedora/SUSE/Raspbian/Ubuntuとある。RaspbianもあるのでRaspberry Piでも大丈夫。</p>
+<p>後は普通にPC/SC関連のパッケージを入れたりする。ただ今回は既に入っていたので、<code>sudo service pcscd restart</code>すればOKだった。</p>
+<p>これで地デジカード（直感とは逆に色付きの面を下にすることに注意）をさせばpcsc_scanとかで認識する。</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2016-09-11-jenkins-gitbucket-gho/">(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-09-11T16:58:38+09:00">2016-09-11 16:58</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../gitbucket/" rel="tag">GitBucket</a></li>
+           <li><a class="tag p-category" href="../jenkins/" rel="tag">Jenkins</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<h3>(Jenkins + GitBucket) * GitHub Organization Folder Plugin</h3>
+<p>Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
+groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
+今回はその中でも GitHub Organization Folder Plugin に注目してみました。</p>
+<h4>Pipeline ジョブってナニ？</h4>
+<p>groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
+SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
+実行してくれるものです。</p>
+<h4>GitHub Oraganization Folder Plugin ってナニ？</h4>
+<p>GitHub Organization Folder Plugin (以下GHO プラグイン) は、
+GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
+Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
+リポジトリに対応するフォルダーを作成してくれます。
+更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
+グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。</p>
+<p><em>Organization</em> Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。</p>
+<h4>それ GitBucket で出来ない？</h4>
+<p>GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
+今回は <a href="https://github.com/gitbucket/gitbucket">GitBucket</a> で使うことに挑戦してみます。
+GitBucket は</p>
+<blockquote>
+<p>A Git platform powered by Scala with easy installation, high extensibility &amp; github API compatibility</p>
+</blockquote>
+<p>と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。</p>
+<p>そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
+動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では<strong>条件付きで</strong>
+動くようになりました。</p>
+<h4>どうすれば動くの？</h4>
+<p>GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。</p>
+<ul>
+<li>API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)</li>
+<li>API の認証に HTTP Basic 認証を使えなかった</li>
+<li>Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた</li>
+</ul>
+<p>このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
+問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
+Git のリポジトリ URL を http://server/user/repo.git と決めうちにしているところが問題でした。</p>
+<p>GitBucket では http://server:port/gitbucket_prefix/git/user/repo.git となります。
+Jenkins の Git Branch Source Plugin では、</p>
+<ul>
+<li>ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)</li>
+<li>サーバのルートで動いているものとしている (prefix が指定できない)</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2016-07-23-gitbucket-jenkins/">GitBucket と Jenkins を Pipeline で強力に連携させる</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-23T00:00:00+09:00">2016-07-23 00:00</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                
+            </div>
+            <div class="body">
+                <div>
+<p>Jenkins の 2.7.1 が LTS にやってきたことを機に Jenkins 2 について色々と調べてみた。
+目玉はやはり Pipeline Plugin の導入であり、Pipeline ジョブの場合、GitHub との連携は
+GitHub Organization Folder Plugin で行うのがとても便利らしい。
+ところがこの GitHub Organization Folder Plugin はそのままでは GitBucket とは
+連携できないらしい。そこで、どうして動かないのかを調べて、解決するべく PR 送るので、
+補足を兼ねてメモしておく。</p>
+<p class="more"><a href="../../posts/2016-07-23-gitbucket-jenkins/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2016-06-16-gitbook-pdf/">GitbookでPDF出力を試してみる</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-06-16T23:18:17+09:00">2016-06-16 23:18</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../gitbook-pdf/" rel="tag">gitbook pdf</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>ちょっと最近 Markdown/asciidoc などからの PDF 作成を調べて回っている。
+asciidoctor も調べたんだけど出力の微調整でうまくいかなくて行き詰っている。
+というわけで、Ver.3.0.0以降でPDF出力のテーマ設定が可能になったみたいな、
+<a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitboo</a> を試してみる。</p>
+<p class="more"><a href="../../posts/2016-06-16-gitbook-pdf/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2016-04-23-nikola/">ジェネレータをNikolaに変えた</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-04-23T04:52:13+09:00">2016-04-23 04:52</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../nikola/" rel="tag">nikola</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>なんとなく思うところあってサイトジェネレータを Hugo から Nikola に変えてみた。
+Python で書かれていて、ソースにもテンプレートにも馴染みやすいのと、ipynb にも対応しているところがポイントかな。</p>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2016-03-03-chinachu-symlink/">エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-03T00:54:41+09:00">2016-03-03 00:54</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../chinachu/" rel="tag">chinachu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>自宅の家電レコと比べたときの Chinachu の弱点は未視聴管理ができないことだと思っていました。
+でも、ちょっと考えたら簡単な方法で未視聴管理（もどき）が出来ました。それが以下の recordedCommand に登録するシェルスクリプト（実際には他にも色々やってますけど）</p>
+<p class="more"><a href="../../posts/2016-03-03-chinachu-symlink/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-27-install-airflow/">Airflowのインストールメモ</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-27T21:57:42+09:00">2015-10-27 21:57</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                
+            </div>
+            <div class="body">
+                <div>
+<p>なんか<a href="https://twitter.com/wyukawa/status/658960252365336576">リクエスト</a>があったようなので、インストールメモを残しておこう。
+ついでに環境も残しておいていつでも起動できるようにしておこう。</p>
+<p class="more"><a href="../../posts/2015-10-27-install-airflow/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-25-chinachu-upstart/">Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-25T14:21:02+09:00">2015-10-25 14:21</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../chinachu/" rel="tag">chinachu</a></li>
+           <li><a class="tag p-category" href="../ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。</p>
+<p class="more"><a href="../../posts/2015-10-25-chinachu-upstart/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="../../posts/2015-10-24-schedulers/">スケジューラ色々</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-24T14:43:17+09:00">2015-10-24 14:43</time>
+</div>
+                <div class="stats">
+                    
+                </div>
+                        <div itemprop="keywords" class="tags">
+        <ul>
+        タグ : 
+           <li><a class="tag p-category" href="../airflow/" rel="tag">airflow</a></li>
+           <li><a class="tag p-category" href="../azkaban/" rel="tag">azkaban</a></li>
+           <li><a class="tag p-category" href="../luigi/" rel="tag">luigi</a></li>
+           <li><a class="tag p-category" href="../rundeck/" rel="tag">rundeck</a></li>
+           <li><a class="tag p-category" href="../ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>Chinachuのエンコードジョブのバッチ管理に<a href="https://azkaban.github.io/">Azkaban</a>を使っていたのだが、若干不満もあるので他に良いツールがないか調べてみた。
+結果、今のところAzkabanが最適だという結論になってしまった。</p>
+<p class="more"><a href="../../posts/2015-10-24-schedulers/">続きを読む…</a></p>
+</div>
+            </div>
+        </div>
+            <nav class="postindexpager"><ul class="pager">
+<li class="next">
+                <a href="index-1.html" rel="next">過去の記事</a>
+            </li>
+        </ul></nav><footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script src="../../assets/js/share-button.min.js" type="text/javascript"></script><script type="text/javascript">
+$(function(){
+    new ShareButton({
+        networks: {
+            pinterest: {
+                enabled: false
+            },
+            reddit: {
+                enabled: false
+            },
+            linkedin: {
+                enabled: false
+            },
+            whatsapp: {
+                enabled: false
+            }
+        }
+    });
+});
+</script><script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>

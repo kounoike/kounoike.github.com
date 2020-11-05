@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>WAQWAQについての文書 | こーのいけのGitHub Pages</title>
+<title>WAQWAQについての記事 | こーのいけのGitHub Pages</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/share-button.min.css" rel="stylesheet" type="text/css">
-<link rel="alternate" type="application/rss+xml" title="RSS for tag WAQWAQ (ja)" href="../cat_waqwaq.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="https://kounoike.github.io/categories/cat_waqwaq/">
-<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><link rel="alternate" type="application/rss+xml" title="RSS for category WAQWAQ" hreflang="ja" href="../cat_waqwaq.xml">
 </head>
 <body>
     <section class="social"><ul>
@@ -72,7 +69,121 @@ article: http://ogp.me/ns/article#
 <p>next49 さんが<a href="http://d.hatena.ne.jp/next49/20140831/p1">WAQWAQプロジェクト2014</a>で進行状況チェックに
 困ってるらしいことを見つけた。</p>
 <p>ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。</p>
-<p><script src="https://gist.github.com/4ee86c32058235ed2e68.js"></script></p>
+<p><script src="https://gist.github.com/4ee86c32058235ed2e68.js"></script><noscript><pre># coding: utf-8
+
+import datetime
+import re
+import sys
+import codecs
+import urllib
+from bs4 import BeautifulSoup
+import xlsxwriter
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+
+def get_wikipedia_history(username):
+    urlparts = u"特別:投稿記録"
+    urlparts_quote = urllib.quote(urlparts.encode("utf-8"))
+    username_quote = urllib.quote_plus(username.encode("utf-8"))
+    url = u"http://ja.wikipedia.org/w/index.php?limit=1000&amp;tagfilter=&amp;title=%s&amp;contribs=user&amp;target=%s&amp;namespace=0&amp;tagfilter=&amp;year=2014&amp;month=-1" % (
+        urlparts_quote, username_quote)
+    req = urllib.urlopen(url)
+    soup = BeautifulSoup(req)
+
+    result = []
+
+    print("****************************************")
+    for li in soup.ul.find_all("li"):
+        item = {}
+
+        print(li)
+
+        a_date = li.find(class_=["mw-changeslist-date", "history-deleted"])
+        a_date_str = a_date.string
+        # m = re.match(u"(\d+)年(\d+)月(\d+)日（.*）(\d+):(\d+)",a_date_str)
+        m = re.match(u"(\d+)年(\d+)月(\d+)日.*(\d+):(\d+)", a_date_str)
+        a_y = int(m.group(1))
+        a_m = int(m.group(2))
+        a_d = int(m.group(3))
+        a_h = int(m.group(4))
+        a_min = int(m.group(5))
+        item["dt"] = datetime.datetime(a_y, a_m, a_d, a_h, a_min)
+
+        abbr = li.abbr
+        if abbr is None:
+            if li.find(class_="history-deleted") is not None:
+                item["type"] = "Delete"
+            else:
+                item["type"] = "Edit"
+        else:
+            if abbr["class"][0] == "newpage":
+                item["type"] = "New"
+            elif abbr["class"][0] == "minoredit":
+                item["type"] = "MinorEdit"
+        a_title = li.find(class_="mw-contributions-title")
+        item["title"] = a_title.string
+        plusminus = li.find(
+            class_=["mw-plusminus-pos", "mw-plusminus-null", "mw-plusminus-neg"])
+        m = re.match(r"\([+-]?([0-9,]+)\)", plusminus.string)
+        item["pm"] = int(m.group(1).replace(",", ""))
+        print item
+        print("--------------------------------------")
+        result.append(item)
+    result.reverse()
+    return result
+
+
+def write_worksheet(wb, username, changes, date_format):
+    ws = wb.add_worksheet(username)
+    ws_c = wb.add_chartsheet(u"%s_c" % username)
+
+    ws.write("A1", u"変更日時")
+    ws.write("B1", u"変更種別")
+    ws.write("C1", u"変更バイト数")
+    ws.write("D1", u"ページ名")
+    ws.write("E1", u"スコア")
+
+    scores = {"New": 5, "Edit": 3, "MinorEdit": 1, "Delete": 2}
+
+    row = 0
+    score = 0
+    for change in changes:
+        row += 1
+        score += scores[change["type"]]
+        ws.write(row, 0, change["dt"], date_format)
+        ws.write(row, 1, change["type"])
+        ws.write(row, 2, change["pm"])
+        ws.write(row, 3, change["title"])
+        ws.write(row, 4, score)
+
+    row += 1
+    ws.write(row, 0, datetime.datetime.now(), date_format)
+    print "row = %d" % row
+
+    chart = wb.add_chart({"type": "line"})
+    chart.add_series({
+        "name": username,
+        "categories": [ws.get_name(), 1, 0, row, 0],
+        "values": [ws.get_name(), 1, 4, row, 4],
+#        "data_labels": {"value": True},
+        })
+    chart.set_legend({"none": True})
+    ws_c.set_chart(chart)
+    return
+
+if __name__ == "__main__":
+    wb = xlsxwriter.Workbook("waqwaq.xlsx")
+    date_format = wb.add_format({"num_format": "yyyy/mm/dd hh:mm:ss"})
+    #names = [u"Next49", u"Mishika", u"Theta K", u"蒋龍"]
+    names = [u"Next49"]
+    for username in names:
+        result = get_wikipedia_history(username)
+        write_worksheet(wb, username, result, date_format)
+
+    wb.close()
+</pre></noscript></p>
 <p><a href="../../waqwaq.xlsx">waqwaq.xlsx</a> こんなファイルが出来上がる。</p>
 <p>TODO:</p>
 <ul>
@@ -89,8 +200,9 @@ article: http://ogp.me/ns/article#
         </div>
     
     
-    
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        
+
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

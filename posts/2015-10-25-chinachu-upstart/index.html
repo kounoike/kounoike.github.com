@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -60,10 +57,10 @@ author "YOUR NAME&lt;YOUR EMAIL&gt;"
         </div>
         <div class="body">
             <div>
-<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。
+<p>upstart を使うとサービスの記述が簡単です。chinachu-wui と chinachu-operator の記述をしてみました。</p>
 <!--more-->
-/etc/init/chinachu-wui.conf が以下の通り。（YOUR NAME/YOUR EMAIL は適当に置き換えて）</p>
-<pre class="code literal-block"><span></span>description "Chinachu - WUI"
+<p>/etc/init/chinachu-wui.conf が以下の通り。（YOUR NAME/YOUR EMAIL は適当に置き換えて）</p>
+<pre class="code literal-block"><span></span><code>description "Chinachu - WUI"
 author "YOUR NAME&lt;YOUR EMAIL&gt;"
 
 start on runlevel [2345]
@@ -75,11 +72,10 @@ setgid chinachu
 chdir /home/chinachu/chinachu
 exec ./chinachu service wui execute
 respawn
-</pre>
-
+</code></pre>
 
 <p>/etc/init/chinachu-operator.conf もほぼ同じ。</p>
-<pre class="code literal-block"><span></span>description "Chinachu - operator"
+<pre class="code literal-block"><span></span><code>description "Chinachu - operator"
 author "YOUR NAME &lt;YOUR EMAIL&gt;"
 
 start on runlevel [2345]
@@ -91,8 +87,7 @@ setgid chinachu
 chdir /home/chinachu/chinachu
 exec ./chinachu service operator execute
 respawn
-</pre>
-
+</code></pre>
 
 <p>この2つのファイルを/etc/init に置いたら <code>sudo initctl reload-configuration</code> して認識させる。
 で、再起動するか、<code>sudo start chinachu-wui</code>、<code>sudo start chinachu-operator</code> するだけ。</p>
@@ -102,14 +97,14 @@ respawn
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2015-10-24-schedulers/" rel="prev" title="スケジューラ色々">一つ前の文書</a>
+                <a href="../2015-10-24-schedulers/" rel="prev" title="スケジューラ色々">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2015-10-27-install-airflow/" rel="next" title="Airflowのインストールメモ">次の文書</a>
+                <a href="../2015-10-27-install-airflow/" rel="next" title="Airflowのインストールメモ">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

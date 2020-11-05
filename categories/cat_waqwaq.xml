@@ -1,8 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>こーのいけのGitHub Pages (WAQWAQ)</title><link>https://kounoike.github.io/</link><description></description><atom:link href="https://kounoike.github.io/categories/cat_waqwaq.xml" type="application/rss+xml" rel="self"></atom:link><language>ja</language><lastBuildDate>Sun, 11 Sep 2016 07:53:53 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>waqwaqproject2</title><link>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a href="http://d.hatena.ne.jp/next49/20140916/p1"&gt;next49さんのリクエスト&lt;/a&gt;に応じてスクリプトを改造してみた。&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は1分)&lt;/p&gt;&lt;/div&gt;</description><category>python</category><category>WAQWAQ</category><guid>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</guid><pubDate>Sun, 21 Sep 2014 15:00:00 GMT</pubDate></item><item><title>WAQWAQProject</title><link>https://kounoike.github.io/posts/2014-09-08-waqwaqproject/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;next49 さんが&lt;a href="http://d.hatena.ne.jp/next49/20140831/p1"&gt;WAQWAQプロジェクト2014&lt;/a&gt;で進行状況チェックに
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>こーのいけのGitHub Pages (WAQWAQについての記事)</title><link>https://kounoike.github.io/</link><description></description><atom:link href="https://kounoike.github.io/categories/cat_waqwaq.xml" rel="self" type="application/rss+xml"></atom:link><language>ja</language><lastBuildDate>Thu, 05 Nov 2020 15:21:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>waqwaqproject2</title><link>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a href="http://d.hatena.ne.jp/next49/20140916/p1"&gt;next49さんのリクエスト&lt;/a&gt;に応じてスクリプトを改造してみた。&lt;/p&gt;&lt;p&gt;&lt;a href="https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/"&gt;続きを読む…&lt;/a&gt; (残りを読むのに必要な時間は2分)&lt;/p&gt;&lt;/div&gt;</description><category>python</category><category>WAQWAQ</category><guid>https://kounoike.github.io/posts/2014-09-22-waqwaqproject2/</guid><pubDate>Sun, 21 Sep 2014 15:00:00 GMT</pubDate></item><item><title>WAQWAQProject</title><link>https://kounoike.github.io/posts/2014-09-08-waqwaqproject/</link><dc:creator>KOUNOIKE Yuusuke</dc:creator><description>&lt;div&gt;&lt;p&gt;next49 さんが&lt;a href="http://d.hatena.ne.jp/next49/20140831/p1"&gt;WAQWAQプロジェクト2014&lt;/a&gt;で進行状況チェックに
 困ってるらしいことを見つけた。&lt;/p&gt;
 &lt;p&gt;ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。&lt;/p&gt;
-&lt;p&gt;&lt;script src="https://gist.github.com/4ee86c32058235ed2e68.js"&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;script src="https://gist.github.com/4ee86c32058235ed2e68.js"&gt;&lt;/script&gt;
+        &lt;noscript&gt;&lt;pre&gt;# coding: utf-8
+
+import datetime
+import re
+import sys
+import codecs
+import urllib
+from bs4 import BeautifulSoup
+import xlsxwriter
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+
+def get_wikipedia_history(username):
+    urlparts = u"特別:投稿記録"
+    urlparts_quote = urllib.quote(urlparts.encode("utf-8"))
+    username_quote = urllib.quote_plus(username.encode("utf-8"))
+    url = u"http://ja.wikipedia.org/w/index.php?limit=1000&amp;amp;tagfilter=&amp;amp;title=%s&amp;amp;contribs=user&amp;amp;target=%s&amp;amp;namespace=0&amp;amp;tagfilter=&amp;amp;year=2014&amp;amp;month=-1" % (
+        urlparts_quote, username_quote)
+    req = urllib.urlopen(url)
+    soup = BeautifulSoup(req)
+
+    result = []
+
+    print("****************************************")
+    for li in soup.ul.find_all("li"):
+        item = {}
+
+        print(li)
+
+        a_date = li.find(class_=["mw-changeslist-date", "history-deleted"])
+        a_date_str = a_date.string
+        # m = re.match(u"(\d+)年(\d+)月(\d+)日（.*）(\d+):(\d+)",a_date_str)
+        m = re.match(u"(\d+)年(\d+)月(\d+)日.*(\d+):(\d+)", a_date_str)
+        a_y = int(m.group(1))
+        a_m = int(m.group(2))
+        a_d = int(m.group(3))
+        a_h = int(m.group(4))
+        a_min = int(m.group(5))
+        item["dt"] = datetime.datetime(a_y, a_m, a_d, a_h, a_min)
+
+        abbr = li.abbr
+        if abbr is None:
+            if li.find(class_="history-deleted") is not None:
+                item["type"] = "Delete"
+            else:
+                item["type"] = "Edit"
+        else:
+            if abbr["class"][0] == "newpage":
+                item["type"] = "New"
+            elif abbr["class"][0] == "minoredit":
+                item["type"] = "MinorEdit"
+        a_title = li.find(class_="mw-contributions-title")
+        item["title"] = a_title.string
+        plusminus = li.find(
+            class_=["mw-plusminus-pos", "mw-plusminus-null", "mw-plusminus-neg"])
+        m = re.match(r"\([+-]?([0-9,]+)\)", plusminus.string)
+        item["pm"] = int(m.group(1).replace(",", ""))
+        print item
+        print("--------------------------------------")
+        result.append(item)
+    result.reverse()
+    return result
+
+
+def write_worksheet(wb, username, changes, date_format):
+    ws = wb.add_worksheet(username)
+    ws_c = wb.add_chartsheet(u"%s_c" % username)
+
+    ws.write("A1", u"変更日時")
+    ws.write("B1", u"変更種別")
+    ws.write("C1", u"変更バイト数")
+    ws.write("D1", u"ページ名")
+    ws.write("E1", u"スコア")
+
+    scores = {"New": 5, "Edit": 3, "MinorEdit": 1, "Delete": 2}
+
+    row = 0
+    score = 0
+    for change in changes:
+        row += 1
+        score += scores[change["type"]]
+        ws.write(row, 0, change["dt"], date_format)
+        ws.write(row, 1, change["type"])
+        ws.write(row, 2, change["pm"])
+        ws.write(row, 3, change["title"])
+        ws.write(row, 4, score)
+
+    row += 1
+    ws.write(row, 0, datetime.datetime.now(), date_format)
+    print "row = %d" % row
+
+    chart = wb.add_chart({"type": "line"})
+    chart.add_series({
+        "name": username,
+        "categories": [ws.get_name(), 1, 0, row, 0],
+        "values": [ws.get_name(), 1, 4, row, 4],
+#        "data_labels": {"value": True},
+        })
+    chart.set_legend({"none": True})
+    ws_c.set_chart(chart)
+    return
+
+if __name__ == "__main__":
+    wb = xlsxwriter.Workbook("waqwaq.xlsx")
+    date_format = wb.add_format({"num_format": "yyyy/mm/dd hh:mm:ss"})
+    #names = [u"Next49", u"Mishika", u"Theta K", u"蒋龍"]
+    names = [u"Next49"]
+    for username in names:
+        result = get_wikipedia_history(username)
+        write_worksheet(wb, username, result, date_format)
+
+    wb.close()
+&lt;/pre&gt;&lt;/noscript&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://kounoike.github.io/waqwaq.xlsx"&gt;waqwaq.xlsx&lt;/a&gt; こんなファイルが出来上がる。&lt;/p&gt;
 &lt;p&gt;TODO:&lt;/p&gt;
 &lt;ul&gt;

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -15,17 +12,10 @@ article: http://ogp.me/ns/article#
 <meta property="og:site_name" content="こーのいけのGitHub Pages">
 <meta property="og:title" content="(Jenkins + GitBucket) * GitHub Organization Folder Plugin でウィーン">
 <meta property="og:url" content="https://kounoike.github.io/posts/2016-09-11-jenkins-gitbucket-gho/">
-<meta property="og:description" content="Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
+<meta property="og:description" content="(Jenkins + GitBucket) * GitHub Organization Folder Plugin
+Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
 groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
-今回はその中でも GitHub Organization Folder Plugin に注目してみました。
-
-
-
-
-Pipeline ジョブってナニ？
-
-
-groovy スクリプトでビルド手順など">
+今回はその中でも GitHub Organization Folder Plug">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-09-11T16:58:38+09:00">
 <meta property="article:tag" content="GitBucket">
@@ -50,7 +40,7 @@ groovy スクリプトでビルド手順など">
                 <time class="timeago" datetime="2016-09-11T16:58:38+09:00">2016-09-11 16:58</time>
             
                       |  
-        <a href="index.adoc" id="sourcelink">ソース</a>
+        <a href="index.md" id="sourcelink">ソース</a>
 
             </div>
                     <div itemprop="keywords" class="tags">
@@ -64,118 +54,62 @@ groovy スクリプトでビルド手順など">
         </div>
         <div class="body">
             <div>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
+<h3>(Jenkins + GitBucket) * GitHub Organization Folder Plugin</h3>
 <p>Jenkins 2 も LTS になってだいぶ経ちましたね。Jenkins 2 の目玉といわれる
 groovy スクリプトを使った Pipeline ジョブとその周辺のプラグイン類がなかなか面白いです。
 今回はその中でも GitHub Organization Folder Plugin に注目してみました。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="_pipeline">Pipeline ジョブってナニ？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<h4>Pipeline ジョブってナニ？</h4>
 <p>groovy スクリプトでビルド手順などを記述するものです。従来のように GUI でポチポチするのではなく、
 SCM の管理下に Jenkinsfile というファイルを置いておくと、その内容にしたがってビルドやテストなどを
 実行してくれるものです。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="_github_oraganization_folder_plugin">GitHub Oraganization Folder Plugin ってナニ？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<h4>GitHub Oraganization Folder Plugin ってナニ？</h4>
 <p>GitHub Organization Folder Plugin (以下GHO プラグイン) は、
 GitHub の指定したユーザ／グループ (Organization) のリポジトリを全部チェックして、
 Jenkinsfile があるリポジトリを探します。Jenkinsfile があると GHO プラグインが自動的に
 リポジトリに対応するフォルダーを作成してくれます。
 更にそれぞれのリポジトリに対してブランチや PR 単位でジョブを作成してくれます。
 グループ (ユーザ) / リポジトリ / ブランチ (PR) という階層構造になります。</p>
-</div>
-<div class="paragraph">
-<p><strong>Organization</strong> Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="__gitbucket">それ GitBucket で出来ない？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<p><em>Organization</em> Plugin という割りには、ユーザも同じように扱うところがちょっと意外ですね。</p>
+<h4>それ GitBucket で出来ない？</h4>
 <p>GitHub にリポジトリが置いてある場合は普通に設定していけば GHO プラグインは使えるのですが、
-今回は [GitBucket](<a href="https://github.com/gitbucket/gitbucket">https://github.com/gitbucket/gitbucket</a>) で使うことに挑戦してみます。
+今回は <a href="https://github.com/gitbucket/gitbucket">GitBucket</a> で使うことに挑戦してみます。
 GitBucket は</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>A Git platform powered by Scala with easy installation, high extensibility &amp; github API compatibility</pre>
-</div>
-</div>
-<div class="paragraph">
+<blockquote>
+<p>A Git platform powered by Scala with easy installation, high extensibility &amp; github API compatibility</p>
+</blockquote>
 <p>と謳っています。API compatible なのだったら GHO プラグインも動いちゃったりするのではないでしょうか。</p>
-</div>
-<div class="paragraph">
 <p>そう思って、HTTP Proxy を間に入れて通信を確認したりして調査した結果、GitBucket の 4.2.0 では
 動きませんでした。そこで、原因を調査して対策を講じた PR を送った結果、4.3.0 以降では<strong>条件付きで</strong>
 動くようになりました。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h3 id="_">どうすれば動くの？</h3>
-<div class="sectionbody">
-<div class="paragraph">
+<h4>どうすれば動くの？</h4>
 <p>GitBucket + Jenkins で GHO プラグインが動かなかった原因は以下の3点でした。</p>
-</div>
-<div class="ulist">
 <ul>
-<li>
-<p>API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)</p>
-</li>
-<li>
-<p>API の認証に HTTP Basic 認証を使えなかった</p>
-</li>
-<li>
-<p>Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた</p>
-</li>
+<li>API v3 の確認に使う API root エントリポイントが無かった (API のリストを返す API)</li>
+<li>API の認証に HTTP Basic 認証を使えなかった</li>
+<li>Jenkins の Git Branch Source Plugin で git リポジトリの URL を決めうちで指定していた</li>
 </ul>
-</div>
-<div class="paragraph">
 <p>このうち、前の2つについては GitBucket 側の問題なので、PR を送って 4.3.0 にマージされたので、
 問題はなくなりました。最後の Jenkins のプラグイン (GHO プラグインがこのプラグインを使っている)で、
-Git のリポジトリ URL を <a href="http://server/user/repo.git">http://server/user/repo.git</a> と決めうちにしているところが問題でした。</p>
-</div>
-<div class="paragraph">
-<p>GitBucket では <a href="http://server:port/gitbucket_prefix/git/user/repo.git">http://server:port/gitbucket_prefix/git/user/repo.git</a> となります。
+Git のリポジトリ URL を http://server/user/repo.git と決めうちにしているところが問題でした。</p>
+<p>GitBucket では http://server:port/gitbucket_prefix/git/user/repo.git となります。
 Jenkins の Git Branch Source Plugin では、</p>
-</div>
-<div class="ulist">
 <ul>
-<li>
-<p>ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)</p>
-</li>
-<li>
-<p>サーバのルートで動いているものとしている (prefix が指定できない)
--</p>
-</li>
+<li>ポートの指定を無視する (HTTP なら80、HTTPS なら443になってしまう)</li>
+<li>サーバのルートで動いているものとしている (prefix が指定できない)</li>
 </ul>
-</div>
-</div>
-</div>
 </div>
         </div>
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2016-07-23-gitbucket-jenkins/" rel="prev" title="GitBucket と Jenkins を Pipeline で強力に連携させる">一つ前の文書</a>
+                <a href="../2016-07-23-gitbucket-jenkins/" rel="prev" title="GitBucket と Jenkins を Pipeline で強力に連携させる">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2017-01-13-acr39-nttcom/" rel="next" title="ACR39-NTTCom on Linux">次の文書</a>
+                <a href="../2017-01-13-acr39-nttcom/" rel="next" title="ACR39-NTTCom on Linux">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

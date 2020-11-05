@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="" waqwaq>
@@ -59,20 +56,213 @@ article: http://ogp.me/ns/article#
 <p>確か、MS-Excelは普通にCSVを開くとShiftJISとして読み込んでしまうので、UTF-8を読み込ませるにはBOMを付ける必要があったはず。UTF-8が必要な執筆者がいなければ、ShiftJIS指定でもOKかと。</p>
 <p>ポイントは過去データの取得制限で、ちょこっとHTMLのフォームを読んだ限りではWikiPedia（MediaWiki？）には「過去いついつから取得」という機能が無い様子。そこで、件数（get_limit）を指定してまとめて取得することにした。値は調整しながら運用で回避ということで。</p>
 <p>あと、プロトタイプのExcel出力の狙いは主催者側よりも、執筆者側にあって、執筆者側が右肩上がりのグラフを見ることでモチベーションの向上につながるかなーと思って作ったものだったりする。なので、Excel出力の機能はあえて残している。</p>
-<p>d73b798384195bd893d5</p>
+<p><script src="https://gist.github.com/d73b798384195bd893d5.js"></script><noscript><pre># coding: utf-8
+
+import datetime
+import re
+import sys
+import urllib
+
+from bs4 import BeautifulSoup
+import xlsxwriter
+import pandas as pd
+
+
+# コンソール出力をリダイレクトするときのおまじない
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+# 設定
+wikipedia_base = "http://ja.wikipedia.org"
+get_limit = 50
+
+# 期間設定
+start_date = datetime.datetime(2012, 1, 1)
+end_date = datetime.datetime(2013, 12, 31)
+
+# スコア設定
+scores = {"New": 5, "Edit": 3, "MinorEdit": 1, "Delete": 2}
+
+# 参加者設定（仮に過去のWAQWAQプロジェクト参加者を入れてます）
+names = [u"Next49", u"Mishika", u"Theta K", u"蒋龍"]
+# names = [u"Next49"]
+
+# 出力CSVのエンコード設定(utf-8-sig: UTF-8+BOM)
+csv_encoding = "utf-8-sig"
+
+
+def get_wikipedia_history(username, offset=None):
+    # 結果格納場所
+    result = []
+    # URLの組み立て
+    urlparts = u"特別:投稿記録"
+    urlparts_quote = urllib.quote(urlparts.encode("utf-8"))
+    username_quote = urllib.quote_plus(username.encode("utf-8"))
+    url = u"http://ja.wikipedia.org/w/index.php?limit=%d&amp;tagfilter=&amp;title=%s&amp;contribs=user&amp;target=%s&amp;namespace=0&amp;tagfilter=&amp;year=2014&amp;month=-1" % (
+        get_limit, urlparts_quote, username_quote)
+    if offset is not None:
+        url += u"&amp;offset=%s" % offset
+
+    # 取得＆パース
+    req = urllib.urlopen(url)
+    soup = BeautifulSoup(req)
+
+    found_old = False
+
+    print("****************************************")
+    for li in soup.ul.find_all("li"):
+        item = {u"執筆者": username}
+
+        print(li)
+
+        # 日時の抽出
+        a_date = li.find(class_=["mw-changeslist-date", "history-deleted"])
+        a_date_str = a_date.string
+        # m = re.match(u"(\d+)年(\d+)月(\d+)日（.*）(\d+):(\d+)",a_date_str)
+        m = re.match(u"(\d+)年(\d+)月(\d+)日.*(\d+):(\d+)", a_date_str)
+        a_y = int(m.group(1))
+        a_m = int(m.group(2))
+        a_d = int(m.group(3))
+        a_h = int(m.group(4))
+        a_min = int(m.group(5))
+        item[u"変更日時"] = datetime.datetime(a_y, a_m, a_d, a_h, a_min)
+
+        if item[u"変更日時"] &gt; end_date:
+            continue
+
+        if item[u"変更日時"] &lt; start_date:
+            found_old = True
+            break
+
+        # 該当ページ・該当版のURL取得
+        if a_date.get("href") is not None:
+            item[u"当該ページの当該版のURL"] = wikipedia_base + a_date["href"]
+        else:
+            item[u"当該ページの当該版のURL"] = ""
+
+        a_page = li.find(class_=["exitw", "mw-contributions-title"])
+        item[u"当該ページのURL"] = wikipedia_base + a_page["href"]
+
+        # 変更種別の取得
+        abbr = li.abbr
+        if abbr is None:
+            if li.find(class_="history-deleted") is not None:
+                item[u"変更種別"] = "Delete"
+            else:
+                item[u"変更種別"] = "Edit"
+        else:
+            if abbr["class"][0] == "newpage":
+                item[u"変更種別"] = "New"
+            elif abbr["class"][0] == "minoredit":
+                item[u"変更種別"] = "MinorEdit"
+
+        # 変更したページ名の取得
+        a_title = li.find(class_="mw-contributions-title")
+        item[u"ページ名"] = a_title.string
+
+        # 変更バイト数の取得
+        plusminus = li.find(
+            class_=["mw-plusminus-pos", "mw-plusminus-null", "mw-plusminus-neg"])
+        m = re.match(r"\([+-]?([0-9,]+)\)", plusminus.string)
+        item[u"変更バイト数"] = int(m.group(1).replace(",", ""))
+
+        # スコアの計算
+        item[u"スコア"] = scores[item[u"変更種別"]]
+
+        # 結果の先頭に挿入
+        print item
+        print("--------------------------------------")
+        result.insert(0, item)
+    a_next = soup.find(class_="mw-nextlink")
+    if a_next is not None and not found_old:
+        print a_next
+        print ":::::::::::::::::::::::::::::::::::::::"
+        a_next_href = a_next["href"]
+        m = re.search(r"offset=(\d+)", a_next_href)
+        offset = m.group(1)
+        result_old = get_wikipedia_history(username, offset)
+        result = result_old + result
+
+    return result
+
+
+def write_worksheet(wb, username, changes, date_format):
+    # 結果、チャートのワークシート作成
+    ws = wb.add_worksheet(username)
+    ws_c = wb.add_chartsheet(u"%s_c" % username)
+
+    # カラムヘッダ作成
+    ws.write("A1", u"変更日時")
+    ws.write("B1", u"変更種別")
+    ws.write("C1", u"変更バイト数")
+    ws.write("D1", u"ページ名")
+    ws.write("E1", u"当該ページのURL")
+    ws.write("F1", u"当該ページの当該版のURL")
+    ws.write("G1", u"スコア")
+    ws.write("H1", u"スコア累計")
+
+    # 各行データの埋め込み
+    row = 0
+    score_sum = 0
+    for change in changes:
+        row += 1
+        score_sum += change[u"スコア"]
+        ws.write(row, 0, change[u"変更日時"], date_format)
+        ws.write(row, 1, change[u"変更種別"])
+        ws.write(row, 2, change[u"変更バイト数"])
+        ws.write(row, 3, change[u"ページ名"])
+        ws.write(row, 4, change[u"当該ページのURL"])
+        ws.write(row, 5, change[u"当該ページの当該版のURL"])
+        ws.write(row, 6, change[u"スコア"])
+        ws.write(row, 7, score_sum)
+
+    row += 1
+    ws.write(row, 0, datetime.datetime.now(), date_format)
+    print "row = %d" % row
+
+    # チャートの作成
+    chart = wb.add_chart({"type": "line"})
+    chart.add_series({
+        "name": username,
+        "categories": [ws.get_name(), 1, 0, row, 0],
+        "values": [ws.get_name(), 1, 7, row, 7],
+        # "data_labels": {"value": True},
+        })
+    chart.set_legend({"none": True})
+    ws_c.set_chart(chart)
+    return
+
+if __name__ == "__main__":
+    wb = xlsxwriter.Workbook("waqwaq.xlsx")
+    date_format = wb.add_format({"num_format": "yyyy/mm/dd hh:mm:ss"})
+
+    # df(DataFrame): CSVにするためにpandasのデータ構造を使う
+    df = None
+    for username in names:
+        result = get_wikipedia_history(username)
+        write_worksheet(wb, username, result, date_format)
+        if df is None:
+            df = pd.DataFrame.from_dict(result)
+        else:
+            df_tmp = pd.DataFrame.from_dict(result)
+            df = pd.concat([df, df_tmp])
+    df.sort(u"変更日時", inplace=True)
+    df.to_csv("waqwaq.csv", encoding=csv_encoding, index=False)
+    wb.close()
+</pre></noscript></p>
 </div>
         </div>
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2014-09-14-pyconjp2014/" rel="prev" title="PyCon JP 2014">一つ前の文書</a>
+                <a href="../2014-09-14-pyconjp2014/" rel="prev" title="PyCon JP 2014">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2015-09-23-ttytter/" rel="next" title='"ttytterのセットアップ"'>次の文書</a>
+                <a href="../2015-09-23-ttytter/" rel="next" title='"ttytterのセットアップ"'>次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

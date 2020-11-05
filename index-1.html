@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="こーのいけのGitHub Pages powered by Nikola.">
 <meta name="viewport" content="width=device-width">
-<title>こーのいけのGitHub Pages (過去の文書 1ページ目) | こーのいけのGitHub Pages</title>
+<title>こーのいけのGitHub Pages (過去の記事 1ページ目) | こーのいけのGitHub Pages</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="assets/css/share-button.min.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
@@ -48,8 +45,7 @@ article: http://ogp.me/ns/article#
                 <div>
 <p>Azkabanが入ったとして、ジョブを作成して投入・実行指令を出すシェルスクリプトを作ってみます。
 まずはrecordedCommandに登録する前にテスト実行できるレベルで、CM検出無しのエンコードのみで。
-エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。
-</p>
+エンコードオプションは、<a href="http://d.hatena.ne.jp/munepi/20091227/1261941397">ffmpeg で TS をできるだけ高画質な mp4 へ変換してみた</a>を参考に設定。</p>
 <p class="more"><a href="posts/2015-10-04-azkaban-for-chinachu-job/">続きを読む…</a></p>
 </div>
             </div>
@@ -79,8 +75,7 @@ article: http://ogp.me/ns/article#
 今回はこれを使ってChinachuの録画後にエンコード・CM検出といったジョブを投げて、ジョブ実行管理させてみます。
 recordedCommandで直接エンコードした場合には同時実行されてしまうという問題があるので、
 Azkabanに並列実行数の制御をやらせてみることが狙いです。なんせ、J2900は30分の番組のエンコードに3時間もかかってしまうような
-非力なCPUですので、同時実行の制御は非常に重要です。
-</p>
+非力なCPUですので、同時実行の制御は非常に重要です。</p>
 <p class="more"><a href="posts/2015-10-03-azkaban-for-chinachu/">続きを読む…</a></p>
 </div>
             </div>
@@ -132,8 +127,7 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
             </div>
             <div class="body">
                 <div>
-<p>GitHub PagesはJekyllで作っていたのだが、なんとなくHugoに入れ替えてみたのでテスト。
-</p>
+<p>GitHub PagesはJekyllで作っていたのだが、なんとなくHugoに入れ替えてみたのでテスト。</p>
 <p class="more"><a href="posts/2015-09-25-hugo/">続きを読む…</a></p>
 </div>
             </div>
@@ -186,8 +180,7 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
             <div class="body">
                 <div>
 <h2>何それ</h2>
-<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。
-</p>
+<p>コマンドラインから使えるTwitterクライアント。Chinachu のフックスクリプトに挟んで遊んでみようかと思って。</p>
 <p class="more"><a href="posts/2015-09-23-ttytter/">続きを読む…</a></p>
 </div>
             </div>
@@ -240,7 +233,6 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
 <h2>Youtubeへのリンク</h2>
 <p><a href="https://www.youtube.com/user/PyConJP/videos">PyConJP</a></p>
 <h2>PyCon JP 2014 スライドまとめ</h2>
-<p></p>
 <p class="more"><a href="posts/2014-09-14-pyconjp2014/">続きを読む…</a></p>
 </div>
             </div>
@@ -268,7 +260,121 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
 <p>next49 さんが<a href="http://d.hatena.ne.jp/next49/20140831/p1">WAQWAQプロジェクト2014</a>で進行状況チェックに
 困ってるらしいことを見つけた。</p>
 <p>ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。</p>
-<p><script src="https://gist.github.com/4ee86c32058235ed2e68.js"></script></p>
+<p><script src="https://gist.github.com/4ee86c32058235ed2e68.js"></script><noscript><pre># coding: utf-8
+
+import datetime
+import re
+import sys
+import codecs
+import urllib
+from bs4 import BeautifulSoup
+import xlsxwriter
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+
+def get_wikipedia_history(username):
+    urlparts = u"特別:投稿記録"
+    urlparts_quote = urllib.quote(urlparts.encode("utf-8"))
+    username_quote = urllib.quote_plus(username.encode("utf-8"))
+    url = u"http://ja.wikipedia.org/w/index.php?limit=1000&amp;tagfilter=&amp;title=%s&amp;contribs=user&amp;target=%s&amp;namespace=0&amp;tagfilter=&amp;year=2014&amp;month=-1" % (
+        urlparts_quote, username_quote)
+    req = urllib.urlopen(url)
+    soup = BeautifulSoup(req)
+
+    result = []
+
+    print("****************************************")
+    for li in soup.ul.find_all("li"):
+        item = {}
+
+        print(li)
+
+        a_date = li.find(class_=["mw-changeslist-date", "history-deleted"])
+        a_date_str = a_date.string
+        # m = re.match(u"(\d+)年(\d+)月(\d+)日（.*）(\d+):(\d+)",a_date_str)
+        m = re.match(u"(\d+)年(\d+)月(\d+)日.*(\d+):(\d+)", a_date_str)
+        a_y = int(m.group(1))
+        a_m = int(m.group(2))
+        a_d = int(m.group(3))
+        a_h = int(m.group(4))
+        a_min = int(m.group(5))
+        item["dt"] = datetime.datetime(a_y, a_m, a_d, a_h, a_min)
+
+        abbr = li.abbr
+        if abbr is None:
+            if li.find(class_="history-deleted") is not None:
+                item["type"] = "Delete"
+            else:
+                item["type"] = "Edit"
+        else:
+            if abbr["class"][0] == "newpage":
+                item["type"] = "New"
+            elif abbr["class"][0] == "minoredit":
+                item["type"] = "MinorEdit"
+        a_title = li.find(class_="mw-contributions-title")
+        item["title"] = a_title.string
+        plusminus = li.find(
+            class_=["mw-plusminus-pos", "mw-plusminus-null", "mw-plusminus-neg"])
+        m = re.match(r"\([+-]?([0-9,]+)\)", plusminus.string)
+        item["pm"] = int(m.group(1).replace(",", ""))
+        print item
+        print("--------------------------------------")
+        result.append(item)
+    result.reverse()
+    return result
+
+
+def write_worksheet(wb, username, changes, date_format):
+    ws = wb.add_worksheet(username)
+    ws_c = wb.add_chartsheet(u"%s_c" % username)
+
+    ws.write("A1", u"変更日時")
+    ws.write("B1", u"変更種別")
+    ws.write("C1", u"変更バイト数")
+    ws.write("D1", u"ページ名")
+    ws.write("E1", u"スコア")
+
+    scores = {"New": 5, "Edit": 3, "MinorEdit": 1, "Delete": 2}
+
+    row = 0
+    score = 0
+    for change in changes:
+        row += 1
+        score += scores[change["type"]]
+        ws.write(row, 0, change["dt"], date_format)
+        ws.write(row, 1, change["type"])
+        ws.write(row, 2, change["pm"])
+        ws.write(row, 3, change["title"])
+        ws.write(row, 4, score)
+
+    row += 1
+    ws.write(row, 0, datetime.datetime.now(), date_format)
+    print "row = %d" % row
+
+    chart = wb.add_chart({"type": "line"})
+    chart.add_series({
+        "name": username,
+        "categories": [ws.get_name(), 1, 0, row, 0],
+        "values": [ws.get_name(), 1, 4, row, 4],
+#        "data_labels": {"value": True},
+        })
+    chart.set_legend({"none": True})
+    ws_c.set_chart(chart)
+    return
+
+if __name__ == "__main__":
+    wb = xlsxwriter.Workbook("waqwaq.xlsx")
+    date_format = wb.add_format({"num_format": "yyyy/mm/dd hh:mm:ss"})
+    #names = [u"Next49", u"Mishika", u"Theta K", u"蒋龍"]
+    names = [u"Next49"]
+    for username in names:
+        result = get_wikipedia_history(username)
+        write_worksheet(wb, username, result, date_format)
+
+    wb.close()
+</pre></noscript></p>
 <p><a href="waqwaq.xlsx">waqwaq.xlsx</a> こんなファイルが出来上がる。</p>
 <p>TODO:</p>
 <ul>
@@ -308,9 +414,9 @@ Azkabanに並列実行数の制御をやらせてみることが狙いです。�
         </div>
             <nav class="postindexpager"><ul class="pager">
 <li class="previous">
-                <a href="index-2.html" rel="prev">新しい文書</a>
+                <a href="index-2.html" rel="prev">新しい記事</a>
             </li>
-        </ul></nav><footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="ja">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -51,44 +48,40 @@ article: http://ogp.me/ns/article#
         <div class="body">
             <div>
 <p>なんか<a href="https://twitter.com/wyukawa/status/658960252365336576">リクエスト</a>があったようなので、インストールメモを残しておこう。
-ついでに環境も残しておいていつでも起動できるようにしておこう。
-<!--more--></p>
+ついでに環境も残しておいていつでも起動できるようにしておこう。</p>
+<!--more-->
 <h2>インストール</h2>
 <p>基本的には<code>pip install airflow</code>なんだけど、numpyのビルドをうだうだやった後になって「これ、--allow-externalがいるんだけど」なんて
 言ってくるので面倒（どういうときにallow-externalがいるのか知らないけど）。最終的な手順としては以下のとおり。</p>
-<pre class="code literal-block"><span></span><span class="gp">$</span> virtualenv env
+<pre class="code literal-block"><span></span><code><span class="gp">$</span> virtualenv env
 <span class="gp">$</span> . env/bin/activate
 <span class="gp">$</span> pip install --allow-external pygments pygments
 <span class="gp">$</span> pip install --allow-external python-dateutil python-dateutil
 <span class="gp">$</span> pip install --allow-external requests requests
 <span class="gp">$</span> pip install --allow-external setproctitle setproctitle
 <span class="gp">$</span> pip install airflow
-</pre>
-
+</code></pre>
 
 <p>virtualenvをactivateしたら最初にnumpyを入れるのもアリかもしれない。</p>
 <h2>初回起動（DB作成）</h2>
-<pre class="code literal-block"><span></span><span class="gp">$</span> <span class="nb">export</span> <span class="nv">AIRFLOW_HOME</span><span class="o">=</span>~/python/airflow
+<pre class="code literal-block"><span></span><code><span class="gp">$</span> <span class="nb">export</span> <span class="nv">AIRFLOW_HOME</span><span class="o">=</span>~/python/airflow
 <span class="gp">$</span> airflow initdb
-</pre>
-
+</code></pre>
 
 <h2>起動（Web UI、ワーカー）</h2>
-<pre class="code literal-block"><span></span><span class="gp">$</span> airflow webserver -p 8080
-</pre>
-
+<pre class="code literal-block"><span></span><code><span class="gp">$</span> airflow webserver -p <span class="m">8080</span>
+</code></pre>
 
 <p>8080ポートにアクセスすると以下の画面が見える。</p>
 <p><img alt="2015-10-27-airflow.png" src="../../img/2015-10-27-airflow.png"></p>
 <h2>登録されているジョブの実行</h2>
-<pre class="code literal-block"><span></span><span class="gp">$</span> <span class="nb">cd</span> ~/python/airflow
+<pre class="code literal-block"><span></span><code><span class="gp">$</span> <span class="nb">cd</span> ~/python/airflow
 <span class="gp">$</span> . env/bin/activate
 <span class="gp">$</span> <span class="nb">export</span> <span class="nv">AIRFLOW_HOME</span><span class="o">=</span>~/python/airflow
-<span class="gp">$</span> airflow run example_bash_operator runme_0 2015-01-01
+<span class="gp">$</span> airflow run example_bash_operator runme_0 <span class="m">2015</span>-01-01
 <span class="go">Sending to executor.</span>
 <span class="go">Logging into: /home/kounoike/python/airflow/logs/example_bash_operator/runme_0/2015-01-01T00:00:00</span>
-</pre>
-
+</code></pre>
 
 <p>example_bash_operatorというDAGのrunme_0というジョブが実行される。</p>
 <h2>課題</h2>
@@ -104,14 +97,14 @@ article: http://ogp.me/ns/article#
         <!-- Social buttons -->
         <share-button></share-button><!-- End of social buttons --><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../2015-10-25-chinachu-upstart/" rel="prev" title="Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）">一つ前の文書</a>
+                <a href="../2015-10-25-chinachu-upstart/" rel="prev" title="Chinachuのサービス化を簡単に書く（Ubuntu/upstart限定）">一つ前の記事</a>
             </li>
             <li class="next">
-                <a href="../2016-03-03-chinachu-symlink/" rel="next" title="エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand">次の文書</a>
+                <a href="../2016-03-03-chinachu-symlink/" rel="next" title="エンコードしない人にもオススメのChinachuを便利にするたった一行のrecordedCommand">次の記事</a>
             </li>
         </ul>
 </div>
-                    <footer id="footer"><p>Contents © 2017         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+                    <footer id="footer"><p>Contents © 2020         <a href="mailto:kounoike.yuusuke@gmail.com">KOUNOIKE Yuusuke</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
