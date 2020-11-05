@@ -13,7 +13,7 @@ next49 さんが[WAQWAQプロジェクト2014](http://d.hatena.ne.jp/next49/2014
 
 ちょっとPythonのWebスクレイピングの実験も兼ねて書いてみた。
 
-{{% gist id="4ee86c32058235ed2e68" %}}
+{{% gist 4ee86c32058235ed2e68 %}}
 
 [waqwaq.xlsx](/waqwaq.xlsx) こんなファイルが出来上がる。
 
