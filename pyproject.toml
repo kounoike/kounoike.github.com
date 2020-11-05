@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "kounoike.github.com"
+version = "0.1.0"
+description = ""
+authors = ["KOUNOIKE Yuusuke <kounoike.yuusuke@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Nikola = {extras = ["extra"], version = "^8.1.1"}
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
