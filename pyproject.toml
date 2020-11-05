@@ -7,6 +7,7 @@ authors = ["KOUNOIKE Yuusuke <kounoike.yuusuke@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 Nikola = {extras = ["extra"], version = "^8.1.1"}
+Jinja2 = "^2.11.2"
 
 [tool.poetry.dev-dependencies]
 
